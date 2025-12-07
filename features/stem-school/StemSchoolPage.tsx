@@ -4,7 +4,7 @@ import { TYPOGRAPHY } from '../../constants';
 export const StemSchoolPage: React.FC = () => {
   return (
     <div 
-      className="w-full pb-[180px] pt-[200px] text-center"
+      className="w-full pb-[120px] pt-[200px] text-center"
       style={{
         background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
         backgroundSize: '30px 30px, 100% 100%'

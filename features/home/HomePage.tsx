@@ -151,7 +151,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Right Images Grid */}
-          <div className="lg:w-1/2 grid grid-cols-2 gap-6 mt-8 lg:mt-0">
+          <div className="lg:w-1/2 grid grid-cols-2 gap-8 mt-8 lg:mt-0">
             <Reveal delay={0.2} direction="left" className="w-full">
               <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 1" className="rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl transform hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
@@ -169,7 +169,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Trusted Partners - Endless Scroll */}
-      <section className="py-[180px] bg-white border-y border-gray-50 overflow-hidden group">
+      <section className="py-[100px] bg-white border-y border-gray-50 overflow-hidden group">
         <div className="container mx-auto px-6 mb-16 text-center">
           <Reveal width="100%">
             <h3 className={`${TYPOGRAPHY.header03} font-bold text-[#08223d] mb-4`}>Our Trusted Partners</h3>
@@ -219,7 +219,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Modern Mission & Vision Section */}
-      <section className="py-[180px] bg-white">
+      <section className="py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <div className="bg-[#08223d] rounded-[40px] p-8 md:p-16 text-white shadow-2xl overflow-hidden relative">
             
@@ -308,7 +308,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Tracks Section */}
-      <section className="py-[180px] bg-white">
+      <section className="py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
             {/* Left Image Card */}
@@ -340,14 +340,14 @@ export const HomePage: React.FC = () => {
                 {courseTracks.map((track, i) => (
                   <Reveal key={i} width="100%" delay={i * 0.1}>
                     <div 
-                      className={`p-8 rounded-2xl border transition-all duration-300 cursor-pointer h-full ${
+                      className={`p-8 rounded-2xl border transition-all duration-300 cursor-pointer h-full group ${
                         track.active 
                           ? 'bg-[#135291] border-[#135291] text-white shadow-xl' 
-                          : 'bg-white border-gray-100 text-[#08223d] hover:bg-gray-50 hover:shadow-lg hover:border-gray-200'
+                          : 'bg-white border-gray-100 text-[#08223d] hover:bg-[#135291] hover:text-white hover:border-[#135291]'
                       }`}
                     >
                       <h3 className="font-bold text-xl mb-3">{track.title}</h3>
-                      <p className={`text-[15px] leading-relaxed ${track.active ? 'text-blue-100' : 'text-gray-500'}`}>
+                      <p className={`text-[15px] leading-relaxed ${track.active ? 'text-blue-100' : 'text-gray-500 group-hover:text-blue-100'}`}>
                         {track.desc}
                       </p>
                     </div>
@@ -360,7 +360,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Why Join Us - Removed Hover Effects */}
-      <section className="py-[180px] bg-[#fafafa]">
+      <section className="py-[120px] bg-[#fafafa]">
         <div className="container mx-auto px-6 text-center">
           <Reveal width="100%">
             <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-6`}>Why you should join us?</h2>
@@ -405,7 +405,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Testimonials - Grid Layout with New Data */}
-      <section className="py-[180px] bg-white">
+      <section className="py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <Reveal width="100%">
             <h2 className={`${TYPOGRAPHY.header02} font-bold text-center text-[#08223d] mb-4`}>What Our Graduates Are Saying</h2>
@@ -448,7 +448,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Big CTA */}
-      <section className="py-[180px] bg-white">
+      <section className="py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <Reveal width="100%">
             <div className="bg-[#135291] rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">

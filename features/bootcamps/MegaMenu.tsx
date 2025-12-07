@@ -3,14 +3,18 @@ import { Link } from 'react-router-dom';
 import { COLORS, TYPOGRAPHY } from '../../constants';
 import { BookOpen, Code, PenTool, Layout, ShieldCheck, Database } from 'lucide-react';
 
-export const MegaMenu: React.FC = () => {
+interface MegaMenuProps {
+  onItemClick?: () => void;
+}
+
+export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
   const courses = [
-    { title: 'Product Management', icon: <Layout size={20} />, version: '2.5' },
-    { title: 'Product Design', icon: <PenTool size={20} />, version: '2.5' },
-    { title: 'Data Analytics', icon: <Database size={20} />, version: '2.5' },
-    { title: 'Cybersecurity', icon: <ShieldCheck size={20} />, version: '2.5' },
-    { title: 'Technical Writing', icon: <BookOpen size={20} />, version: '2.5' },
-    { title: 'Software Engineering', icon: <Code size={20} />, version: '2.5' },
+    { title: 'Product Management', id: 'product-management', icon: <Layout size={20} />, version: '2.5' },
+    { title: 'Product Design', id: 'product-design', icon: <PenTool size={20} />, version: '2.5' },
+    { title: 'Data Analytics', id: 'data-analytics', icon: <Database size={20} />, version: '2.5' },
+    { title: 'Cybersecurity', id: 'cybersecurity', icon: <ShieldCheck size={20} />, version: '2.5' },
+    { title: 'Technical Writing', id: 'technical-writing', icon: <BookOpen size={20} />, version: '2.5' },
+    { title: 'Software Engineering', id: 'software-engineering', icon: <Code size={20} />, version: '2.5' },
   ];
 
   return (
@@ -25,7 +29,11 @@ export const MegaMenu: React.FC = () => {
           <p className={`${TYPOGRAPHY.body01} text-gray-500 mb-6`}>
             Accelerate your career with our hands-on 6-week programs led by industry experts.
           </p>
-          <Link to="/bootcamps" className={`text-[${COLORS.primary[500]}] font-bold hover:underline inline-flex items-center`}>
+          <Link 
+            to="/bootcamps" 
+            className={`text-[${COLORS.primary[500]}] font-bold hover:underline inline-flex items-center`}
+            onClick={onItemClick}
+          >
             View All Programs &rarr;
           </Link>
         </div>
@@ -35,8 +43,9 @@ export const MegaMenu: React.FC = () => {
           {courses.map((course, index) => (
             <Link 
               key={index} 
-              to={`/bootcamps/${course.title.toLowerCase().replace(/\s+/g, '-')}`}
+              to={`/bootcamps/${course.id}`}
               className="group flex items-start space-x-4 p-3 rounded-xl hover:bg-blue-50/50 transition-colors"
+              onClick={onItemClick}
             >
               <div 
                 className="p-3 rounded-full shrink-0 mt-1 transition-colors group-hover:bg-blue-100"

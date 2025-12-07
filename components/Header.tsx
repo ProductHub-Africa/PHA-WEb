@@ -84,7 +84,7 @@ export const Header: React.FC = () => {
                       onMouseEnter={() => setIsMegaMenuOpen(true)}
                       onMouseLeave={() => setIsMegaMenuOpen(false)}
                     >
-                      <MegaMenu />
+                      <MegaMenu onItemClick={() => setIsMegaMenuOpen(false)} />
                     </div>
                   )}
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button } from './Button';
 import { COLORS, TYPOGRAPHY } from '../constants';
@@ -16,7 +16,8 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     experience: '',
     whatsapp: '',
     dobMonth: '',
-    dobDay: ''
+    dobDay: '',
+    country: ''
   });
 
   const months = [
@@ -35,54 +36,74 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     'Software Engineering'
   ];
 
+  const countries = [
+    'Nigeria', 'Ghana', 'Kenya', 'South Africa', 'Rwanda', 'Egypt', 'Uganda', 'Tanzania', 'Ethiopia', 'Morocco', 'Other'
+  ];
+
+  // Disable body scroll when overlay is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
+
+  const inputClasses = "w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium";
+  const labelClasses = "block text-sm font-bold text-gray-700 mb-2.5";
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
       />
 
-      {/* Drawer Panel */}
-      <div className="relative w-full max-w-md bg-white h-full shadow-2xl overflow-y-auto animate-slide-in-right">
-        <div className="p-6 md:p-8">
+      {/* Drawer Panel - Flex Layout for sticky footer */}
+      <div className="relative w-full max-w-[600px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+        
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-8 md:p-10">
           
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <h2 className={`${TYPOGRAPHY.header03} text-[#08223d]`}>Join the Community</h2>
+          <div className="flex justify-between items-center mb-10">
+            <div>
+              <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-2`}>Join the Community</h2>
+              <p className="text-gray-500">Join 5,000+ techies across Africa.</p>
+            </div>
             <button 
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <X size={24} className="text-gray-500" />
+              <X size={28} className="text-gray-400 hover:text-gray-600" />
             </button>
           </div>
-
-          <p className="text-gray-600 mb-8">
-            Please fill in your details to join our vibrant community of tech enthusiasts.
-          </p>
 
           {/* Form */}
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
+                <label className={labelClasses}>First Name</label>
                 <input 
                   type="text" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none"
+                  className={inputClasses}
                   placeholder="John"
                   value={formData.firstName}
                   onChange={(e) => setFormData({...formData, firstName: e.target.value})}
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
+                <label className={labelClasses}>Last Name</label>
                 <input 
                   type="text" 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none"
+                  className={inputClasses}
                   placeholder="Doe"
                   value={formData.lastName}
                   onChange={(e) => setFormData({...formData, lastName: e.target.value})}
@@ -91,37 +112,70 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Track of Interest</label>
-              <select 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none bg-white"
-                value={formData.track}
-                onChange={(e) => setFormData({...formData, track: e.target.value})}
-              >
-                <option value="">Select a track</option>
-                {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
+              <label className={labelClasses}>Track of Interest</label>
+              <div className="relative">
+                <select 
+                  className={`${inputClasses} appearance-none cursor-pointer`}
+                  value={formData.track}
+                  onChange={(e) => setFormData({...formData, track: e.target.value})}
+                >
+                  <option value="">Select a track</option>
+                  {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+             <div>
+              <label className={labelClasses}>Country</label>
+              <div className="relative">
+                <select 
+                  className={`${inputClasses} appearance-none cursor-pointer`}
+                  value={formData.country}
+                  onChange={(e) => setFormData({...formData, country: e.target.value})}
+                >
+                  <option value="">Select your country</option>
+                  {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Years of Experience</label>
-              <select 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none bg-white"
-                value={formData.experience}
-                onChange={(e) => setFormData({...formData, experience: e.target.value})}
-              >
-                <option value="">Select experience level</option>
-                <option value="0-1">0 - 1 years</option>
-                <option value="1-3">1 - 3 years</option>
-                <option value="3-5">3 - 5 years</option>
-                <option value="5+">5+ years</option>
-              </select>
+              <label className={labelClasses}>Years of Experience</label>
+              <div className="relative">
+                <select 
+                  className={`${inputClasses} appearance-none cursor-pointer`}
+                  value={formData.experience}
+                  onChange={(e) => setFormData({...formData, experience: e.target.value})}
+                >
+                  <option value="">Select experience level</option>
+                  <option value="0-1">0 - 1 years</option>
+                  <option value="1-3">1 - 3 years</option>
+                  <option value="3-5">3 - 5 years</option>
+                  <option value="5+">5+ years</option>
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">WhatsApp Number</label>
+              <label className={labelClasses}>WhatsApp Number</label>
               <input 
                 type="tel" 
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none"
+                className={inputClasses}
                 placeholder="+234 800 000 0000"
                 value={formData.whatsapp}
                 onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
@@ -129,32 +183,53 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Date of Birth</label>
-              <div className="grid grid-cols-2 gap-4">
-                <select 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none bg-white"
-                  value={formData.dobMonth}
-                  onChange={(e) => setFormData({...formData, dobMonth: e.target.value})}
-                >
-                  <option value="">Month</option>
-                  {months.map(m => <option key={m} value={m}>{m}</option>)}
-                </select>
-                <select 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none bg-white"
-                  value={formData.dobDay}
-                  onChange={(e) => setFormData({...formData, dobDay: e.target.value})}
-                >
-                  <option value="">Day</option>
-                  {days.map(d => <option key={d} value={d}>{d}</option>)}
-                </select>
+              <label className={labelClasses}>Date of Birth</label>
+              <div className="grid grid-cols-2 gap-5">
+                <div className="relative">
+                  <select 
+                    className={`${inputClasses} appearance-none cursor-pointer`}
+                    value={formData.dobMonth}
+                    onChange={(e) => setFormData({...formData, dobMonth: e.target.value})}
+                  >
+                    <option value="">Month</option>
+                    {months.map(m => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
+                <div className="relative">
+                  <select 
+                    className={`${inputClasses} appearance-none cursor-pointer`}
+                    value={formData.dobDay}
+                    onChange={(e) => setFormData({...formData, dobDay: e.target.value})}
+                  >
+                    <option value="">Day</option>
+                    {days.map(d => <option key={d} value={d}>{d}</option>)}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="pt-4">
-              <Button fullWidth size="lg">Join Now</Button>
-            </div>
           </form>
+          
+          <div className="h-10"></div> {/* Spacer for scroll */}
         </div>
+
+        {/* Sticky Footer Button */}
+        <div className="p-8 md:p-10 pb-[40px] bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
+          <Button fullWidth size="lg">Join Now</Button>
+          <p className="text-center text-sm text-gray-400 mt-4">
+            By joining, you agree to our Terms of Service and Privacy Policy.
+          </p>
+        </div>
+
       </div>
       
       <style>{`
@@ -163,7 +238,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
           to { transform: translateX(0); }
         }
         .animate-slide-in-right {
-          animation: slideInRight 0.3s ease-out forwards;
+          animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
       `}</style>
     </div>

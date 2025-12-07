@@ -6,7 +6,7 @@ import { Users, MessageCircle, Heart } from 'lucide-react';
 export const CommunityPage: React.FC = () => {
   return (
     <div 
-      className="w-full pb-[180px] pt-[200px]"
+      className="w-full pb-[120px] pt-[200px]"
       style={{
         background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
         backgroundSize: '30px 30px, 100% 100%'

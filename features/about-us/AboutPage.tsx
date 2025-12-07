@@ -34,7 +34,7 @@ export const AboutPage: React.FC = () => {
           </div>
           
           {/* Diamond Grid Visualization */}
-          <div className="lg:w-1/2 relative min-h-[500px]">
+          <div className="lg:w-1/2 relative min-h-[500px] lg:mt-[60px]">
              {/* Dashed Line SVG path simulation */}
              <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 hidden lg:block" viewBox="0 0 500 400">
                <path d="M100 350 Q 250 350 350 200 T 450 50" fill="none" stroke="#daa728" strokeWidth="2" strokeDasharray="8 8" />
@@ -71,7 +71,7 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* Mission Vision Dark Section */}
-      <section className="bg-white py-[180px]">
+      <section className="bg-white py-[120px]">
          <div className="container mx-auto px-6 flex flex-col lg:flex-row items-stretch gap-16">
             <div className="lg:w-1/2">
               <Reveal width="100%" direction="right" className="h-full">
