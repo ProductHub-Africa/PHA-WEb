@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '../../components/Button';
-import { COLORS, TYPOGRAPHY } from '../../constants';
+import { TYPOGRAPHY } from '../../constants';
 import { Calendar, Clock, Monitor, Check, ArrowLeft, Shield, Lock } from 'lucide-react';
 
-const courses = [
+interface Course {
+  id: string;
+  title: string;
+  desc: string;
+  details: string;
+  price: string;
+  outcomes: string[];
+}
+
+const courses: Course[] = [
   { 
     id: 'product-management',
     title: 'Product Management', 
@@ -97,57 +106,66 @@ const courses = [
   },
 ];
 
+interface PaystackModalProps {
+  course: Course | undefined;
+  onClose: () => void;
+}
+
+const PaystackModal: React.FC<PaystackModalProps> = ({ course, onClose }) => (
+  <div 
+    className="fixed inset-0 z-[100] flex items-center justify-center p-4" 
+    role="dialog" 
+    aria-modal="true" 
+    aria-labelledby="modal-title"
+  >
+    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+    <div className="bg-white w-full max-w-md rounded-2xl overflow-hidden relative z-10 animate-scale-up shadow-2xl">
+      <div className="bg-white p-6 border-b border-gray-100 flex justify-between items-center">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Paystack_Logo.png" alt="Paystack" className="h-6" />
+         <button onClick={onClose} aria-label="Close modal"><span className="text-gray-400 font-bold text-xl">&times;</span></button>
+      </div>
+      <div className="p-8 text-center">
+         <p className="text-gray-500 mb-2">{course?.title} Bootcamp</p>
+         <h3 id="modal-title" className="text-3xl font-bold text-[#08223d] mb-8">{course?.price}</h3>
+         
+         <form className="space-y-4 text-left">
+           <div>
+             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+             <input type="email" placeholder="example@mail.com" className="w-full border border-gray-300 rounded p-3 text-sm" />
+           </div>
+           <div>
+             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Card Number</label>
+             <input type="text" placeholder="0000 0000 0000 0000" className="w-full border border-gray-300 rounded p-3 text-sm" />
+           </div>
+           <div className="grid grid-cols-2 gap-4">
+             <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Expiry</label>
+                <input type="text" placeholder="MM/YY" className="w-full border border-gray-300 rounded p-3 text-sm" />
+             </div>
+             <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">CVV</label>
+                <input type="text" placeholder="123" className="w-full border border-gray-300 rounded p-3 text-sm" />
+             </div>
+           </div>
+           <button type="button" className="w-full bg-[#3bb75e] text-white font-bold py-4 rounded hover:bg-[#2fa04e] transition-colors mt-4 flex items-center justify-center gap-2">
+             <Lock size={16} /> Pay {course?.price}
+           </button>
+         </form>
+         
+         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+           <Shield size={12} /> Secured by Paystack
+         </div>
+      </div>
+    </div>
+  </div>
+);
+
 export const BootcampsPage: React.FC = () => {
   const { courseId } = useParams();
   const [isPaystackOpen, setIsPaystackOpen] = useState(false);
 
   // Find active course if ID exists
   const activeCourse = courseId ? courses.find(c => c.id === courseId) : null;
-
-  // Render Paystack Modal Simulation
-  const PaystackModal = () => (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsPaystackOpen(false)}></div>
-      <div className="bg-white w-full max-w-md rounded-2xl overflow-hidden relative z-10 animate-scale-up shadow-2xl">
-        <div className="bg-white p-6 border-b border-gray-100 flex justify-between items-center">
-           <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Paystack_Logo.png" alt="Paystack" className="h-6" />
-           <button onClick={() => setIsPaystackOpen(false)}><span className="text-gray-400 font-bold text-xl">&times;</span></button>
-        </div>
-        <div className="p-8 text-center">
-           <p className="text-gray-500 mb-2">{activeCourse?.title} Bootcamp</p>
-           <h3 className="text-3xl font-bold text-[#08223d] mb-8">{activeCourse?.price}</h3>
-           
-           <form className="space-y-4 text-left">
-             <div>
-               <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-               <input type="email" placeholder="example@mail.com" className="w-full border border-gray-300 rounded p-3 text-sm" />
-             </div>
-             <div>
-               <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Card Number</label>
-               <input type="text" placeholder="0000 0000 0000 0000" className="w-full border border-gray-300 rounded p-3 text-sm" />
-             </div>
-             <div className="grid grid-cols-2 gap-4">
-               <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Expiry</label>
-                  <input type="text" placeholder="MM/YY" className="w-full border border-gray-300 rounded p-3 text-sm" />
-               </div>
-               <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">CVV</label>
-                  <input type="text" placeholder="123" className="w-full border border-gray-300 rounded p-3 text-sm" />
-               </div>
-             </div>
-             <button type="button" className="w-full bg-[#3bb75e] text-white font-bold py-4 rounded hover:bg-[#2fa04e] transition-colors mt-4 flex items-center justify-center gap-2">
-               <Lock size={16} /> Pay {activeCourse?.price}
-             </button>
-           </form>
-           
-           <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
-             <Shield size={12} /> Secured by Paystack
-           </div>
-        </div>
-      </div>
-    </div>
-  );
 
   // If Course Detail View
   if (activeCourse) {
@@ -159,7 +177,7 @@ export const BootcampsPage: React.FC = () => {
           backgroundSize: '30px 30px, 100% 100%'
         }}
       >
-        {isPaystackOpen && <PaystackModal />}
+        {isPaystackOpen && <PaystackModal course={activeCourse} onClose={() => setIsPaystackOpen(false)} />}
         
         <div className="container mx-auto px-6">
           <Link to="/bootcamps" className="inline-flex items-center text-gray-500 hover:text-[#135291] mb-8 font-medium transition-colors">

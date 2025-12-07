@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
 import { MegaMenu } from '../features/bootcamps/MegaMenu';
 import { CommunityOverlay } from './CommunityOverlay';
-import { COLORS, TYPOGRAPHY } from '../constants';
+import { TYPOGRAPHY } from '../constants';
 
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

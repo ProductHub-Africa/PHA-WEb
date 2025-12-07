@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { COLORS, TYPOGRAPHY } from '../../constants';
@@ -120,7 +119,7 @@ export const HomePage: React.FC = () => {
           backgroundSize: '30px 30px, 100% 100%'
         }}
       >
-        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-8">
           
           {/* Left Content */}
           <div className="lg:w-1/2 z-10 text-center lg:text-left">

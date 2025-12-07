@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { COLORS, TYPOGRAPHY } from '../constants';
 import { Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 export const Footer: React.FC = () => {
@@ -19,10 +18,10 @@ export const Footer: React.FC = () => {
               />
             </div>
             <div className="flex space-x-4 mb-8">
-              <a href="#" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Linkedin size={16} /></a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Twitter size={16} /></a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Youtube size={16} /></a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Facebook size={16} /></a>
+              <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Linkedin size={16} /></a>
+              <a href="#" aria-label="Twitter" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Twitter size={16} /></a>
+              <a href="#" aria-label="YouTube" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Youtube size={16} /></a>
+              <a href="#" aria-label="Facebook" className="w-8 h-8 rounded-full bg-white text-[#08223d] flex items-center justify-center hover:bg-[#daa728] transition-colors"><Facebook size={16} /></a>
             </div>
             <p className="text-gray-400 text-xs">Copyright (c) 2023. Product Hub Africa.</p>
           </div>
@@ -68,7 +67,8 @@ export const Footer: React.FC = () => {
            <div className="flex w-full md:w-auto">
              <input 
                type="email" 
-               placeholder="mail@mail.com" 
+               placeholder="mail@mail.com"
+               aria-label="Email address for newsletter"
                className="px-4 py-2 rounded-l w-full md:w-64 text-gray-900 focus:outline-none"
              />
              <button className="px-6 py-2 bg-[#135291] text-white rounded-r font-medium border border-[#135291] hover:bg-[#0d3a67] transition-colors">

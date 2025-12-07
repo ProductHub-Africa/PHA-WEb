@@ -1,5 +1,5 @@
 import React from 'react';
-import { TYPOGRAPHY, COLORS } from '../../constants';
+import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 
 export const AboutPage: React.FC = () => {

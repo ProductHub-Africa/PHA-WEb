@@ -1,79 +1,79 @@
 import React, { useState } from 'react';
-import { TYPOGRAPHY, COLORS } from '../../constants';
-import { Clock, User, ChevronRight, Tag } from 'lucide-react';
+import { TYPOGRAPHY } from '../../constants';
+import { Clock, User, ChevronRight } from 'lucide-react';
 import { Button } from '../../components/Button';
+
+const categories = ['All', 'Product Management', 'Design', 'Engineering', 'Career', 'Tech Trends'];
+  
+const featuredPost = {
+  title: 'The Rise of Product-Led Growth in African Startups',
+  excerpt: 'How local companies are leveraging user-centric product strategies to scale faster than ever before.',
+  author: 'Tobi Olanrewaju',
+  date: 'Oct 12, 2023',
+  readTime: '8 min read',
+  category: 'Product Management',
+  image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200'
+};
+
+const basePosts = [
+  {
+    title: 'Breaking into Tech: A Non-Coder’s Guide',
+    excerpt: 'You don’t need to write code to build a successful career in the technology sector. Here are 5 paths you can take.',
+    author: 'Sarah Johnson',
+    date: 'Oct 08, 2023',
+    readTime: '5 min read',
+    category: 'Career',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    title: 'Design Systems 101 for Startups',
+    excerpt: 'Why consistency matters and how to build your first design system without breaking the bank.',
+    author: 'David Okeke',
+    date: 'Sep 25, 2023',
+    readTime: '6 min read',
+    category: 'Design',
+    image: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d48?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    title: 'Understanding Cybersecurity Threats in 2024',
+    excerpt: 'Key vulnerabilities that every tech professional should be aware of in the coming year.',
+    author: 'Miriam Diallo',
+    date: 'Sep 15, 2023',
+    readTime: '7 min read',
+    category: 'Engineering',
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    title: 'The Future of Remote Work in Africa',
+    excerpt: 'Exploring the challenges and massive opportunities for distributed teams across the continent.',
+    author: 'Emmanuel K.',
+    date: 'Aug 30, 2023',
+    readTime: '4 min read',
+    category: 'Tech Trends',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    title: 'Data-Driven Decision Making',
+    excerpt: 'Moving beyond gut feelings: how to effectively use analytics to guide your product roadmap.',
+    author: 'Chioma Adebayo',
+    date: 'Aug 12, 2023',
+    readTime: '9 min read',
+    category: 'Product Management',
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'
+  },
+  {
+    title: 'UX Writing: The Unsung Hero of Design',
+    excerpt: 'How microcopy influences user behavior and improves conversion rates.',
+    author: 'Samuel O.',
+    date: 'Jul 28, 2023',
+    readTime: '5 min read',
+    category: 'Design',
+    image: 'https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?auto=format&fit=crop&q=80&w=600'
+  }
+];
 
 export const BlogPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
-  
-  const categories = ['All', 'Product Management', 'Design', 'Engineering', 'Career', 'Tech Trends'];
-  
-  const featuredPost = {
-    title: 'The Rise of Product-Led Growth in African Startups',
-    excerpt: 'How local companies are leveraging user-centric product strategies to scale faster than ever before.',
-    author: 'Tobi Olanrewaju',
-    date: 'Oct 12, 2023',
-    readTime: '8 min read',
-    category: 'Product Management',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1200'
-  };
-
-  const basePosts = [
-    {
-      title: 'Breaking into Tech: A Non-Coder’s Guide',
-      excerpt: 'You don’t need to write code to build a successful career in the technology sector. Here are 5 paths you can take.',
-      author: 'Sarah Johnson',
-      date: 'Oct 08, 2023',
-      readTime: '5 min read',
-      category: 'Career',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      title: 'Design Systems 101 for Startups',
-      excerpt: 'Why consistency matters and how to build your first design system without breaking the bank.',
-      author: 'David Okeke',
-      date: 'Sep 25, 2023',
-      readTime: '6 min read',
-      category: 'Design',
-      image: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d48?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      title: 'Understanding Cybersecurity Threats in 2024',
-      excerpt: 'Key vulnerabilities that every tech professional should be aware of in the coming year.',
-      author: 'Miriam Diallo',
-      date: 'Sep 15, 2023',
-      readTime: '7 min read',
-      category: 'Engineering',
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      title: 'The Future of Remote Work in Africa',
-      excerpt: 'Exploring the challenges and massive opportunities for distributed teams across the continent.',
-      author: 'Emmanuel K.',
-      date: 'Aug 30, 2023',
-      readTime: '4 min read',
-      category: 'Tech Trends',
-      image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      title: 'Data-Driven Decision Making',
-      excerpt: 'Moving beyond gut feelings: how to effectively use analytics to guide your product roadmap.',
-      author: 'Chioma Adebayo',
-      date: 'Aug 12, 2023',
-      readTime: '9 min read',
-      category: 'Product Management',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600'
-    },
-    {
-      title: 'UX Writing: The Unsung Hero of Design',
-      excerpt: 'How microcopy influences user behavior and improves conversion rates.',
-      author: 'Samuel O.',
-      date: 'Jul 28, 2023',
-      readTime: '5 min read',
-      category: 'Design',
-      image: 'https://images.unsplash.com/photo-1505682634904-d7c8d95cdc50?auto=format&fit=crop&q=80&w=600'
-    }
-  ];
 
   // Double the posts to make it more populated
   const posts = [...basePosts, ...basePosts];

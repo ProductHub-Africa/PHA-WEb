@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { TYPOGRAPHY } from '../../constants';
-import { Mail, MapPin, Phone, Slack, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { Mail, MapPin, Slack, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
 
 export const ContactPage: React.FC = () => {
   return (
@@ -74,10 +74,10 @@ export const ContactPage: React.FC = () => {
               <div className="mt-12">
                 <p className="text-sm text-gray-400 mb-4">Follow us on social media</p>
                 <div className="flex space-x-4">
-                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
-                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
-                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
-                  <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
+                  <a href="#" aria-label="Twitter" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
+                  <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
+                  <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
+                  <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
                 </div>
               </div>
             </div>

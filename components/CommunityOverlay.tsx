@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button } from './Button';
-import { COLORS, TYPOGRAPHY } from '../constants';
+import { TYPOGRAPHY } from '../constants';
 
 interface CommunityOverlayProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const months = [
+  'January', 'February', 'March', 'April', 'May', 'June', 
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+const days = Array.from({ length: 31 }, (_, i) => i + 1);
+
+const tracks = [
+  'Product Management',
+  'Product Design',
+  'Data Analytics',
+  'Cybersecurity',
+  'Technical Writing',
+  'Software Engineering'
+];
+
+const countries = [
+  'Nigeria', 'Ghana', 'Kenya', 'South Africa', 'Rwanda', 'Egypt', 'Uganda', 'Tanzania', 'Ethiopia', 'Morocco', 'Other'
+];
 
 export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -19,26 +39,6 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     dobDay: '',
     country: ''
   });
-
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June', 
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  const tracks = [
-    'Product Management',
-    'Product Design',
-    'Data Analytics',
-    'Cybersecurity',
-    'Technical Writing',
-    'Software Engineering'
-  ];
-
-  const countries = [
-    'Nigeria', 'Ghana', 'Kenya', 'South Africa', 'Rwanda', 'Egypt', 'Uganda', 'Tanzania', 'Ethiopia', 'Morocco', 'Other'
-  ];
 
   // Disable body scroll when overlay is open
   useEffect(() => {
@@ -58,7 +58,12 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
   const labelClasses = "block text-sm font-bold text-gray-700 mb-2.5";
 
   return (
-    <div className="fixed inset-0 z-[100] flex justify-end">
+    <div 
+      className="fixed inset-0 z-[100] flex justify-end"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="community-overlay-title"
+    >
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
@@ -74,12 +79,13 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
           {/* Header */}
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-2`}>Join the Community</h2>
+              <h2 id="community-overlay-title" className={`${TYPOGRAPHY.header02} text-[#08223d] mb-2`}>Join the Community</h2>
               <p className="text-gray-500">Join 5,000+ techies across Africa.</p>
             </div>
             <button 
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="Close community overlay"
             >
               <X size={28} className="text-gray-400 hover:text-gray-600" />
             </button>
