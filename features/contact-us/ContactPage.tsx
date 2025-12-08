@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { TYPOGRAPHY } from '../../constants';
 import { Mail, MapPin, Slack, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { CommunityOverlay } from '../../components/CommunityOverlay';
 
 export const ContactPage: React.FC = () => {
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
   return (
     <div 
       className="w-full pb-[60px] md:pb-[120px] pt-[140px] md:pt-[200px]"
@@ -13,18 +16,19 @@ export const ContactPage: React.FC = () => {
         backgroundSize: '30px 30px, 100% 100%'
       }}
     >
+      <CommunityOverlay isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} />
       <div className="container mx-auto px-6">
         
         {/* Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        <Reveal width="100%" className="text-center mb-16 max-w-3xl mx-auto">
           <span className="text-[#135291] font-bold tracking-wider uppercase text-sm mb-3 block">Get in touch</span>
           <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-6`}>We'd love to hear from you</h1>
           <p className={`${TYPOGRAPHY.body02} text-gray-500`}>
              Have a question about our bootcamps, community, or partnerships? Our team is ready to answer all your questions.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="bg-white rounded-xl md:rounded-[32px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col lg:flex-row mb-24">
+        <Reveal width="100%" className="bg-white rounded-xl md:rounded-[32px] shadow-2xl overflow-hidden border border-gray-100 flex flex-col lg:flex-row mb-24">
           
           {/* Contact Info Sidebar */}
           <div className="lg:w-5/12 bg-[#08223d] p-5 lg:p-14 text-white relative overflow-hidden">
@@ -129,29 +133,23 @@ export const ContactPage: React.FC = () => {
               </div>
             </form>
           </div>
-        </div>
+        </Reveal>
 
         {/* Big CTA Banner (Copied from Home) */}
         <Reveal width="100%">
           <div className="bg-[#135291] rounded-xl md:rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">
             <div className="md:w-1/2 relative h-80 md:h-auto">
-              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
+              <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
               <div className="absolute inset-0 bg-blue-900 opacity-30 mix-blend-multiply"></div>
             </div>
             <div className="md:w-1/2 p-5 md:p-12 lg:p-20 flex flex-col justify-center text-white">
-              <Reveal delay={0.2} width="100%">
-                <h2 className={`${TYPOGRAPHY.header02} mb-6`}>Landing Internship Roles as a Newbie in Tech</h2>
-              </Reveal>
-              <Reveal delay={0.4} width="100%">
-                <p className="text-blue-100 mb-10 text-lg leading-relaxed">
-                  At product hub Africa, we understand the difficulties newbies in tech and techies in general face when trying to get an internship or a new role. We'll be having a twitter space on this topic sharing valuable insights.
-                </p>
-              </Reveal>
-              <Reveal delay={0.6} width="100%">
-                <div className="flex justify-start">
-                  <Button size="lg" style={{ backgroundColor: '#daa728', color: '#08223d', width: 'auto' }}>Join Our Community</Button>
-                </div>
-              </Reveal>
+              <h2 className={`${TYPOGRAPHY.header02} mb-6`}>Landing Internship Roles as a Newbie in Tech</h2>
+              <p className="text-blue-100 mb-10 text-lg leading-relaxed">
+                At product hub Africa, we understand the difficulties newbies in tech and techies in general face when trying to get an internship or a new role. We'll be having a twitter space on this topic sharing valuable insights.
+              </p>
+              <div className="flex justify-start">
+                <Button size="lg" style={{ backgroundColor: '#daa728', color: '#08223d', width: 'auto' }} onClick={() => setIsOverlayOpen(true)}>Join Our Community</Button>
+              </div>
             </div>
           </div>
         </Reveal>

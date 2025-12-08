@@ -15,23 +15,17 @@ export const AboutPage: React.FC = () => {
         }}
       >
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
-          <div className="lg:w-1/2">
-            <Reveal width="100%">
-              <h1 className={`${TYPOGRAPHY.header01} text-[#135291] mb-8`}>
-                Empowering Tech Innovators to Shape the Future.
-              </h1>
-            </Reveal>
-            <Reveal width="100%" delay={0.2}>
-              <p className={`${TYPOGRAPHY.body02} mb-6`}>
-                Product Hub Africa is a vibrant community of tech enthusiasts, united by our passion for creating scalable, user-centered products that drive positive change.
-              </p>
-            </Reveal>
-            <Reveal width="100%" delay={0.4}>
-              <p className={`${TYPOGRAPHY.body02}`}>
-                We are a community of talented product developers, designers, managers, and enthusiasts from diverse backgrounds. Together, we form a dynamic network where ideas collide, collaborations thrive, and innovation flourishes.
-              </p>
-            </Reveal>
-          </div>
+          <Reveal width="100%" className="lg:w-1/2">
+            <h1 className={`${TYPOGRAPHY.header01} text-[#135291] mb-8`}>
+              Empowering Tech Innovators to Shape the Future.
+            </h1>
+            <p className={`${TYPOGRAPHY.body02} mb-6`}>
+              Product Hub Africa is a vibrant community of tech enthusiasts, united by our passion for creating scalable, user-centered products that drive positive change.
+            </p>
+            <p className={`${TYPOGRAPHY.body02}`}>
+              We are a community of talented product developers, designers, managers, and enthusiasts from diverse backgrounds. Together, we form a dynamic network where ideas collide, collaborations thrive, and innovation flourishes.
+            </p>
+          </Reveal>
           
           {/* Diamond Grid Visualization */}
           <div className="lg:w-1/2 relative min-h-[500px] lg:mt-[60px]">
@@ -75,28 +69,22 @@ export const AboutPage: React.FC = () => {
          <div className="container mx-auto px-6 flex flex-col lg:flex-row items-stretch gap-16">
             <div className="lg:w-1/2">
               <Reveal width="100%" direction="right" className="h-full">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800" alt="Tunnel Vision" className="rounded-xl md:rounded-3xl shadow-2xl w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800" alt="African Tech Team" className="rounded-xl md:rounded-3xl shadow-2xl w-full h-full object-cover" />
               </Reveal>
             </div>
             <div className="lg:w-1/2 flex flex-col justify-center">
               <Reveal width="100%">
                 <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-8`}>Our Mission and Vision</h2>
-              </Reveal>
-              
-              <div className="mb-10">
-                <Reveal width="100%" delay={0.2}>
-                  <p className={`${TYPOGRAPHY.body02} mb-6`}>
-                    Our mission is to foster a thriving community of tech enthusiasts who are passionate about creating scalable, user-centered products that drive positive change not only in Africa but also beyond.
-                  </p>
-                </Reveal>
-                <Reveal width="100%" delay={0.4}>
-                  <p className={`${TYPOGRAPHY.body02}`}>
-                    Our vision is to be the leading community in Africa, spearheading innovation and excellence in product development. We aspire to create a vibrant and inclusive ecosystem where diverse talents come together.
-                  </p>
-                </Reveal>
-              </div>
+                
+                <div className="mb-10">
+                    <p className={`${TYPOGRAPHY.body02} mb-6`}>
+                      Our mission is to foster a thriving community of tech enthusiasts who are passionate about creating scalable, user-centered products that drive positive change not only in Africa but also beyond.
+                    </p>
+                    <p className={`${TYPOGRAPHY.body02}`}>
+                      Our vision is to be the leading community in Africa, spearheading innovation and excellence in product development. We aspire to create a vibrant and inclusive ecosystem where diverse talents come together.
+                    </p>
+                </div>
 
-              <Reveal width="100%" delay={0.6}>
                 <div className="p-5 md:p-8 bg-gray-50 border-l-8 border-[#daa728] rounded-r-xl md:rounded-r-2xl">
                   <p className="text-gray-700 italic text-lg leading-relaxed">
                     "By fostering a culture of collaboration and continuous learning, we envision a future where African tech products and solutions make a significant impact on a global scale."
