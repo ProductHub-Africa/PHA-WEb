@@ -70,14 +70,28 @@ export const Header: React.FC = () => {
               {navLinks.map((link) => (
                 <div key={link.label} className="relative group h-full flex items-center">
                   {link.isMegaMenu ? (
-                    <button
-                      className={`flex items-center space-x-1 ${TYPOGRAPHY.bodySmall01} font-bold hover:text-[#135291] transition-colors py-6`}
+                    <div
                       onMouseEnter={() => setIsMegaMenuOpen(true)}
                       onMouseLeave={() => setIsMegaMenuOpen(false)}
+                      className="h-full flex items-center"
                     >
-                      <span>{link.label}</span>
-                      <ChevronDown size={14} strokeWidth={3} />
-                    </button>
+                      <Link
+                        to={link.path}
+                        className={`flex items-center space-x-1 ${TYPOGRAPHY.bodySmall01} font-bold hover:text-[#135291] transition-colors py-6`}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronDown size={14} strokeWidth={3} />
+                      </Link>
+                      
+                      {/* Mega Menu Overlay - Shifted Right */}
+                      {isMegaMenuOpen && (
+                        <div 
+                          className="absolute top-full left-1/2 -translate-x-1/2 ml-[240px] pt-4 w-screen max-w-screen-xl px-4"
+                        >
+                          <MegaMenu onItemClick={() => setIsMegaMenuOpen(false)} />
+                        </div>
+                      )}
+                    </div>
                   ) : (
                     <Link
                       to={link.path}
@@ -87,17 +101,6 @@ export const Header: React.FC = () => {
                     >
                       {link.label}
                     </Link>
-                  )}
-                  
-                  {/* Mega Menu Overlay - Shifted Right */}
-                  {link.isMegaMenu && isMegaMenuOpen && (
-                    <div 
-                      className="absolute top-full left-1/2 -translate-x-1/2 ml-[240px] pt-4 w-screen max-w-screen-xl px-4"
-                      onMouseEnter={() => setIsMegaMenuOpen(true)}
-                      onMouseLeave={() => setIsMegaMenuOpen(false)}
-                    >
-                      <MegaMenu onItemClick={() => setIsMegaMenuOpen(false)} />
-                    </div>
                   )}
                 </div>
               ))}

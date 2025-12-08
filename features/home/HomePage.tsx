@@ -164,7 +164,7 @@ export const HomePage: React.FC = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative py-[60px] md:py-[180px]"
+        className="relative pt-[110px] pb-[60px] md:py-[180px]"
         style={{
           background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
           backgroundSize: '30px 30px, 100% 100%'
@@ -175,8 +175,8 @@ export const HomePage: React.FC = () => {
           {/* Left Content */}
           <Reveal width="100%" className="lg:w-1/2 z-10 text-center lg:text-left">
             <div>
-              <span className="inline-block bg-blue-50 text-[#135291] px-4 py-2 rounded-full font-bold mb-6 mt-3 tracking-wide text-sm border border-blue-100">
-                Build Your Tech Career as a <span className="inline-block transition-all duration-300 border-b-2 border-[#daa728]">
+              <span className="inline-flex items-center h-[42px] bg-blue-50 text-[#135291] px-4 rounded-full font-bold mb-6 mt-3 tracking-wide text-sm border border-blue-100">
+                Build Your Tech Career as a <span className="inline-block transition-all duration-300 border-b-2 border-[#daa728] ml-1">
                   {text}
                   <span className="animate-blink border-r-2 border-[#daa728] ml-0.5">&nbsp;</span>
                 </span>
@@ -185,7 +185,7 @@ export const HomePage: React.FC = () => {
             
             <div>
               <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-8 leading-[1.1]`}>
-                <span className="text-[#135291]">Ignite</span> Your Passion for <span style={{ color: COLORS.teal }}>Tech</span> at Product Hub Africa!
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-blue-600 to-cyan-500 drop-shadow-[0_0_15px_rgba(19,82,145,0.2)]">Ignite</span> Your Passion for <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-teal-500 to-emerald-400 drop-shadow-[0_0_15px_rgba(42,157,143,0.3)]">Tech</span> at Product Hub Africa!
               </h1>
             </div>
 
@@ -381,8 +381,8 @@ export const HomePage: React.FC = () => {
               <Reveal width="100%" className="h-full">
                 <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] lg:min-h-[600px] shadow-2xl h-full">
                   <img 
-                    src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=600" 
-                    alt="Thinking Student" 
+                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600" 
+                    alt="African Tech Professional" 
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/10"></div>

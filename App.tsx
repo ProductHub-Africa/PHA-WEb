@@ -9,6 +9,8 @@ import { CommunityPage } from './features/community/CommunityPage';
 import { BlogPage } from './features/blog/BlogPage';
 import { ContactPage } from './features/contact-us/ContactPage';
 import { StemSchoolPage } from './features/stem-school/StemSchoolPage';
+import { FAQPage } from './features/legal/FAQPage';
+import { PrivacyPolicyPage } from './features/legal/PrivacyPolicyPage';
 
 // ScrollToTop utility component
 const ScrollToTop = () => {
@@ -38,6 +40,8 @@ const App: React.FC = () => {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/contact-us" element={<ContactPage />} />
             <Route path="/stem-school" element={<StemSchoolPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           </Routes>
         </main>
         <Footer />

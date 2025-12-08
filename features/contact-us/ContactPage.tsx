@@ -78,10 +78,10 @@ export const ContactPage: React.FC = () => {
               <div className="mt-12">
                 <p className="text-sm text-gray-400 mb-4">Follow us on social media</p>
                 <div className="flex space-x-4">
-                  <a href="#" aria-label="Twitter" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
-                  <a href="#" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
-                  <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
-                  <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
+                  <a href="https://x.com/ProductHubAfri" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
+                  <a href="https://www.linkedin.com/company/product-hub-africa/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
+                  <a href="https://www.instagram.com/producthubafrica/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
+                  <a href="https://web.facebook.com/people/Product-Hub-Africa/61555965181457/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
                 </div>
               </div>
             </div>
