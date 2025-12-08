@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 
