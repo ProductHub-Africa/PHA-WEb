@@ -229,7 +229,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
         </div>
 
         {/* Sticky Footer Button */}
-        <div className="p-8 md:p-10 pb-[40px] bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
+        <div className="p-5 md:p-10 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
           <Button fullWidth size="lg">Join Now</Button>
           <p className="text-center text-sm text-gray-400 mt-4">
             By joining, you agree to our Terms of Service and Privacy Policy.

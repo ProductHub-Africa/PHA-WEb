@@ -24,6 +24,18 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   const navLinks = [
     { label: 'About us', path: '/about-us' },
     { label: 'Bootcamps', path: '/bootcamps', isMegaMenu: true },
@@ -109,39 +121,57 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Full Screen Overlay */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-lg h-screen z-50">
-            <div className="flex flex-col p-8 space-y-6">
-              <Link
-                  to="/"
-                  className={`${TYPOGRAPHY.header03} font-bold text-gray-700 hover:text-[#135291]`}
-                  onClick={() => setIsMenuOpen(false)}
-              >
-                  Home
-              </Link>
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  to={link.path}
-                  className={`${TYPOGRAPHY.header03} font-bold text-gray-700 hover:text-[#135291]`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
+          <div className="lg:hidden bg-white fixed inset-0 w-full h-screen z-[100] flex flex-col overflow-y-auto">
+            {/* Mobile Menu Header */}
+            <div className="px-6 h-20 flex items-center justify-between border-b border-gray-50 shrink-0">
+                <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                  <img 
+                    src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
+                    alt="Product Hub Africa" 
+                    className="h-10 w-auto object-contain"
+                  />
                 </Link>
-              ))}
-              <hr className="border-gray-100" />
-              <Button 
-                fullWidth 
-                size="lg" 
-                variant="outline"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  setIsOverlayOpen(true);
-                }}
-              >
-                Join Our Community
-              </Button>
+                <button className="p-2 text-gray-600" onClick={toggleMenu}>
+                    <X size={24} />
+                </button>
+            </div>
+
+            <div className="flex flex-col px-8 pt-8 pb-10 flex-grow">
+              <div className="flex flex-col space-y-6">
+                <Link
+                    to="/"
+                    className={`${TYPOGRAPHY.header03} font-bold text-gray-700 hover:text-[#135291]`}
+                    onClick={() => setIsMenuOpen(false)}
+                >
+                    Home
+                </Link>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    to={link.path}
+                    className={`${TYPOGRAPHY.header03} font-bold text-gray-700 hover:text-[#135291]`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="mt-auto">
+                <Button 
+                  fullWidth 
+                  size="lg" 
+                  variant="outline"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsOverlayOpen(true);
+                  }}
+                >
+                  Join Our Community
+                </Button>
+              </div>
             </div>
           </div>
         )}

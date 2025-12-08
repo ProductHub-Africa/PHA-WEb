@@ -80,7 +80,7 @@ export const BlogPage: React.FC = () => {
 
   return (
     <div 
-      className="w-full pb-[120px] pt-[200px]"
+      className="w-full pb-[60px] md:pb-[120px] pt-[140px] md:pt-[200px]"
       style={{
         background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
         backgroundSize: '30px 30px, 100% 100%'
@@ -115,7 +115,7 @@ export const BlogPage: React.FC = () => {
 
         {/* Featured Post */}
         <div className="mb-20">
-          <div className="group relative rounded-3xl overflow-hidden bg-white grid md:grid-cols-2 cursor-pointer border border-gray-100">
+          <div className="group relative rounded-xl md:rounded-3xl overflow-hidden bg-white grid md:grid-cols-2 cursor-pointer border border-gray-100">
             <div className="relative h-64 md:h-auto overflow-hidden">
                <img 
                  src={featuredPost.image} 
@@ -126,7 +126,7 @@ export const BlogPage: React.FC = () => {
                  Featured
                </div>
             </div>
-            <div className="p-8 md:p-12 flex flex-col justify-center">
+            <div className="p-5 md:p-12 flex flex-col justify-center">
               <div className="flex items-center gap-3 text-sm text-gray-500 mb-4">
                 <span className="font-bold text-[#daa728]">{featuredPost.category}</span>
                 <span>•</span>
@@ -159,7 +159,7 @@ export const BlogPage: React.FC = () => {
         {/* Recent Posts Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-[24px] overflow-hidden transition-all duration-300 group cursor-pointer flex flex-col h-full">
+            <div key={i} className="bg-white border border-gray-100 rounded-xl md:rounded-[24px] overflow-hidden transition-all duration-300 group cursor-pointer flex flex-col h-full">
               <div className="relative h-60 overflow-hidden">
                 <img 
                   src={post.image} 
@@ -170,7 +170,7 @@ export const BlogPage: React.FC = () => {
                   {post.category}
                 </div>
               </div>
-              <div className="p-8 flex flex-col flex-1">
+              <div className="p-5 md:p-8 flex flex-col flex-1">
                 <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
                   <Clock size={14} />
                   <span>{post.readTime}</span>
@@ -198,7 +198,7 @@ export const BlogPage: React.FC = () => {
         </div>
 
         {/* Newsletter CTA */}
-        <div className="mt-24 bg-[#08223d] rounded-3xl p-10 md:p-16 text-center text-white relative overflow-hidden">
+        <div className="mt-24 bg-[#08223d] rounded-xl md:rounded-3xl p-5 md:p-16 text-center text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#135291] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3"></div>
           <div className="relative z-10 max-w-2xl mx-auto">
              <h2 className={`${TYPOGRAPHY.header02} mb-6`}>Stay in the loop</h2>

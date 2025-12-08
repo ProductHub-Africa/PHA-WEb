@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 
@@ -8,7 +8,7 @@ export const AboutPage: React.FC = () => {
       
       {/* Hero Section */}
       <section 
-        className="w-full pt-[180px] pb-[180px]"
+        className="w-full py-[60px] lg:py-[180px]"
         style={{
           background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
           backgroundSize: '30px 30px, 100% 100%'
@@ -43,25 +43,25 @@ export const AboutPage: React.FC = () => {
              <div className="relative z-10 w-full h-full flex justify-center items-center">
                {/* Images wrapped in rotated divs */}
                <Reveal delay={0.2} className="absolute top-10 right-10 z-10">
-                 <div className="w-40 h-40 transform rotate-45 overflow-hidden rounded-3xl border-8 border-white shadow-xl">
+                 <div className="w-40 h-40 transform rotate-45 overflow-hidden rounded-xl md:rounded-3xl border-8 border-white shadow-xl">
                     <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover transform -rotate-45 scale-150" alt="About 1" />
                  </div>
                </Reveal>
                
                <Reveal delay={0.4} className="absolute top-1/2 left-1/4 transform -translate-y-1/2 z-20">
-                 <div className="w-48 h-48 rotate-45 overflow-hidden rounded-3xl border-8 border-white shadow-xl">
+                 <div className="w-48 h-48 rotate-45 overflow-hidden rounded-xl md:rounded-3xl border-8 border-white shadow-xl">
                     <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover transform -rotate-45 scale-150" alt="About 2" />
                  </div>
                </Reveal>
 
                <Reveal delay={0.6} className="absolute bottom-10 right-1/3 z-10">
-                 <div className="w-40 h-40 rotate-45 overflow-hidden rounded-3xl border-8 border-white shadow-xl">
+                 <div className="w-40 h-40 rotate-45 overflow-hidden rounded-xl md:rounded-3xl border-8 border-white shadow-xl">
                     <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover transform -rotate-45 scale-150" alt="About 3" />
                  </div>
                </Reveal>
                
                <Reveal delay={0.8} className="absolute top-20 left-10 z-0">
-                  <div className="w-28 h-28 rotate-45 overflow-hidden rounded-3xl border-8 border-white shadow-xl opacity-80">
+                  <div className="w-28 h-28 rotate-45 overflow-hidden rounded-xl md:rounded-3xl border-8 border-white shadow-xl opacity-80">
                     <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover transform -rotate-45 scale-150" alt="About 4" />
                  </div>
                </Reveal>
@@ -71,11 +71,11 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* Mission Vision Dark Section */}
-      <section className="bg-white py-[120px]">
+      <section className="bg-white py-[60px] md:py-[120px]">
          <div className="container mx-auto px-6 flex flex-col lg:flex-row items-stretch gap-16">
             <div className="lg:w-1/2">
               <Reveal width="100%" direction="right" className="h-full">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800" alt="Tunnel Vision" className="rounded-3xl shadow-2xl w-full h-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800" alt="Tunnel Vision" className="rounded-xl md:rounded-3xl shadow-2xl w-full h-full object-cover" />
               </Reveal>
             </div>
             <div className="lg:w-1/2 flex flex-col justify-center">
@@ -97,7 +97,7 @@ export const AboutPage: React.FC = () => {
               </div>
 
               <Reveal width="100%" delay={0.6}>
-                <div className="p-8 bg-gray-50 border-l-8 border-[#daa728] rounded-r-2xl">
+                <div className="p-5 md:p-8 bg-gray-50 border-l-8 border-[#daa728] rounded-r-xl md:rounded-r-2xl">
                   <p className="text-gray-700 italic text-lg leading-relaxed">
                     "By fostering a culture of collaboration and continuous learning, we envision a future where African tech products and solutions make a significant impact on a global scale."
                   </p>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
+import { CommunityOverlay } from '../../components/CommunityOverlay';
 import { COLORS, TYPOGRAPHY } from '../../constants';
 import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Briefcase } from 'lucide-react';
 
@@ -95,8 +96,11 @@ const testimonials = [
 ];
 
 export const HomePage: React.FC = () => {
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
   return (
     <div className="w-full font-sans overflow-x-hidden bg-white">
+      <CommunityOverlay isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(false)} />
       <style>{`
         @keyframes scroll {
           0% { transform: translateX(0); }
@@ -113,7 +117,7 @@ export const HomePage: React.FC = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-[180px] pb-[180px]"
+        className="relative py-[60px] md:py-[180px]"
         style={{
           background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
           backgroundSize: '30px 30px, 100% 100%'
@@ -124,7 +128,7 @@ export const HomePage: React.FC = () => {
           {/* Left Content */}
           <div className="lg:w-1/2 z-10 text-center lg:text-left">
             <Reveal width="100%">
-              <span className="inline-block bg-blue-50 text-[#135291] px-4 py-2 rounded-full font-bold mb-6 tracking-wide text-sm border border-blue-100">
+              <span className="inline-block bg-blue-50 text-[#135291] px-4 py-2 rounded-full font-bold mb-6 mt-3 tracking-wide text-sm border border-blue-100">
                 Build Your Tech Career as a <span className="inline-block transition-all duration-300 border-b-2 border-[#daa728]">Tech Professional</span>
               </span>
             </Reveal>
@@ -143,7 +147,7 @@ export const HomePage: React.FC = () => {
             
             <Reveal width="100%" delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg">Join the community</Button>
+                <Button size="lg" onClick={() => setIsOverlayOpen(true)}>Join Our Community</Button>
                 <Button variant="outline" size="lg" style={{ borderColor: '#08223d', color: '#08223d' }}>Partner with us</Button>
               </div>
             </Reveal>
@@ -152,23 +156,23 @@ export const HomePage: React.FC = () => {
           {/* Right Images Grid */}
           <div className="lg:w-1/2 grid grid-cols-2 gap-8 mt-8 lg:mt-0">
             <Reveal delay={0.2} direction="left" className="w-full">
-              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 1" className="rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl transform hover:scale-[1.02] transition-transform duration-700" />
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 1" className="rounded-xl md:rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl transform hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
             <Reveal delay={0.3} direction="down" className="w-full">
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 2" className="rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 2" className="rounded-xl md:rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
             <Reveal delay={0.4} direction="up" className="w-full">
-              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 3" className="rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
+              <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 3" className="rounded-xl md:rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
             <Reveal delay={0.5} direction="right" className="w-full">
-              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 4" className="rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
+              <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 4" className="rounded-xl md:rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
           </div>
         </div>
       </section>
 
       {/* Trusted Partners - Endless Scroll */}
-      <section className="py-[100px] bg-white border-y border-gray-50 overflow-hidden group">
+      <section className="py-[60px] md:py-[100px] bg-white border-y border-gray-50 overflow-hidden group">
         <div className="container mx-auto px-6 mb-16 text-center">
           <Reveal width="100%">
             <h3 className={`${TYPOGRAPHY.header03} font-bold text-[#08223d] mb-4`}>Our Trusted Partners</h3>
@@ -218,9 +222,9 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Modern Mission & Vision Section */}
-      <section className="py-[120px] bg-white">
+      <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
-          <div className="bg-[#08223d] rounded-[40px] p-8 md:p-16 text-white shadow-2xl overflow-hidden relative">
+          <div className="bg-[#08223d] rounded-xl md:rounded-[40px] p-5 md:p-16 text-white shadow-2xl overflow-hidden relative">
             
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#135291] rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2"></div>
@@ -242,21 +246,21 @@ export const HomePage: React.FC = () => {
                  {/* Stats Grid */}
                  <div className="grid grid-cols-2 gap-6">
                     <Reveal delay={0.2} width="100%">
-                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl">
+                      <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-xl md:rounded-2xl">
                          <div className="text-[#daa728] mb-2"><GraduationCap size={28} /></div>
                          <h4 className="text-3xl font-bold mb-1">200+</h4>
                          <p className="text-gray-400 text-sm">Students Trained</p>
                       </div>
                     </Reveal>
                     <Reveal delay={0.3} width="100%">
-                       <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl">
+                       <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-xl md:rounded-2xl">
                          <div className="text-[#daa728] mb-2"><Globe size={28} /></div>
                          <h4 className="text-3xl font-bold mb-1">12+</h4>
                          <p className="text-gray-400 text-sm">African Countries</p>
                       </div>
                     </Reveal>
                     <Reveal delay={0.4} width="100%">
-                       <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl">
+                       <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-5 md:p-6 rounded-xl md:rounded-2xl">
                          <div className="text-[#daa728] mb-2"><Briefcase size={28} /></div>
                          <h4 className="text-3xl font-bold mb-1">7+</h4>
                          <p className="text-gray-400 text-sm">Career Paths</p>
@@ -268,7 +272,7 @@ export const HomePage: React.FC = () => {
               {/* Right Column: Mission & Vision Cards */}
               <div className="flex flex-col gap-6 items-stretch">
                 <Reveal delay={0.2} width="100%" className="h-full">
-                   <div className="bg-white text-[#08223d] p-8 md:p-10 rounded-3xl relative overflow-hidden group h-full">
+                   <div className="bg-white text-[#08223d] p-5 md:p-10 rounded-xl md:rounded-3xl relative overflow-hidden group h-full">
                       <div className="absolute right-0 top-0 p-6 text-gray-100 opacity-20 transform group-hover:scale-110 transition-transform duration-500">
                         <Target size={120} />
                       </div>
@@ -285,7 +289,7 @@ export const HomePage: React.FC = () => {
                 </Reveal>
 
                 <Reveal delay={0.4} width="100%" className="h-full">
-                   <div className="bg-[#135291] text-white p-8 md:p-10 rounded-3xl relative overflow-hidden group border border-white/10 h-full">
+                   <div className="bg-[#135291] text-white p-5 md:p-10 rounded-xl md:rounded-3xl relative overflow-hidden group border border-white/10 h-full">
                       <div className="absolute right-0 top-0 p-6 text-white opacity-10 transform group-hover:scale-110 transition-transform duration-500">
                         <Eye size={120} />
                       </div>
@@ -307,13 +311,13 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Tracks Section */}
-      <section className="py-[120px] bg-white">
+      <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
             {/* Left Image Card */}
             <div className="lg:w-1/3">
               <Reveal width="100%" className="h-full">
-                <div className="bg-[#f4a261] rounded-[32px] relative overflow-hidden min-h-[400px] lg:min-h-[600px] shadow-2xl h-full">
+                <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] lg:min-h-[600px] shadow-2xl h-full">
                   <img 
                     src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&q=80&w=600" 
                     alt="Thinking Student" 
@@ -339,7 +343,7 @@ export const HomePage: React.FC = () => {
                 {courseTracks.map((track, i) => (
                   <Reveal key={i} width="100%" delay={i * 0.1}>
                     <div 
-                      className={`p-8 rounded-2xl border transition-all duration-300 cursor-pointer h-full group ${
+                      className={`p-5 md:p-8 rounded-xl md:rounded-2xl border transition-all duration-300 cursor-pointer h-full group ${
                         track.active 
                           ? 'bg-[#135291] border-[#135291] text-white shadow-xl' 
                           : 'bg-white border-gray-100 text-[#08223d] hover:bg-[#135291] hover:text-white hover:border-[#135291]'
@@ -359,7 +363,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Why Join Us - Removed Hover Effects */}
-      <section className="py-[120px] bg-[#fafafa]">
+      <section className="py-[60px] md:py-[120px] bg-[#fafafa]">
         <div className="container mx-auto px-6 text-center">
           <Reveal width="100%">
             <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-6`}>Why you should join us?</h2>
@@ -374,8 +378,8 @@ export const HomePage: React.FC = () => {
             {whyJoinCards.slice(0, 3).map((card, i) => (
                <div key={i} className="w-full md:w-[30%]">
                  <Reveal width="100%" delay={i * 0.2} className="h-full">
-                   <div className="border border-gray-100 p-10 rounded-3xl text-left bg-white h-full">
-                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-opacity-10" style={{ backgroundColor: card.color + '20', color: card.color }}>
+                   <div className="border border-gray-100 p-5 md:p-10 rounded-xl md:rounded-3xl text-left bg-white h-full">
+                     <div className="w-16 h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 bg-opacity-10" style={{ backgroundColor: card.color + '20', color: card.color }}>
                        {card.icon}
                      </div>
                      <h4 className="font-bold text-[#08223d] text-xl mb-4">{card.title}</h4>
@@ -389,8 +393,8 @@ export const HomePage: React.FC = () => {
              {whyJoinCards.slice(3).map((card, i) => (
                <div key={i} className="w-full md:w-[30%]">
                  <Reveal width="100%" delay={(i + 3) * 0.2} className="h-full">
-                   <div className="border border-gray-100 p-10 rounded-3xl text-left bg-white h-full">
-                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-opacity-10" style={{ backgroundColor: card.color + '20', color: card.color }}>
+                   <div className="border border-gray-100 p-5 md:p-10 rounded-xl md:rounded-3xl text-left bg-white h-full">
+                     <div className="w-16 h-16 rounded-xl md:rounded-2xl flex items-center justify-center mb-6 bg-opacity-10" style={{ backgroundColor: card.color + '20', color: card.color }}>
                        {card.icon}
                      </div>
                      <h4 className="font-bold text-[#08223d] text-xl mb-4">{card.title}</h4>
@@ -404,7 +408,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Testimonials - Grid Layout with New Data */}
-      <section className="py-[120px] bg-white">
+      <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <Reveal width="100%">
             <h2 className={`${TYPOGRAPHY.header02} font-bold text-center text-[#08223d] mb-4`}>What Our Graduates Are Saying</h2>
@@ -416,7 +420,7 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((t, i) => (
               <Reveal key={i} width="100%" delay={i * 0.05}>
-                <div className="relative group rounded-3xl overflow-hidden h-full min-h-[400px]">
+                <div className="relative group rounded-xl md:rounded-3xl overflow-hidden h-full min-h-[400px]">
                   {/* Background Image with Overlay */}
                   <div className="absolute inset-0">
                     <img 
@@ -429,7 +433,7 @@ export const HomePage: React.FC = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="relative h-full flex flex-col justify-end p-8 text-white">
+                  <div className="relative h-full flex flex-col justify-end p-5 md:p-8 text-white">
                     <div className="mb-2 flex items-center gap-2">
                        <h4 className="font-bold text-xl">{t.name}</h4>
                        <span className="text-xl">{t.country}</span>
@@ -447,15 +451,15 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Big CTA */}
-      <section className="py-[120px] bg-white">
+      <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <Reveal width="100%">
-            <div className="bg-[#135291] rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">
+            <div className="bg-[#135291] rounded-xl md:rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">
               <div className="md:w-1/2 relative h-80 md:h-auto">
                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
                 <div className="absolute inset-0 bg-blue-900 opacity-30 mix-blend-multiply"></div>
               </div>
-              <div className="md:w-1/2 p-12 lg:p-20 flex flex-col justify-center text-white">
+              <div className="md:w-1/2 p-5 md:p-12 lg:p-20 flex flex-col justify-center text-white">
                 <Reveal delay={0.2} width="100%">
                   <h2 className={`${TYPOGRAPHY.header02} mb-6`}>Landing Internship Roles as a Newbie in Tech</h2>
                 </Reveal>
@@ -466,7 +470,7 @@ export const HomePage: React.FC = () => {
                 </Reveal>
                 <Reveal delay={0.6} width="100%">
                   <div className="flex justify-start">
-                    <Button size="lg" style={{ backgroundColor: '#daa728', color: '#08223d', width: 'auto' }}>Join the community</Button>
+                    <Button size="lg" style={{ backgroundColor: '#daa728', color: '#08223d', width: 'auto' }} onClick={() => setIsOverlayOpen(true)}>Join Our Community</Button>
                   </div>
                 </Reveal>
               </div>

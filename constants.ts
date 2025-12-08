@@ -43,10 +43,10 @@ export const COLORS = {
 
 export const TYPOGRAPHY = {
   header01: 'text-[40px] md:text-[56px] leading-[1.1] tracking-tight font-extrabold',
-  header02: 'text-[32px] md:text-[40px] leading-[1.2] tracking-tight font-bold',
+  header02: 'text-[24px] md:text-[40px] leading-[1.2] tracking-tight font-bold',
   header03: 'text-[24px] md:text-[28px] leading-[1.3] font-bold',
-  body02: 'text-[18px] leading-[1.6] font-normal text-slate-600',
-  body01: 'text-[16px] leading-[1.6] font-normal text-slate-600',
+  body02: 'text-[14px] md:text-[18px] leading-[1.6] font-normal text-slate-600',
+  body01: 'text-[14px] md:text-[16px] leading-[1.6] font-normal text-slate-600',
   bodySmall01: 'text-[15px] font-medium',
   bodySmall02: 'text-[13px] font-medium',
 };
