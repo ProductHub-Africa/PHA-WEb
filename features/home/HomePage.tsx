@@ -32,63 +32,63 @@ const whyJoinCards = [
 const testimonials = [
   {
     name: 'Omoseyitan Ojomo',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Graduate',
     text: 'Every moment of the bootcamp was impactful, helping me achieve my goals and build a strong professional network. I gained skills in prioritization, stakeholder management, and performance metrics analysis.',
     image: 'https://lh3.googleusercontent.com/d/1eVM5fsnfE2Ox_gwjSs01xPlpltRmjIHu'
   },
   {
     name: 'Efundunni Sowemimo',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Lawyer / Newbie in Tech',
     text: 'As a lawyer and a newbie in tech, my most significant highlight was working on the capstone project with my group members, it was a rewarding experience putting all we had learnt to work on a product. It was a great initiative to have a collaborative task.',
     image: 'https://lh3.googleusercontent.com/d/1ZIMVu_9DgCgRndNcKWgYo0cdNmbEyysG'
   },
   {
     name: 'Melusi Nyoni',
-    country: '🇿🇼',
+    countryCode: 'zw',
     role: 'Analyst',
     text: 'Coming from a rough diamond analyst background, my experience with Product Hub was fantastic, I was able to connect with colleagues and like minds and I learnt from industry experts making the whole learning journey enriching.',
     image: 'https://lh3.googleusercontent.com/d/1yzbVKnVxCiahRnoP30TO-bQtfB_UObUb'
   },
   {
     name: 'Temitope Dada',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Product Manager',
     text: 'It was a wonderful journey, I had no experience whatsoever in Product Management. I learnt a lot and I have been able to connect with like minds and wonderful people and I believe this strategic relationship will enhance my growth.',
     image: 'https://lh3.googleusercontent.com/d/1ZIMVu_9DgCgRndNcKWgYo0cdNmbEyysG'
   },
   {
     name: 'Geoffrey Logovi',
-    country: '🇹🇬',
+    countryCode: 'tg',
     role: 'Developer Relations',
     text: 'Joining the bootcamp was transformative. It pushed me daily, expanding my skills in technical writing, creative thinking, and networking, and set a solid path in developer relations.',
     image: 'https://lh3.googleusercontent.com/d/1s0UG5o87SfxNU-Qwjqz0AdSMvNmQjbOv'
   },
   {
     name: 'Nakitha Ineza',
-    country: '🇷🇼',
+    countryCode: 'rw',
     role: 'Graduate',
     text: 'The Bootcamp was interactive and enjoyable. I loved the group sessions where we tackled projects together, forming friendships. I gained crucial skills in detail, data cleansing, and research.',
     image: 'https://lh3.googleusercontent.com/d/1khcuK81pTly0UTMVBp4Rx-ojouHF0nFp'
   },
   {
     name: 'Mutiat Adepoju',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Technical Writer',
     text: 'During the technical writing bootcamp, the highlight for me was the invaluable mentorship from our coach, who guided us through every step. I picked up new skills that truly sharpened my writing, and one of my proudest moments was writing the longest article during the program.',
     image: 'https://lh3.googleusercontent.com/d/1v3LZ2nKbF4_R0JAcaRpQ57CJ4CDnYKTv'
   },
   {
     name: 'Confidence Ezeamaka',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Graduate',
     text: 'I would like to emphasize that the Bootcamp was a very interactive and engaging program. I enjoyed the group sessions the most because we got to do hands on projects together, which fostered relationships that is still going on.',
     image: 'https://lh3.googleusercontent.com/d/1RfKnNzfJtFpBr0T70q3A8SudX3HVjWSK'
   },
   {
     name: 'Prest Eyituoyor',
-    country: '🇳🇬',
+    countryCode: 'ng',
     role: 'Graduate',
     text: 'The facilitators were amazing, with a beginner-friendly approach that made learning enjoyable. The dedication of my classmates enriched the experience, and the lessons taught me more in a short time than I\'d imagined possible.',
     image: 'https://lh3.googleusercontent.com/d/1IA3PTO9nVaCmAwHQ8q45DB-SRtdhXpaa'
@@ -495,8 +495,12 @@ export const HomePage: React.FC = () => {
                           e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=0D8ABC&color=fff`;
                         }}
                       />
-                      <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm text-sm">
-                        {t.country}
+                      <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm text-sm overflow-hidden flex items-center justify-center w-6 h-4">
+                         <img 
+                           src={`https://flagcdn.com/w40/${t.countryCode}.png`} 
+                           alt={t.countryCode} 
+                           className="w-full h-full object-cover"
+                         />
                       </div>
                     </div>
                     <div>
