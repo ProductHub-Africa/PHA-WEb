@@ -1,7 +1,6 @@
 import React from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
-import { Button } from '../../components/Button';
 import { Mail, Linkedin, Twitter, Briefcase, Heart, ArrowRight } from 'lucide-react';
 
 const teamMembers = [
