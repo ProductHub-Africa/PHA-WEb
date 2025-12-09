@@ -1,8 +1,8 @@
 import React from 'react';
-import { TYPOGRAPHY, COLORS } from '../../constants';
+import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 import { Button } from '../../components/Button';
-import { Mail, Linkedin, Twitter, MapPin, Briefcase, Heart, ArrowRight } from 'lucide-react';
+import { Mail, Linkedin, Twitter, Briefcase, Heart, ArrowRight } from 'lucide-react';
 
 const teamMembers = [
   {
