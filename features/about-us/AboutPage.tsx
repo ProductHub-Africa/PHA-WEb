@@ -76,18 +76,13 @@ export const AboutPage: React.FC = () => {
             {/* Right Image */}
             <div className="lg:w-1/2 relative">
               <Reveal width="100%" delay={0.2}>
-                <div className="relative rounded-[32px] overflow-hidden shadow-2xl">
+                <div className="relative rounded-[32px] overflow-hidden">
                    <img 
                      src="https://lh3.googleusercontent.com/d/1Peq9T1SXF_hyLRLiSU6KChYARZ0adr70" 
                      alt="Team Collaboration" 
-                     className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-1000" 
+                     className="w-full h-auto object-cover" 
                    />
-                   <div className="absolute inset-0 bg-blue-900/10 mix-blend-multiply pointer-events-none"></div>
                 </div>
-                
-                {/* Decorative Elements */}
-                <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#daa728]/10 rounded-full blur-3xl -z-10"></div>
-                <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#135291]/10 rounded-full blur-3xl -z-10"></div>
               </Reveal>
             </div>
           </div>
@@ -154,14 +149,13 @@ export const AboutPage: React.FC = () => {
 
               {/* Team Member Cards */}
               {teamMembers.map((member, index) => (
-                 <div key={index} className="bg-white rounded-[24px] overflow-hidden shadow-[0_2px_15px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group border border-gray-100 flex flex-col h-full min-h-[420px]">
+                 <div key={index} className="bg-white rounded-[24px] overflow-hidden border border-gray-100 flex flex-col h-full min-h-[420px]">
                     <div className="h-[280px] overflow-hidden relative">
                       <img 
                         src={member.image} 
                         alt={member.name} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                        className="w-full h-full object-cover" 
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                     
                     <div className="p-6">
