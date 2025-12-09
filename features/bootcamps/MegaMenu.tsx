@@ -18,12 +18,15 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
   ];
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto bg-white shadow-2xl z-50 rounded-2xl border border-gray-100 p-8 overflow-hidden">
+    <div className="w-full max-w-[1000px] mx-auto bg-white z-50 rounded-2xl border border-gray-200 p-8 overflow-hidden">
       <div className="grid grid-cols-12 gap-10">
         
         {/* Intro Section */}
         <div className="col-span-12 md:col-span-4 bg-[#f8fafc] -m-8 p-8 flex flex-col justify-center">
-          <h3 className={`${TYPOGRAPHY.header03} font-bold text-[${COLORS.primary[700]}] mb-3`}>
+          <h3 
+            className={`${TYPOGRAPHY.header03} font-bold mb-3`}
+            style={{ color: COLORS.primary[700] }}
+          >
             Explore Bootcamps
           </h3>
           <p className={`${TYPOGRAPHY.body01} text-gray-500 mb-6`}>
@@ -31,7 +34,8 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
           </p>
           <Link 
             to="/bootcamps" 
-            className={`text-[${COLORS.primary[500]}] font-bold hover:underline inline-flex items-center`}
+            className="font-bold hover:underline inline-flex items-center"
+            style={{ color: COLORS.primary[500] }}
             onClick={onItemClick}
           >
             View All Programs &rarr;
@@ -54,7 +58,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
                 {course.icon}
               </div>
               <div>
-                <h4 className={`${TYPOGRAPHY.bodySmall01} font-bold text-gray-900 group-hover:text-[${COLORS.primary[600]}]`}>
+                <h4 className={`${TYPOGRAPHY.bodySmall01} font-bold text-gray-900 group-hover:text-[#114b84]`}>
                   {course.title}
                 </h4>
                 <span className={`${TYPOGRAPHY.bodySmall02} text-gray-400`}>

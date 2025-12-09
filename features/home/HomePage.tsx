@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { CommunityOverlay } from '../../components/CommunityOverlay';
-import { COLORS, TYPOGRAPHY } from '../../constants';
+import { TYPOGRAPHY } from '../../constants';
 import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Briefcase, Quote } from 'lucide-react';
 
 const partners = [
@@ -167,7 +167,7 @@ export const HomePage: React.FC = () => {
         }
         .animate-gradient-text {
           background-size: 200% auto;
-          animation: gradient-flow 6s ease-in-out infinite;
+          animation: gradient-flow 3s ease-in-out infinite;
         }
       `}</style>
 
@@ -194,7 +194,7 @@ export const HomePage: React.FC = () => {
             
             <div>
               <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-8 leading-[1.1]`}>
-                <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-blue-500 to-[#135291]">Ignite</span> Your Passion for <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-emerald-400 to-[#2a9d8f]">Tech</span> at Product Hub Africa!
+                <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-[#00c6ff] to-[#135291]">Ignite</span> Your Passion for <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-[#00ffcc] to-[#2a9d8f]">Tech</span> at Product Hub Africa!
               </h1>
             </div>
 
