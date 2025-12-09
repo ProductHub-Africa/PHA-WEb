@@ -42,7 +42,7 @@ export const COLORS = {
 };
 
 export const TYPOGRAPHY = {
-  header01: 'text-[40px] md:text-[56px] leading-[1.1] tracking-tight font-extrabold',
+  header01: 'text-[40px] md:text-[56px] leading-[1.1] tracking-normal font-extrabold',
   header02: 'text-[24px] md:text-[40px] leading-[1.2] tracking-normal font-bold',
   header03: 'text-[24px] md:text-[28px] leading-[1.3] font-bold',
   body02: 'text-[14px] md:text-[18px] leading-[1.6] font-normal text-slate-600',

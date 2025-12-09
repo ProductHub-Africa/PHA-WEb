@@ -3,7 +3,7 @@ import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { CommunityOverlay } from '../../components/CommunityOverlay';
 import { COLORS, TYPOGRAPHY } from '../../constants';
-import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Briefcase } from 'lucide-react';
+import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Briefcase, Quote } from 'lucide-react';
 
 const partners = [
   { name: 'Alt_School', logo: 'https://lh3.googleusercontent.com/d/1pjaKvAb9hsaVAzjXAvciE-u_ZLnOYlm-' },
@@ -160,6 +160,15 @@ export const HomePage: React.FC = () => {
         .animate-blink {
           animation: blink 0.7s step-end infinite;
         }
+        @keyframes gradient-flow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-text {
+          background-size: 200% auto;
+          animation: gradient-flow 6s ease-in-out infinite;
+        }
       `}</style>
 
       {/* Hero Section */}
@@ -174,9 +183,9 @@ export const HomePage: React.FC = () => {
           
           {/* Left Content */}
           <Reveal width="100%" className="lg:w-1/2 z-10 text-center lg:text-left">
-            <div>
-              <span className="inline-flex items-center h-[42px] bg-blue-50 text-[#135291] px-4 rounded-full font-bold mb-6 mt-3 tracking-wide text-sm border border-blue-100">
-                Build Your Tech Career as a <span className="inline-block transition-all duration-300 border-b-2 border-[#daa728] ml-1">
+            <div className="flex justify-center lg:justify-start">
+              <span className="inline-flex items-center justify-center lg:justify-start bg-blue-50 text-[#135291] px-4 py-2 rounded-full font-bold mb-6 mt-3 tracking-wide text-[11px] sm:text-xs md:text-sm border border-blue-100 whitespace-nowrap">
+                Build Your Tech Career as a <span className="inline-block transition-all duration-300 ml-1 overflow-hidden align-bottom">
                   {text}
                   <span className="animate-blink border-r-2 border-[#daa728] ml-0.5">&nbsp;</span>
                 </span>
@@ -185,7 +194,7 @@ export const HomePage: React.FC = () => {
             
             <div>
               <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-8 leading-[1.1]`}>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-blue-600 to-cyan-500 drop-shadow-[0_0_15px_rgba(19,82,145,0.2)]">Ignite</span> Your Passion for <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-teal-500 to-emerald-400 drop-shadow-[0_0_15px_rgba(42,157,143,0.3)]">Tech</span> at Product Hub Africa!
+                <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-blue-500 to-[#135291]">Ignite</span> Your Passion for <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-emerald-400 to-[#2a9d8f]">Tech</span> at Product Hub Africa!
               </h1>
             </div>
 
@@ -228,19 +237,19 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trusted Partners - Endless Scroll */}
+      {/* Trusted Partners - Endless Scroll - Removed Reveal */}
       <section className="py-[60px] md:py-[100px] bg-white border-y border-gray-50 overflow-hidden group">
         <div className="container mx-auto px-6 mb-16 text-center">
-          <Reveal width="100%">
+          <div>
             <h3 className={`${TYPOGRAPHY.header03} font-bold text-[#08223d] mb-4`}>Our Trusted Partners</h3>
             <p className={`${TYPOGRAPHY.body01} text-gray-500 max-w-2xl mx-auto`}>
               We are proud to collaborate with leading organizations and industry experts.
             </p>
-          </Reveal>
+          </div>
         </div>
         
         <div className="w-full overflow-hidden relative">
-          <div className="flex animate-scroll w-max">
+          <div className="flex animate-scroll w-max" style={{ willChange: 'transform' }}>
              {/* First Set */}
             <div className="flex items-center gap-12 px-6">
               {partners.map((p, i) => (
@@ -352,7 +361,7 @@ export const HomePage: React.FC = () => {
 
                 <Reveal delay={0.4} width="100%" className="h-full">
                    <div className="bg-[#135291] text-white p-5 md:p-10 rounded-xl md:rounded-3xl relative overflow-hidden group border border-white/10 h-full">
-                      <div className="absolute right-0 top-0 p-6 text-white opacity-10 transform group-hover:scale-110 transition-transform duration-500">
+                      <div className="absolute right-0 top-0 p-6 text-white opacity-5 transform group-hover:scale-110 transition-transform duration-500">
                         <Eye size={120} />
                       </div>
                       <div className="relative z-10">
@@ -381,7 +390,7 @@ export const HomePage: React.FC = () => {
               <Reveal width="100%" className="h-full">
                 <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] lg:min-h-[600px] shadow-2xl h-full">
                   <img 
-                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=600" 
+                    src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600" 
                     alt="African Tech Professional" 
                     className="w-full h-full object-cover"
                   />
@@ -460,42 +469,46 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Testimonials - Grid Layout with New Data */}
+      {/* Testimonials - Grid Layout with Same Height */}
       <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <Reveal width="100%">
-            <h2 className={`${TYPOGRAPHY.header02} font-bold text-center text-[#08223d] mb-4`}>What Our Graduates Are Saying</h2>
-            <p className={`${TYPOGRAPHY.body01} text-center text-gray-500 max-w-3xl mx-auto mb-16`}>
-              Discover how our alumni across Africa are testifying to the transformative impact of PHA training on their careers.
-            </p>
+            <div className="text-center mb-16 max-w-4xl mx-auto">
+              <span className="text-[#daa728] font-bold tracking-widest uppercase text-sm mb-4 block">Testimonials</span>
+              <h2 className={`${TYPOGRAPHY.header02} font-bold text-[#08223d] mb-4`}>What Our Graduates Are Saying</h2>
+              <p className={`${TYPOGRAPHY.body01} text-gray-500 max-w-3xl mx-auto`}>
+                Discover how our alumni across Africa are testifying to the transformative impact of PHA training on their careers.
+              </p>
+            </div>
           
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {testimonials.map((t, i) => (
-                <div key={i} className="relative group rounded-xl md:rounded-3xl overflow-hidden h-full min-h-[400px]">
-                  {/* Background Image with Overlay */}
-                  <div className="absolute inset-0 bg-gray-200">
-                    <img 
-                      src={t.image} 
-                      alt={t.name} 
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=0D8ABC&color=fff&size=500&font-size=0.33`;
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                    <div className="absolute inset-0 bg-[#daa728]/20 mix-blend-overlay"></div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative h-full flex flex-col justify-end p-5 md:p-8 text-white">
-                    <div className="mb-2 flex items-center gap-2">
-                       <h4 className="font-bold text-xl">{t.name}</h4>
-                       <span className="text-xl">{t.country}</span>
+                <div key={i} className="h-full bg-gray-50 rounded-2xl p-6 border border-gray-100 flex flex-col">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="relative w-12 h-12 shrink-0">
+                      <img 
+                        src={t.image} 
+                        alt={t.name} 
+                        className="w-full h-full object-cover rounded-full border-2 border-white shadow-sm"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=0D8ABC&color=fff`;
+                        }}
+                      />
+                      <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5 shadow-sm text-sm">
+                        {t.country}
+                      </div>
                     </div>
-                    {/* <p className="text-xs font-bold uppercase tracking-wider text-[#daa728] mb-3">{t.role}</p> */}
-                    <p className="text-[14px] text-gray-200 leading-relaxed opacity-90">
-                      {t.text}
+                    <div>
+                      <h4 className="font-bold text-[#08223d] text-sm md:text-base leading-tight">{t.name}</h4>
+                      <p className="text-xs text-[#135291] font-medium">{t.role}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="relative flex-grow">
+                    <Quote size={20} className="text-[#daa728]/30 absolute -top-1 -left-1 transform -scale-x-100" />
+                    <p className="text-[14px] text-gray-600 leading-relaxed pl-4 relative z-10 italic">
+                      "{t.text}"
                     </p>
                   </div>
                 </div>
@@ -511,7 +524,7 @@ export const HomePage: React.FC = () => {
           <Reveal width="100%">
             <div className="bg-[#135291] rounded-xl md:rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">
               <div className="md:w-1/2 relative h-80 md:h-auto">
-                <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
                 <div className="absolute inset-0 bg-blue-900 opacity-30 mix-blend-multiply"></div>
               </div>
               <div className="md:w-1/2 p-5 md:p-12 lg:p-20 flex flex-col justify-center text-white">
