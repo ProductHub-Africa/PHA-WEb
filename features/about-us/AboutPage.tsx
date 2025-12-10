@@ -79,6 +79,7 @@ export const AboutPage: React.FC = () => {
                    <img 
                      src="https://lh3.googleusercontent.com/d/1Peq9T1SXF_hyLRLiSU6KChYARZ0adr70" 
                      alt="Team Collaboration" 
+                     loading="lazy"
                      className="w-full h-auto object-cover" 
                    />
                 </div>
@@ -94,10 +95,8 @@ export const AboutPage: React.FC = () => {
             <div className="lg:w-1/2">
               <Reveal width="100%" direction="right" className="h-full">
                 <div className="relative h-full min-h-[400px]">
-                  <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800" alt="African Tech Team" className="rounded-xl md:rounded-[40px] shadow-2xl w-full h-full object-cover" />
-                  <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-[#daa728] rounded-full flex items-center justify-center text-[#08223d] font-bold text-xl shadow-lg z-10 hidden md:flex">
-                    PHA
-                  </div>
+                  <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="African Tech Team" className="rounded-xl md:rounded-[40px] shadow-2xl w-full h-full object-cover" />
+                  {/* Removed the PHA circle from here */}
                 </div>
               </Reveal>
             </div>
@@ -132,9 +131,9 @@ export const AboutPage: React.FC = () => {
               
               {/* Card 1: CTA Card */}
               <div className="bg-[#5c46e6] rounded-[32px] p-8 md:p-10 flex flex-col justify-center text-white shadow-xl h-full min-h-[420px]">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">Our fantastic team</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Driven by Purpose</h2>
                 <p className="text-blue-100 text-lg mb-10 leading-relaxed">
-                  These people work on making our product best.
+                  Meet the passionate volunteers and professionals dedicated to democratizing tech education across Africa.
                 </p>
                 <div>
                   <button 
@@ -153,6 +152,7 @@ export const AboutPage: React.FC = () => {
                       <img 
                         src={member.image} 
                         alt={member.name} 
+                        loading="lazy"
                         className="w-full h-full object-cover" 
                       />
                     </div>

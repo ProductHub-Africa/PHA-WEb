@@ -81,7 +81,7 @@ export const BlogPage: React.FC = () => {
 
   return (
     <div 
-      className="w-full pb-[60px] md:pb-[120px] pt-[140px] md:pt-[200px]"
+      className="w-full pb-[100px] md:pb-[160px] pt-[160px] md:pt-[240px]"
       style={{
         background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
         backgroundSize: '30px 30px, 100% 100%'
@@ -89,7 +89,7 @@ export const BlogPage: React.FC = () => {
     >
       <div className="container mx-auto px-6">
         {/* Header */}
-        <Reveal width="100%" className="text-center mb-16">
+        <Reveal width="100%" className="text-center mb-24">
           <span className="text-[#135291] font-bold tracking-wider uppercase text-sm mb-3 block">Our Blog</span>
           <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-6`}>Insights & Perspectives</h1>
           <p className={`${TYPOGRAPHY.body02} max-w-2xl mx-auto text-gray-500`}>
@@ -98,12 +98,12 @@ export const BlogPage: React.FC = () => {
         </Reveal>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16">
+        <div className="flex flex-wrap justify-center gap-4 mb-24">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-2 rounded-full font-medium transition-all duration-300 border ${
+              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 border ${
                 activeCategory === cat
                   ? 'bg-[#135291] text-white border-[#135291]'
                   : 'bg-white text-gray-600 border-gray-200 hover:border-[#135291] hover:text-[#135291]'
@@ -115,8 +115,8 @@ export const BlogPage: React.FC = () => {
         </div>
 
         {/* Featured Post */}
-        <Reveal width="100%" className="mb-20">
-          <div className="group relative rounded-xl md:rounded-3xl overflow-hidden bg-white grid md:grid-cols-2 cursor-pointer border border-gray-100">
+        <Reveal width="100%" className="mb-32">
+          <div className="group relative rounded-xl md:rounded-3xl overflow-hidden bg-white grid md:grid-cols-2 cursor-pointer border border-gray-100 shadow-sm hover:shadow-md transition-all duration-500">
             <div className="relative h-64 md:h-auto overflow-hidden">
                <img 
                  src={featuredPost.image} 
@@ -127,30 +127,30 @@ export const BlogPage: React.FC = () => {
                  Featured
                </div>
             </div>
-            <div className="p-5 md:p-12 flex flex-col justify-center">
-              <div className="flex items-center gap-3 text-sm text-gray-500 mb-4">
+            <div className="p-8 md:p-14 flex flex-col justify-center">
+              <div className="flex items-center gap-3 text-sm text-gray-500 mb-6">
                 <span className="font-bold text-[#daa728]">{featuredPost.category}</span>
                 <span>•</span>
                 <span>{featuredPost.date}</span>
               </div>
-              <h2 className={`${TYPOGRAPHY.header02} mb-4 group-hover:text-[#135291] transition-colors`}>
+              <h2 className={`${TYPOGRAPHY.header02} mb-6 group-hover:text-[#135291] transition-colors leading-tight`}>
                 {featuredPost.title}
               </h2>
-              <p className="text-gray-600 mb-8 leading-relaxed">
+              <p className="text-gray-600 mb-10 leading-relaxed text-lg">
                 {featuredPost.excerpt}
               </p>
               <div className="flex items-center justify-between mt-auto">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                    <User size={20} />
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                    <User size={24} />
                   </div>
                   <div>
-                    <p className="font-bold text-sm text-[#08223d]">{featuredPost.author}</p>
-                    <p className="text-xs text-gray-500">{featuredPost.readTime}</p>
+                    <p className="font-bold text-base text-[#08223d]">{featuredPost.author}</p>
+                    <p className="text-sm text-gray-500">{featuredPost.readTime}</p>
                   </div>
                 </div>
-                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-[#135291] group-hover:text-white group-hover:border-[#135291] transition-all">
-                  <ChevronRight size={20} />
+                <div className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-[#135291] group-hover:text-white group-hover:border-[#135291] transition-all">
+                  <ChevronRight size={24} />
                 </div>
               </div>
             </div>
@@ -158,41 +158,41 @@ export const BlogPage: React.FC = () => {
         </Reveal>
 
         {/* Recent Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {posts.map((post, i) => (
             <Reveal key={i} width="100%" delay={i * 0.1}>
-              <div className="bg-white border border-gray-100 rounded-xl md:rounded-[24px] overflow-hidden transition-all duration-300 group cursor-pointer flex flex-col h-full">
-                <div className="relative h-60 overflow-hidden">
+              <div className="bg-white border border-gray-100 rounded-xl md:rounded-[24px] overflow-hidden transition-all duration-300 group cursor-pointer flex flex-col h-full hover:shadow-lg">
+                <div className="relative h-64 overflow-hidden">
                   <img 
                     src={post.image} 
                     alt={post.title} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
                   />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-[#08223d]">
+                  <div className="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg text-xs font-bold text-[#08223d]">
                     {post.category}
                   </div>
                 </div>
-                <div className="p-5 md:p-8 flex flex-col flex-1">
+                <div className="p-6 md:p-8 flex flex-col flex-1">
                   <div className="flex items-center gap-2 text-xs text-gray-400 mb-4">
                     <Clock size={14} />
                     <span>{post.readTime}</span>
                     <span>•</span>
                     <span>{post.date}</span>
                   </div>
-                  <h3 className={`${TYPOGRAPHY.header03} text-[20px] mb-3 group-hover:text-[#135291] transition-colors`}>
+                  <h3 className={`${TYPOGRAPHY.header03} text-[22px] mb-4 group-hover:text-[#135291] transition-colors leading-snug`}>
                     {post.title}
                   </h3>
-                  <p className="text-gray-500 text-sm mb-6 line-clamp-2">
+                  <p className="text-gray-500 text-base mb-8 line-clamp-3 leading-relaxed">
                     {post.excerpt}
                   </p>
                   <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
                      <div className="flex items-center gap-2">
-                       <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center">
-                         <User size={12} className="text-gray-500" />
+                       <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                         <User size={14} className="text-gray-500" />
                        </div>
-                       <span className="text-xs font-medium text-gray-600">{post.author}</span>
+                       <span className="text-sm font-medium text-gray-600">{post.author}</span>
                      </div>
-                     <span className="text-[#135291] text-xs font-bold group-hover:translate-x-1 transition-transform">Read More &rarr;</span>
+                     <span className="text-[#135291] text-sm font-bold group-hover:translate-x-1 transition-transform">Read More &rarr;</span>
                   </div>
                 </div>
               </div>
@@ -201,19 +201,19 @@ export const BlogPage: React.FC = () => {
         </div>
 
         {/* Newsletter CTA */}
-        <Reveal width="100%" className="mt-24">
-          <div className="bg-[#08223d] rounded-xl md:rounded-3xl p-5 md:p-16 text-center text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#135291] rounded-full blur-[80px] opacity-30 translate-x-1/3 -translate-y-1/3"></div>
-            <div className="relative z-10 max-w-2xl mx-auto">
-               <h2 className={`${TYPOGRAPHY.header02} mb-6`}>Stay in the loop</h2>
-               <p className="text-blue-200 mb-10 text-lg">
+        <Reveal width="100%" className="mt-40">
+          <div className="bg-[#08223d] rounded-xl md:rounded-3xl p-8 md:p-20 text-center text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-[#135291] rounded-full blur-[100px] opacity-30 translate-x-1/3 -translate-y-1/3"></div>
+            <div className="relative z-10 max-w-3xl mx-auto">
+               <h2 className={`${TYPOGRAPHY.header02} mb-8`}>Stay in the loop</h2>
+               <p className="text-blue-200 mb-12 text-xl leading-relaxed">
                  Join 10,000+ subscribers getting the best tech insights, career advice, and community updates delivered to their inbox.
                </p>
-               <div className="flex flex-col sm:flex-row gap-4">
+               <div className="flex flex-col sm:flex-row gap-5 justify-center">
                  <input 
                    type="email" 
                    placeholder="Enter your email address" 
-                   className="flex-1 px-6 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-500/50"
+                   className="w-full sm:w-auto min-w-[320px] px-8 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-4 focus:ring-blue-500/50 text-lg"
                  />
                  <Button size="lg" style={{ backgroundColor: '#daa728', color: '#08223d' }}>Subscribe</Button>
                </div>

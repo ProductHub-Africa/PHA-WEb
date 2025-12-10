@@ -257,6 +257,7 @@ export const HomePage: React.FC = () => {
                    <img 
                      src={p.logo} 
                      alt={p.name} 
+                     loading="lazy"
                      className="h-12 md:h-16 w-auto object-contain" 
                      referrerPolicy="no-referrer"
                    />
@@ -267,6 +268,7 @@ export const HomePage: React.FC = () => {
                    <img 
                      src={p.logo} 
                      alt={p.name} 
+                     loading="lazy"
                      className="h-12 md:h-16 w-auto object-contain" 
                      referrerPolicy="no-referrer"
                    />
@@ -280,6 +282,7 @@ export const HomePage: React.FC = () => {
                    <img 
                      src={p.logo} 
                      alt={p.name} 
+                     loading="lazy"
                      className="h-12 md:h-16 w-auto object-contain" 
                      referrerPolicy="no-referrer"
                    />
@@ -290,6 +293,7 @@ export const HomePage: React.FC = () => {
                    <img 
                      src={p.logo} 
                      alt={p.name} 
+                     loading="lazy"
                      className="h-12 md:h-16 w-auto object-contain" 
                      referrerPolicy="no-referrer"
                    />
@@ -392,6 +396,7 @@ export const HomePage: React.FC = () => {
                   <img 
                     src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600" 
                     alt="African Tech Professional" 
+                    loading="lazy"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/10"></div>
@@ -489,6 +494,7 @@ export const HomePage: React.FC = () => {
                       <img 
                         src={t.image} 
                         alt={t.name} 
+                        loading="lazy"
                         className="w-full h-full object-cover rounded-full border-2 border-white shadow-sm"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
@@ -499,6 +505,7 @@ export const HomePage: React.FC = () => {
                          <img 
                            src={`https://flagcdn.com/w40/${t.countryCode}.png`} 
                            alt={t.countryCode} 
+                           loading="lazy"
                            className="w-full h-full object-cover"
                          />
                       </div>
@@ -528,7 +535,7 @@ export const HomePage: React.FC = () => {
           <Reveal width="100%">
             <div className="bg-[#135291] rounded-xl md:rounded-[40px] overflow-hidden shadow-2xl flex flex-col md:flex-row h-auto min-h-[500px] transform hover:scale-[1.01] transition-transform duration-500">
               <div className="md:w-1/2 relative h-80 md:h-auto">
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Meeting" />
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" loading="lazy" className="w-full h-full object-cover" alt="Meeting" />
                 <div className="absolute inset-0 bg-blue-900 opacity-30 mix-blend-multiply"></div>
               </div>
               <div className="md:w-1/2 p-5 md:p-12 lg:p-20 flex flex-col justify-center text-white">

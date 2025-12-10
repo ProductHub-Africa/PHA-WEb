@@ -170,8 +170,7 @@ export const BootcampsPage: React.FC = () => {
     <div 
       className="w-full pb-[60px] md:pb-[120px] pt-[140px] md:pt-[200px]"
       style={{
-        background: 'radial-gradient(rgba(252, 211, 77, 0.2) 2px, transparent 2px), linear-gradient(to bottom, #f0f6fa, #ffffff)',
-        backgroundSize: '30px 30px, 100% 100%'
+        background: 'linear-gradient(to bottom, #f0f6fa, #ffffff)'
       }}
     >
       <div className="container mx-auto px-6">
@@ -194,7 +193,7 @@ export const BootcampsPage: React.FC = () => {
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayCourses.map((course) => (
-             <div key={course.id} className="bg-white rounded-xl md:rounded-[20px] border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
+             <div key={course.id} className="bg-white rounded-xl md:rounded-[20px] border border-gray-100 overflow-hidden flex flex-col h-full group">
                <div className="p-5 md:p-8 pb-0">
                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-[#135291] mb-6 group-hover:bg-[#135291] group-hover:text-white transition-colors">
                     <Monitor size={24} />
