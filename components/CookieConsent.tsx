@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from './Button';
-import { COLORS } from '../constants';
 
 export const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -8,8 +7,8 @@ export const CookieConsent: React.FC = () => {
   useEffect(() => {
     const consent = localStorage.getItem('pha-cookie-consent');
     if (!consent) {
-      // Small delay to not block initial render
-      const timer = setTimeout(() => setIsVisible(true), 1000);
+      // Small delay to ensure main content loads first
+      const timer = setTimeout(() => setIsVisible(true), 2000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -20,6 +19,7 @@ export const CookieConsent: React.FC = () => {
   };
 
   const handleDecline = () => {
+    localStorage.setItem('pha-cookie-consent', 'false');
     setIsVisible(false);
   };
 

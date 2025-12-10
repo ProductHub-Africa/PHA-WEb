@@ -68,7 +68,6 @@ export const AboutPage: React.FC = () => {
                 <p className={`${TYPOGRAPHY.body02} text-gray-500 mb-0 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0`}>
                   We are a vibrant community of tech enthusiasts, united by our passion for creating scalable, user-centered products that drive positive change across Africa and beyond.
                 </p>
-                {/* Buttons removed as requested */}
               </Reveal>
             </div>
 
@@ -96,7 +95,6 @@ export const AboutPage: React.FC = () => {
               <Reveal width="100%" direction="right" className="h-full">
                 <div className="relative h-full min-h-[400px]">
                   <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800" loading="lazy" alt="African Tech Team" className="rounded-xl md:rounded-[40px] shadow-2xl w-full h-full object-cover" />
-                  {/* Removed the PHA circle from here */}
                 </div>
               </Reveal>
             </div>
@@ -131,9 +129,9 @@ export const AboutPage: React.FC = () => {
               
               {/* Card 1: CTA Card */}
               <div className="bg-[#5c46e6] rounded-[32px] p-8 md:p-10 flex flex-col justify-center text-white shadow-xl h-full min-h-[420px]">
-                <h2 className="text-3xl md:text-4xl font-bold mb-6">Driven by Purpose</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-6">Community & Impact</h2>
                 <p className="text-blue-100 text-lg mb-10 leading-relaxed">
-                  Meet the passionate volunteers and professionals dedicated to democratizing tech education across Africa.
+                  We are a dedicated non-profit organization and ed-tech community. Our team of passionate volunteers works tirelessly to empower African talent through world-class education and mentorship.
                 </p>
                 <div>
                   <button 

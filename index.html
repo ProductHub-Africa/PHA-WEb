@@ -11,7 +11,7 @@
     <style>
       html {
         scroll-behavior: smooth;
-        overflow-x: hidden;
+        /* Removed overflow-x: hidden from html to improve mobile scroll momentum */
       }
       body {
         font-family: 'Inter', sans-serif;
@@ -21,6 +21,8 @@
         -webkit-overflow-scrolling: touch;
         overflow-x: hidden;
         width: 100%;
+        position: relative;
+        touch-action: pan-y;
       }
       h1, h2, h3, h4, h5, h6 {
         font-family: 'Plus Jakarta Sans', sans-serif;

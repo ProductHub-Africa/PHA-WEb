@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { CookieConsent } from './components/CookieConsent';
 
 // Lazy load feature pages for optimization
 const HomePage = lazy(() => import('./features/home/HomePage').then(module => ({ default: module.HomePage })));
@@ -14,6 +13,9 @@ const ContactPage = lazy(() => import('./features/contact-us/ContactPage').then(
 const StemSchoolPage = lazy(() => import('./features/stem-school/StemSchoolPage').then(module => ({ default: module.StemSchoolPage })));
 const FAQPage = lazy(() => import('./features/legal/FAQPage').then(module => ({ default: module.FAQPage })));
 const PrivacyPolicyPage = lazy(() => import('./features/legal/PrivacyPolicyPage').then(module => ({ default: module.PrivacyPolicyPage })));
+
+// Lazy load CookieConsent component
+const CookieConsent = lazy(() => import('./components/CookieConsent').then(module => ({ default: module.CookieConsent })));
 
 // Loading Component
 const PageLoader = () => (
@@ -57,7 +59,9 @@ const App: React.FC = () => {
           </Suspense>
         </main>
         <Footer />
-        <CookieConsent />
+        <Suspense fallback={null}>
+          <CookieConsent />
+        </Suspense>
       </div>
     </Router>
   );
