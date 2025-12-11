@@ -7,31 +7,31 @@ const teamMembers = [
   {
     name: "Victoria Oladosu",
     role: "Founder, Lead Community manager",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400",
+    image: "https://lh3.googleusercontent.com/d/1ajaIVP0q26_x-z6V_ehyAae1r9JHaYIK",
     country: "Nigerian"
   },
   {
     name: "Dosunmu Aishat",
-    role: "Programs and Community Manager",
-    image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?auto=format&fit=crop&q=80&w=400",
+    role: "Programs, Community Manager",
+    image: "https://lh3.googleusercontent.com/d/1Sfc2MMB-9golihdHp_pdfga-JcDp-ySn",
     country: "Nigerian"
   },
   {
     name: "Osaite Emmanuel",
-    role: "Lead Designer at PHA",
-    image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&q=80&w=400",
+    role: "Lead Designer",
+    image: "https://lh3.googleusercontent.com/d/1KBrlqHNSh7fFsEgsoQAIBc389WAfsyrn",
     country: "Nigerian"
   },
   {
     name: "Adegboye Opeyemi",
-    role: "Head of Operations",
-    image: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?auto=format&fit=crop&q=80&w=400",
+    role: "Head of Operations, Digital Designer",
+    image: "https://lh3.googleusercontent.com/d/16mEKCaKdIW7tQruX7GjW5CplXDZrQoWE",
     country: "Nigerian"
   },
   {
-    name: "Product Hub Africa",
+    name: "Temitope Abike",
     role: "Content Specialist",
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=400",
+    image: "https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png",
     country: "Nigerian"
   },
 ];
@@ -78,7 +78,8 @@ export const AboutPage: React.FC = () => {
                    <img 
                      src="https://lh3.googleusercontent.com/d/1Peq9T1SXF_hyLRLiSU6KChYARZ0adr70" 
                      alt="Team Collaboration" 
-                     loading="lazy"
+                     loading="eager"
+                     fetchPriority="high"
                      className="w-full h-auto object-cover" 
                    />
                 </div>
@@ -128,7 +129,7 @@ export const AboutPage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               
               {/* Card 1: CTA Card */}
-              <div className="bg-[#5c46e6] rounded-[32px] p-8 md:p-10 flex flex-col justify-center text-white shadow-xl h-full min-h-[420px]">
+              <div className="bg-[#5c46e6] rounded-[32px] p-8 md:p-10 flex flex-col justify-center text-white shadow-xl h-full min-h-[440px]">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Community & Impact</h2>
                 <p className="text-blue-100 text-lg mb-10 leading-relaxed">
                   We are a dedicated non-profit organization and ed-tech community. Our team of passionate volunteers works tirelessly to empower African talent through world-class education and mentorship.
@@ -145,32 +146,36 @@ export const AboutPage: React.FC = () => {
 
               {/* Team Member Cards */}
               {teamMembers.map((member, index) => (
-                 <div key={index} className="bg-white rounded-[24px] overflow-hidden border border-gray-100 flex flex-col h-full min-h-[420px]">
-                    <div className="h-[280px] overflow-hidden relative">
+                 <div key={index} className="bg-white rounded-[24px] overflow-hidden border border-gray-100 flex flex-col h-full">
+                    <div className="h-[400px] overflow-hidden relative bg-gray-50 flex items-center justify-center">
                       <img 
                         src={member.image} 
                         alt={member.name} 
                         loading="lazy"
-                        className="w-full h-full object-cover" 
+                        className={`w-full h-full ${
+                          member.name === "Temitope Abike" 
+                            ? "object-contain p-20" 
+                            : "object-cover object-top"
+                        }`} 
                       />
                     </div>
                     
-                    <div className="p-6">
+                    <div className="p-4 bg-white flex-grow flex flex-col justify-center">
                       <div className="flex justify-between items-start">
                         <div className="pr-2">
-                          <h3 className="text-lg font-bold text-[#08223d] mb-1">{member.name}</h3>
+                          <h3 className="text-lg font-bold text-[#08223d] mb-0.5">{member.name}</h3>
                           <p className="text-sm text-gray-500 font-medium">{member.role}</p>
                         </div>
                         
-                        <div className="flex space-x-2 shrink-0 pt-1">
-                          <a href={`mailto:info@producthubafrica.org`} className="text-gray-400 hover:text-[#135291] transition-colors p-1" aria-label="Email">
-                            <Mail size={18} />
+                        <div className="flex space-x-1 shrink-0 pt-1">
+                          <a href={`mailto:info@producthubafrica.org`} className="text-gray-400 hover:text-[#135291] transition-colors p-1.5" aria-label="Email">
+                            <Mail size={16} />
                           </a>
-                          <a href="#" className="text-gray-400 hover:text-[#0077b5] transition-colors p-1" aria-label="LinkedIn">
-                            <Linkedin size={18} />
+                          <a href="#" className="text-gray-400 hover:text-[#0077b5] transition-colors p-1.5" aria-label="LinkedIn">
+                            <Linkedin size={16} />
                           </a>
-                          <a href="#" className="text-gray-400 hover:text-black transition-colors p-1" aria-label="Twitter">
-                            <Twitter size={18} />
+                          <a href="#" className="text-gray-400 hover:text-black transition-colors p-1.5" aria-label="Twitter">
+                            <Twitter size={16} />
                           </a>
                         </div>
                       </div>

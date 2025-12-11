@@ -179,7 +179,7 @@ export const HomePage: React.FC = () => {
           backgroundSize: '30px 30px, 100% 100%'
         }}
       >
-        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-8">
+        <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           
           {/* Left Content */}
           <Reveal width="100%" className="lg:w-1/2 z-10 text-center lg:text-left">
@@ -220,7 +220,7 @@ export const HomePage: React.FC = () => {
           </Reveal>
 
           {/* Right Images Grid */}
-          <div className="lg:w-1/2 grid grid-cols-2 gap-8 mt-8 lg:mt-0">
+          <div className="lg:w-1/2 grid grid-cols-2 gap-6 lg:gap-8 mt-8 lg:mt-0">
             <Reveal delay={0.2} direction="left" className="w-full">
               <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=600&h=600" alt="Tech 1" className="rounded-xl md:rounded-3xl object-cover w-full h-40 sm:h-56 md:h-72 shadow-xl transform hover:scale-[1.02] transition-transform duration-700" />
             </Reveal>
@@ -307,11 +307,11 @@ export const HomePage: React.FC = () => {
       {/* Modern Mission & Vision Section */}
       <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
-          <div className="bg-[#08223d] rounded-xl md:rounded-[40px] p-5 md:p-16 text-white shadow-2xl overflow-hidden relative">
+          <div className="bg-[#08223d] rounded-xl md:rounded-[40px] p-5 md:p-16 text-white shadow-2xl overflow-hidden relative transform-gpu">
             
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#135291] rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#daa728] rounded-full blur-[80px] opacity-10 translate-y-1/2 -translate-x-1/2"></div>
+            {/* Background Decoration - Optimized blurs */}
+            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#135291] rounded-full blur-[60px] opacity-20 -translate-y-1/2 translate-x-1/2 will-change-transform"></div>
+            <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-[#daa728] rounded-full blur-[50px] opacity-10 translate-y-1/2 -translate-x-1/2 will-change-transform"></div>
 
             <div className="relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-20">
               {/* Left Column: Stats & Intro */}
