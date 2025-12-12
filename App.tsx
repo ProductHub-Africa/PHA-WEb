@@ -9,6 +9,7 @@ const BootcampsPage = lazy(() => import('./features/bootcamps/BootcampsPage').th
 const AboutPage = lazy(() => import('./features/about-us/AboutPage').then(module => ({ default: module.AboutPage })));
 const CommunityPage = lazy(() => import('./features/community/CommunityPage').then(module => ({ default: module.CommunityPage })));
 const BlogPage = lazy(() => import('./features/blog/BlogPage').then(module => ({ default: module.BlogPage })));
+const BlogPostPage = lazy(() => import('./features/blog/BlogPostPage').then(module => ({ default: module.BlogPostPage })));
 const ContactPage = lazy(() => import('./features/contact-us/ContactPage').then(module => ({ default: module.ContactPage })));
 const StemSchoolPage = lazy(() => import('./features/stem-school/StemSchoolPage').then(module => ({ default: module.StemSchoolPage })));
 const FAQPage = lazy(() => import('./features/legal/FAQPage').then(module => ({ default: module.FAQPage })));
@@ -51,6 +52,7 @@ const App: React.FC = () => {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
               <Route path="/stem-school" element={<StemSchoolPage />} />
               <Route path="/faq" element={<FAQPage />} />

@@ -28,3 +28,18 @@ export interface StatItem {
   value: string;
   icon?: React.ReactNode;
 }
+
+export interface BlogPost {
+  id: string;
+  slug?: string; // URL friendly ID
+  title: string;
+  excerpt: string;
+  content?: any; // For Portable Text
+  author: string;
+  authorImage?: string;
+  date: string;
+  readTime: string;
+  category: string;
+  image: string;
+  isFeatured?: boolean;
+}
