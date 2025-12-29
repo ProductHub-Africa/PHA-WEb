@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TYPOGRAPHY } from '../../constants';
-import { Clock, User, ChevronRight, PenTool, Loader2, Layers } from 'lucide-react';
+import { Clock, User, ChevronRight, Loader2, Layers } from 'lucide-react';
 import { Reveal } from '../../components/Reveal';
 import { BlogService } from '../../services/blogService';
 import { BlogPost } from '../../types';

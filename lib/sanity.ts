@@ -1,1 +1,1 @@
-// Sanity Integration Removed.
+// Sanity Integration Removed. No logic remains to trigger TS6133.
