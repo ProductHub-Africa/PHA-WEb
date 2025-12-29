@@ -1,5 +1,7 @@
+
 import React, { Suspense, lazy } from 'react';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+// Fix: Ensure Router (HashRouter/BrowserRouter), Routes, Route, and useLocation are correctly imported from react-router-dom
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 

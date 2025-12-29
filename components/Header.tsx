@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
+// Fix: Ensure Link and useLocation are correctly imported from react-router-dom
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from './Button';

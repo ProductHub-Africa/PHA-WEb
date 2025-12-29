@@ -1,4 +1,6 @@
+
 import React from 'react';
+// Fix: Ensure Link is correctly imported from react-router-dom
 import { Link } from 'react-router-dom';
 import { COLORS, TYPOGRAPHY } from '../../constants';
 import { BookOpen, Code, PenTool, Layout, ShieldCheck, Database } from 'lucide-react';
