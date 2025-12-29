@@ -1,53 +1,26 @@
-# Sanity Studio Setup Guide
+# Product Hub Africa - Sanity CMS Setup
 
-You have connected your React App to Sanity, but now you need to configure the database structure (Schemas) and add content.
+## Final "Go-Live" Checklist
+Before you start writing content, ensure these 3 things are true:
 
-## Step 1: Initialize the Studio
-Run this command in your main project folder (or a separate terminal). It will create a new folder called `studio` inside your project.
+1.  **Project IDs Match**: The ID in `/lib/sanity.ts` (React App) must be identical to the ID in `/sanity-setup/sanity.config.ts` (Studio).
+2.  **CORS is Set**: In [manage.sanity.io](https://manage.sanity.io):
+    - Go to **API > CORS origins**.
+    - Add `http://localhost:5173`.
+    - **Crucial**: Check the box "Allow credentials".
+3.  **Local Studio Running**:
+    - Open a new terminal.
+    - `cd sanity-setup`
+    - `npm install`
+    - `npm run dev` (Access via http://localhost:3333)
 
-```bash
-# Initialize a new Sanity project using your existing Project ID
-npm create sanity@latest -- --project m47z9y0m --dataset production --output-path studio
-```
+## Managing Schemas from VS Code
+You have full control. To add a new section to your website (e.g., "Events"):
+1.  Create `schemas/event.js`.
+2.  Define your fields (title, date, location).
+3.  Add it to the `types` array in `sanity.config.ts`.
 
-**When prompted:**
-1.  **Log in** if asked.
-2.  **TypeScript?** You can say **No** (JavaScript is easier for simple schemas) or Yes (if you prefer).
-3.  **Project template?** Select **Clean project with no predefined schemas**.
-
-## Step 2: Add the Schemas
-Once the installation finishes, you will see a `studio` folder.
-1.  Navigate to `studio/schemas/`
-2.  Copy the `post.js`, `author.js`, and `category.js` files from the `sanity-setup/schemas/` folder (in this project) into `studio/schemas/`.
-3.  Open `studio/schemas/index.js` (or `index.ts`) and register them:
-
-```javascript
-import post from './post'
-import author from './author'
-import category from './category'
-
-export const schemaTypes = [post, author, category]
-```
-
-## Step 3: Run the Studio
-```bash
-cd studio
-npm run dev
-```
-Open `http://localhost:3333` in your browser.
-
-## Step 4: Add Content
-1.  **Create an Author**: Go to the "Author" tab and create a profile (e.g., "Victoria Oladosu").
-2.  **Create a Category**: Create a category called "Product Management".
-3.  **Create a Post**:
-    *   **Title**: "The Future of Product Management"
-    *   **Slug**: Click "Generate" (Important! The website looks for this).
-    *   **Author**: Select the author you created.
-    *   **Category**: Select the category.
-    *   **Published At**: Set to today/now.
-    *   **Main Image**: Upload an image.
-    *   **Body**: Type some text.
-4.  **Publish**: Click the green "Publish" button at the bottom.
-
-## Step 5: Refresh Website
-Go back to your React website (`http://localhost:5173`). It should now fetch and display your new blog post instead of the mock data!
+## Troubleshooting
+- **Error 404/403**: Usually means the Project ID is wrong or the dataset isn't named "production".
+- **CORS Error**: Usually means you forgot to add the URL in the Sanity dashboard or didn't check "Allow credentials".
+- **Missing Images**: Ensure you use the `urlFor` helper provided in `lib/sanity.ts` to convert Sanity's internal references into usable URLs.

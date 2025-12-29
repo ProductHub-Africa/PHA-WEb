@@ -31,10 +31,10 @@ export interface StatItem {
 
 export interface BlogPost {
   id: string;
-  slug?: string; // URL friendly ID
+  slug?: string;
   title: string;
   excerpt: string;
-  content?: any; // For Portable Text
+  content?: string;
   author: string;
   authorImage?: string;
   date: string;

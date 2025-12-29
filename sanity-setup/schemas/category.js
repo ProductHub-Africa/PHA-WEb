@@ -4,14 +4,17 @@ export default {
   type: 'document',
   fields: [
     {
-      name: 'title',
-      title: 'Title',
+      name: 'name',
+      title: 'Name',
       type: 'string',
+      description: 'The name of the category (e.g., Product Management, Career, Tech Trends).',
+      validation: Rule => Rule.required(),
     },
     {
       name: 'description',
       title: 'Description',
       type: 'text',
+      description: 'A brief explanation of what this category covers.',
     },
   ],
 }
