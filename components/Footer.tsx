@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
               <ul className="space-y-4">
                 <li><Link to="/community" className="text-gray-300 hover:text-[#daa728] text-sm">Community</Link></li>
                 <li><a href="mailto:producthubafrica@gmail.com?subject=Partnership Inquiry" className="text-gray-300 hover:text-[#daa728] text-sm">Partnership</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-[#daa728] text-sm">Donations</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-[#daa728] text-sm">Sponsor</a></li>
                 <li><button onClick={() => setIsVolunteerOpen(true)} className="text-gray-300 hover:text-[#daa728] text-sm text-left">Volunteer</button></li>
               </ul>
             </div>

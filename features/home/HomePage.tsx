@@ -169,6 +169,16 @@ export const HomePage: React.FC = () => {
           background-size: 200% auto;
           animation: gradient-flow 3s ease-in-out infinite;
         }
+        
+        /* Mobile Adjustments for Speed - Set to even slower values */
+        @media (max-width: 768px) {
+          .animate-scroll {
+            animation-duration: 60s;
+          }
+          .animate-gradient-text {
+            animation-duration: 10s;
+          }
+        }
       `}</style>
 
       {/* Hero Section */}
@@ -388,16 +398,16 @@ export const HomePage: React.FC = () => {
       {/* Tracks Section */}
       <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-stretch">
             {/* Left Image Card */}
-            <div className="lg:w-1/3">
-              <Reveal width="100%" className="h-full">
-                <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] lg:min-h-[600px] shadow-2xl h-full">
+            <div className="lg:w-1/3 flex">
+              <Reveal width="100%" className="h-full w-full flex">
+                <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] w-full shadow-2xl h-full">
                   <img 
                     src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600" 
                     alt="African Tech Professional" 
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black/10"></div>
                 </div>
