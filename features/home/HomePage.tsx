@@ -263,7 +263,7 @@ export const HomePage: React.FC = () => {
         <div className="w-full overflow-hidden relative">
           <div className="flex animate-scroll w-max" style={{ willChange: 'transform' }}>
              {/* First Set */}
-            <div className="flex items-center gap-12 px-6">
+            <div className="flex items-center gap-[20px] px-6">
               {partners.map((p, i) => (
                  <div key={`p1-${i}`} className="flex items-center justify-center shrink-0 min-w-[150px] opacity-70 hover:opacity-100 transition-opacity duration-300">
                    <img 
@@ -288,7 +288,7 @@ export const HomePage: React.FC = () => {
                ))}
             </div>
             {/* Second Set (Duplicate for smooth scroll) */}
-            <div className="flex items-center gap-12 px-6">
+            <div className="flex items-center gap-[20px] px-6">
                {partners.map((p, i) => (
                  <div key={`p2-${i}`} className="flex items-center justify-center shrink-0 min-w-[150px] opacity-70 hover:opacity-100 transition-opacity duration-300">
                    <img 

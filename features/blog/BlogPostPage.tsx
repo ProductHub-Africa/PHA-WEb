@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { TYPOGRAPHY, COLORS } from '../../constants';
@@ -72,7 +73,7 @@ export const BlogPostPage: React.FC = () => {
 
         {/* Header Content */}
         <div className="mb-16">
-           <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-10 leading-[1.15] tracking-tight`}>
+           <h1 className="text-[32px] md:text-[56px] font-extrabold text-[#08223d] mb-10 leading-[1.15] tracking-tight">
              {post.title}
            </h1>
            
@@ -86,7 +87,7 @@ export const BlogPostPage: React.FC = () => {
                     )}
                  </div>
                  <div>
-                    <p className="font-black text-[#08223d] leading-none mb-1">{post.author}</p>
+                    <p className="text-[16px] font-black text-[#08223d] leading-none mb-1">{post.author}</p>
                     <p className="text-xs uppercase tracking-wider font-bold text-gray-400">Author</p>
                  </div>
               </div>
