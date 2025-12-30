@@ -1,5 +1,6 @@
-/** 
- * Sanity Integration Removed. 
- * This file is minimal to satisfy existing imports without causing TS errors.
+/**
+ * Sanity Integration Removed.
+ * This file is kept as a minimal export to prevent import errors in other files.
  */
-export {};
+export const sanityClient = null;
+export default null;
