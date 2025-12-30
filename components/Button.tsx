@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { COLORS } from '../constants';
 
@@ -18,10 +19,9 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Changed rounded to rounded-full for Circle.so style
-  const baseStyles = "inline-flex items-center justify-center rounded-full transition-colors duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed";
+  // Added h-[46px] and md:h-auto to maintain exact mobile height requirement
+  const baseStyles = "inline-flex items-center justify-center rounded-full transition-colors duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed h-[46px] md:h-auto";
   
-  // Increased horizontal padding for pill shape
   const sizeStyles = {
     sm: "px-5 py-2 text-[14px]",
     md: "px-8 py-3 text-[16px]",

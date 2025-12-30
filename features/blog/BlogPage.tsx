@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react';
+
+import { ArrowRight, Filter, Layers, Loader2, Search, SortAsc, SortDesc, User } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TYPOGRAPHY } from '../../constants';
-import { Clock, User, ChevronRight, Loader2, Layers, Search, Filter, SortAsc, SortDesc, ArrowRight } from 'lucide-react';
 import { Reveal } from '../../components/Reveal';
+import { TYPOGRAPHY } from '../../constants';
 import { BlogService } from '../../services/blogService';
 import { BlogPost } from '../../types';
 
@@ -77,9 +78,8 @@ export const BlogPage: React.FC = () => {
           </p>
         </Reveal>
 
-        {/* Toolbar: Search, Filter, Sort */}
-        <div className="flex flex-col lg:flex-row gap-6 items-center justify-between mb-16 p-6 bg-gray-50 rounded-[24px] border border-gray-100">
-          
+        {/* Toolbar: Search (Retained as per request "after the search component") */}
+        <div className="flex flex-col lg:flex-row gap-6 items-center justify-between mb-12 p-6 bg-gray-50 rounded-[24px] border border-gray-100">
           {/* Search */}
           <div className="relative w-full lg:max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
@@ -92,27 +92,7 @@ export const BlogPage: React.FC = () => {
             />
           </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-             <div className="flex items-center gap-2 mr-4 text-sm font-bold text-gray-400">
-               <Filter size={16} /> Filters:
-             </div>
-             {availableTags.slice(0, 5).map(tag => (
-               <button
-                 key={tag}
-                 onClick={() => setSelectedTag(tag)}
-                 className={`px-4 py-2 rounded-lg text-xs font-bold transition-all border ${
-                   selectedTag === tag 
-                    ? 'bg-[#135291] text-white border-[#135291]' 
-                    : 'bg-white text-gray-500 border-gray-100 hover:border-gray-300'
-                 }`}
-               >
-                 {tag}
-               </button>
-             ))}
-          </div>
-
-          {/* Sort */}
+          {/* Sort Control */}
           <div className="flex items-center gap-3 shrink-0">
              <button 
                onClick={() => setSortBy(sortBy === 'newest' ? 'oldest' : 'newest')}
@@ -122,6 +102,23 @@ export const BlogPage: React.FC = () => {
                {sortBy === 'newest' ? 'Newest First' : 'Oldest First'}
              </button>
           </div>
+        </div>
+
+        {/* Categories (Styled to match image) */}
+        <div className="flex flex-wrap gap-3 mb-10 overflow-x-auto pb-4 scrollbar-hide">
+          {availableTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all border whitespace-nowrap ${
+                selectedTag === tag 
+                  ? 'bg-[#135291] text-white border-[#135291] shadow-md' 
+                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+              }`}
+            >
+              {tag === 'All' ? 'View all' : tag}
+            </button>
+          ))}
         </div>
 
         {/* Main Feed */}
@@ -140,47 +137,62 @@ export const BlogPage: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {displayedPosts.map((post, i) => (
                 <Reveal key={post.id} width="100%" delay={i % 3 * 0.1}>
-                  <Link to={`/blog/${post.slug}`} className="group flex flex-col h-full bg-white rounded-[24px] overflow-hidden border border-transparent hover:border-gray-100 hover:shadow-2xl transition-all duration-500">
-                    <div className="relative h-64 overflow-hidden">
+                  <Link 
+                    to={`/blog/${post.slug}`} 
+                    className="group flex flex-col h-full bg-white rounded-[32px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500"
+                  >
+                    {/* Card Image Container */}
+                    <div className="relative p-4 pb-0">
+                      <div className="aspect-[16/10] rounded-[24px] overflow-hidden relative">
                         <img 
                           src={post.image} 
                           alt={post.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200';
+                          }}
                         />
-                        <div className="absolute top-4 left-4 flex gap-2">
-                           {post.tags?.slice(0, 2).map(tag => (
-                             <span key={tag} className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black text-[#135291] uppercase tracking-wider shadow-sm">
-                               {tag}
-                             </span>
-                           ))}
+                        {/* Category Overlay */}
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-[#135291] text-white text-[10px] md:text-[11px] font-bold px-4 py-1.5 rounded-full shadow-lg">
+                            {post.category || 'Insights'}
+                          </span>
                         </div>
+                      </div>
                     </div>
-                    <div className="p-8 flex flex-col flex-1">
-                        <div className="flex items-center gap-3 text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">
-                          <span>{new Date(post.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                          <span className="w-1 h-1 bg-gray-200 rounded-full"></span>
-                          <span>{post.readTime}</span>
+
+                    {/* Content Container */}
+                    <div className="p-7 pt-6 flex flex-col flex-1">
+                      <h3 className="text-[20px] font-bold text-gray-900 mb-3 leading-tight line-clamp-2 transition-colors group-hover:text-[#135291]">
+                        {post.title}
+                      </h3>
+                      <p className="text-gray-400 text-[14px] mb-8 line-clamp-2 leading-relaxed font-normal">
+                        {post.excerpt}
+                      </p>
+
+                      {/* Author Info / Footer */}
+                      <div className="mt-auto flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 border border-gray-50 flex items-center justify-center shrink-0">
+                          {post.authorImage ? (
+                            <img src={post.authorImage} alt={post.author} className="w-full h-full object-cover" />
+                          ) : (
+                            <User size={18} className="text-gray-400" />
+                          )}
                         </div>
-                        <h3 className="text-xl font-bold text-[#08223d] mb-4 group-hover:text-[#135291] transition-colors leading-tight line-clamp-2">
-                          {post.title}
-                        </h3>
-                        <p className="text-gray-500 text-sm mb-8 line-clamp-3 leading-relaxed">
-                          {post.excerpt}
-                        </p>
-                        <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
-                                <User size={14} className="text-gray-400" />
-                              </div>
-                              <span className="text-xs font-bold text-gray-700">{post.author}</span>
-                            </div>
-                            <span className="text-[#135291] text-xs font-black uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
-                              Read <ChevronRight size={14} />
-                            </span>
+                        <div className="overflow-hidden">
+                          <p className="text-[14px] font-bold text-gray-900 leading-none mb-1.5 truncate">
+                            {post.author}
+                          </p>
+                          <div className="flex items-center text-[12px] text-gray-400 font-medium whitespace-nowrap">
+                            <span>{post.date}</span>
+                            <span className="mx-2 text-gray-200">•</span>
+                            <span>{post.readTime}</span>
+                          </div>
                         </div>
+                      </div>
                     </div>
                   </Link>
                 </Reveal>

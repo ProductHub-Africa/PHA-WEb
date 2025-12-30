@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
@@ -146,8 +147,9 @@ export const HomePage: React.FC = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        /* Sped up animation (10s base, 30s mobile) */
         .animate-scroll {
-          animation: scroll 20s linear infinite;
+          animation: scroll 10s linear infinite;
         }
         /* Pause animation on hover */
         .group:hover .animate-scroll {
@@ -170,10 +172,10 @@ export const HomePage: React.FC = () => {
           animation: gradient-flow 3s ease-in-out infinite;
         }
         
-        /* Mobile Adjustments for Speed - Set to even slower values */
+        /* Mobile Adjustments for Speed - set to 30s (2x faster than previous 60s) */
         @media (max-width: 768px) {
           .animate-scroll {
-            animation-duration: 60s;
+            animation-duration: 30s;
           }
           .animate-gradient-text {
             animation-duration: 10s;
@@ -247,7 +249,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trusted Partners - Endless Scroll - Removed Reveal */}
+      {/* Trusted Partners - Endless Scroll - Sped up by lowering animation duration */}
       <section className="py-[60px] md:py-[100px] bg-white border-y border-gray-50 overflow-hidden group">
         <div className="container mx-auto px-6 mb-16 text-center">
           <div>
@@ -395,14 +397,14 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Tracks Section */}
+      {/* Tracks Section - Reduced image height on mobile as requested */}
       <section className="py-[60px] md:py-[120px] bg-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-stretch">
-            {/* Left Image Card */}
+            {/* Left Image Card - Height reduced for mobile */}
             <div className="lg:w-1/3 flex">
               <Reveal width="100%" className="h-full w-full flex">
-                <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[400px] w-full shadow-2xl h-full">
+                <div className="bg-[#f4a261] rounded-xl md:rounded-[32px] relative overflow-hidden min-h-[250px] md:min-h-[400px] w-full shadow-2xl h-full">
                   <img 
                     src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600" 
                     alt="African Tech Professional" 
