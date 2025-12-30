@@ -54,7 +54,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
-  const inputClasses = "w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium";
+  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium";
   const labelClasses = "block text-sm font-bold text-gray-700 mb-2.5";
 
   return (
@@ -70,27 +70,27 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
         onClick={onClose}
       />
 
-      {/* Drawer Panel - Flex Layout for sticky footer */}
-      <div className="relative w-full max-w-[600px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+      {/* Drawer Panel - Flex Layout for sticky header */}
+      <div className="relative w-full max-w-[620px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
         
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto p-8 md:p-10">
-          
-          {/* Header */}
-          <div className="flex justify-between items-center mb-10">
-            <div>
-              <h2 id="community-overlay-title" className={`${TYPOGRAPHY.header02} text-[#08223d] mb-2`}>Join the Community</h2>
-              <p className="text-gray-500">Join 5,000+ techies across Africa.</p>
-            </div>
-            <button 
-              onClick={onClose}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="Close community overlay"
-            >
-              <X size={28} className="text-gray-400 hover:text-gray-600" />
-            </button>
+        {/* Sticky Header */}
+        <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
+          <div>
+            <h2 id="community-overlay-title" className="text-2xl font-extrabold text-[#08223d] mb-1">Join the Community</h2>
+            <p className="text-gray-500 text-xs">Join 5,000+ techies across Africa.</p>
           </div>
+          <button 
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Close community overlay"
+          >
+            <X size={24} className="text-gray-400 hover:text-gray-600" />
+          </button>
+        </div>
 
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-8 md:p-10 scrollbar-hide">
+          
           {/* Form */}
           <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             
@@ -223,19 +223,17 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                 </div>
               </div>
             </div>
+
+            <div className="pt-8">
+              <Button fullWidth size="lg">Join Now</Button>
+              <p className="text-center text-xs text-gray-400 mt-4">
+                By joining, you agree to our Terms of Service and Privacy Policy.
+              </p>
+            </div>
           </form>
           
           <div className="h-10"></div> {/* Spacer for scroll */}
         </div>
-
-        {/* Sticky Footer Button */}
-        <div className="p-5 md:p-10 bg-white border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
-          <Button fullWidth size="lg">Join Now</Button>
-          <p className="text-center text-sm text-gray-400 mt-4">
-            By joining, you agree to our Terms of Service and Privacy Policy.
-          </p>
-        </div>
-
       </div>
       
       <style>{`

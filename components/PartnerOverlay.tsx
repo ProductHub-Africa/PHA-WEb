@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { X, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
@@ -96,25 +95,27 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
     setSubmitted(true);
   };
 
-  const inputClasses = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
+  const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
   const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
 
-      <div className="relative w-full max-w-[650px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
-        <div className="flex-1 overflow-y-auto p-6 md:p-10">
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-2`}>Partner & Sponsor</h2>
-              <p className="text-gray-500 text-sm">Collaborate with Product Hub Africa.</p>
-            </div>
-            <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <X size={24} className="text-gray-400" />
-            </button>
+      <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+        
+        {/* Sticky Header */}
+        <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
+          <div>
+            <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">Partner & Sponsor</h2>
+            <p className="text-gray-500 text-xs">Collaborate with Product Hub Africa.</p>
           </div>
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <X size={24} className="text-gray-400" />
+          </button>
+        </div>
 
+        <div className="flex-1 overflow-y-auto p-6 md:p-10 scrollbar-hide">
           {submitted ? (
             <div className="py-20 text-center">
               <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -218,7 +219,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
 
               <section>
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">5. Motivation *</h4>
-                <textarea required rows={4} className={`${inputClasses} resize-none`} placeholder="Why are you interested in supporting Product Hub Africa, and what impact would you like to help create?" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder="Why are you interested in supporting Product Hub Africa, and what impact would you like to help create?" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
               </section>
 
               <section>

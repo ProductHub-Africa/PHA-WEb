@@ -10,7 +10,7 @@ import { BlogPost } from '../../types';
 const BlogSkeleton = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {[1, 2, 3, 4, 5, 6].map((i) => (
-      <div key={i} className="bg-white card-radius border border-gray-100 overflow-hidden animate-pulse">
+      <div key={i} className="bg-white card-radius border-[1.5px] border-gray-100 overflow-hidden animate-pulse">
         <div className="aspect-[16/10] bg-gray-100" />
         <div className="p-6">
           <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
@@ -78,7 +78,7 @@ export const BlogPage: React.FC = () => {
           </p>
         </Reveal>
 
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 p-4 bg-gray-50 card-radius border border-gray-100">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 p-4 bg-gray-50 card-radius border-[1.5px] border-gray-100">
           <div className="relative w-full md:max-w-xs">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input type="text" placeholder="Search..." className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg outline-none text-sm" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
@@ -101,19 +101,25 @@ export const BlogPage: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedPosts.map((post) => (
-              <Link key={post.id} to={`/blog/${post.slug}`} className="group bg-white card-radius overflow-hidden border border-gray-100 transition-all flex flex-col h-full shadow-none">
+              <Link key={post.id} to={`/blog/${post.slug}`} className="group bg-white card-radius overflow-hidden border-[1.5px] border-gray-100 transition-all flex flex-col h-full shadow-none hover:border-[#135291]/20">
                 <div className="aspect-[16/10] overflow-hidden relative">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
                   <div className="absolute top-3 left-3"><span className="bg-[#135291] text-white text-[10px] font-bold px-3 py-1 rounded-full">{post.category}</span></div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-[#135291]">{post.title}</h3>
-                  <p className="text-gray-400 text-xs mb-6 line-clamp-2">{post.excerpt}</p>
+                  <h3 className="text-xl font-extrabold text-[#08223d] mb-4 leading-tight group-hover:text-[#135291] uppercase">{post.title}</h3>
+                  <p className="text-gray-400 text-sm mb-8 line-clamp-2">{post.excerpt}</p>
                   <div className="mt-auto flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><User size={14} className="text-gray-400" /></div>
+                    <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center shrink-0 border border-gray-100">
+                      {post.authorImage ? (
+                        <img src={post.authorImage} alt={post.author} className="w-full h-full object-cover rounded-full" />
+                      ) : (
+                        <User size={16} className="text-gray-400" />
+                      )}
+                    </div>
                     <div>
-                      <p className="text-xs font-bold text-gray-900 leading-none">{post.author}</p>
-                      <p className="text-[10px] text-gray-400 mt-1">{post.date} • {post.readTime}</p>
+                      <p className="text-sm font-bold text-[#08223d] leading-none mb-1">{post.author}</p>
+                      <p className="text-[11px] font-medium text-gray-400">{post.date} • {post.readTime}</p>
                     </div>
                   </div>
                 </div>

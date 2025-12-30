@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
@@ -172,8 +173,8 @@ export const HomePage: React.FC = () => {
         .animate-gradient-text { background-size: 200% auto; animation: gradient-flow 3s ease-in-out infinite; }
       `}</style>
 
-      {/* Hero Section */}
-      <section className="relative pt-[140px] pb-[100px] md:pt-[220px] md:pb-[200px] bg-[#f8fafc]">
+      {/* Hero Section - Background changed to white to match image BG */}
+      <section className="relative pt-[140px] pb-[100px] md:pt-[220px] md:pb-[200px] bg-white">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <Reveal width="100%" className="lg:w-[40%] z-10 text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">
@@ -199,7 +200,7 @@ export const HomePage: React.FC = () => {
              <img 
                src="https://res.cloudinary.com/dv7yvatu2/image/upload/v1767113104/PHA_Hero_Imag_te6vxv.png" 
                alt="Product Hub Africa Hero" 
-               className="card-radius object-cover w-full h-auto border border-gray-100 shadow-xl" 
+               className="w-full h-auto object-contain" 
              />
           </div>
         </div>

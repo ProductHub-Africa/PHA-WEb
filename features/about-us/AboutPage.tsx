@@ -45,6 +45,9 @@ export const AboutPage: React.FC = () => {
     }
   };
 
+  const inputClasses = "w-full h-[46px] bg-white/10 border border-white/20 rounded-xl px-4 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all text-sm";
+  const labelClasses = "block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide";
+
   return (
     <div className="w-full overflow-hidden font-sans">
       
@@ -90,7 +93,7 @@ export const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Mission Vision Section - pt-5 on mobile to provide 20px gap from hero image */}
+      {/* Mission Vision Section */}
       <section className="bg-white pt-5 md:pt-[120px] pb-[60px] md:pb-[120px]">
          <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-10 md:gap-16">
             <div className="lg:w-1/2">
@@ -196,9 +199,9 @@ export const AboutPage: React.FC = () => {
           <Reveal width="100%">
             <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
               {/* Left Text */}
-              <div className="lg:w-1/2">
+              <div className="lg:w-1/2 w-full">
                 <span className="text-[#daa728] font-bold tracking-widest uppercase text-xs mb-4 block">Join Our Mission</span>
-                <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-6`}>Volunteer with us</h2>
+                <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-6 block`}>Volunteer with us</h2>
                 <p className={`${TYPOGRAPHY.body02} text-gray-600 mb-8`}>
                   At Product Hub Africa, we believe in the power of giving back. If you have a desire to contribute to the community and make a meaningful impact, we invite you to join our volunteer program.
                 </p>
@@ -225,26 +228,27 @@ export const AboutPage: React.FC = () => {
               </div>
 
               {/* Right Form */}
-              <div className="lg:w-1/2 w-full">
+              <div className="lg:w-1/2 w-full mt-10 lg:mt-0">
                 <div className="bg-[#135291] rounded-xl md:rounded-[32px] p-6 md:p-12 text-white relative overflow-hidden">
-                  <h3 className="text-2xl font-bold mb-2 relative z-10">Volunteer Form</h3>
-                  <p className="text-blue-200 mb-8 text-sm relative z-10">We'll review your application and get back to you.</p>
+                  <h3 className="text-2xl font-bold mb-2 relative z-10 block">Volunteer Form</h3>
+                  <p className="text-blue-200 mb-8 text-sm relative z-10 block">We'll review your application and get back to you.</p>
                   
                   <form className="space-y-5 relative z-10">
-                    <div>
-                      <label className="block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide">Full Name</label>
-                      <input type="text" placeholder="Your Name" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all" />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide">Email</label>
-                      <input type="email" placeholder="email@address.com" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all" />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClasses}>Full Name</label>
+                        <input type="text" placeholder="Your Name" className={inputClasses} />
+                      </div>
+                      <div>
+                        <label className={labelClasses}>Email</label>
+                        <input type="email" placeholder="email@address.com" className={inputClasses} />
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide">Department</label>
-                        <select className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-[#daa728] appearance-none cursor-pointer">
+                        <label className={labelClasses}>Department</label>
+                        <select className={`${inputClasses} appearance-none cursor-pointer`}>
                           <option className="text-gray-800">Select Dept</option>
                           <option className="text-gray-800">Programs</option>
                           <option className="text-gray-800">Design</option>
@@ -253,8 +257,8 @@ export const AboutPage: React.FC = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide">Experience</label>
-                        <select className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:ring-2 focus:ring-[#daa728] appearance-none cursor-pointer">
+                        <label className={labelClasses}>Experience</label>
+                        <select className={`${inputClasses} appearance-none cursor-pointer`}>
                           <option className="text-gray-800">Select level</option>
                           <option className="text-gray-800">0 - 1 Year</option>
                           <option className="text-gray-800">1 - 3 Years</option>
@@ -263,13 +267,24 @@ export const AboutPage: React.FC = () => {
                       </div>
                     </div>
 
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClasses}>Portfolio (Optional)</label>
+                        <input type="url" placeholder="https://..." className={inputClasses} />
+                      </div>
+                      <div>
+                        <label className={labelClasses}>LinkedIn (Optional)</label>
+                        <input type="url" placeholder="https://linkedin.com/in/..." className={inputClasses} />
+                      </div>
+                    </div>
+
                     <div>
-                      <label className="block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide">Motivation</label>
+                      <label className={labelClasses}>Motivation</label>
                       <textarea rows={3} placeholder="Why volunteer?" className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3.5 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all resize-none"></textarea>
                     </div>
 
                     <div className="pt-2">
-                      <button type="submit" className="w-full bg-[#daa728] text-[#08223d] font-bold px-6 py-4 rounded-xl hover:bg-white transition-all flex justify-center items-center">
+                      <button type="submit" className="w-full h-[46px] bg-[#daa728] text-[#08223d] font-bold px-6 rounded-xl hover:bg-white transition-all flex justify-center items-center">
                         Submit Application
                       </button>
                     </div>

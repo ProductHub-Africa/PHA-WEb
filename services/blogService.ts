@@ -1,4 +1,3 @@
-
 import { BlogPost } from '../types';
 
 const STORYBLOK_TOKEN: string = "4KBIq1aHnELTAj320fACPAtt"; 
@@ -43,7 +42,8 @@ const renderRichText = (nodes: any): string => {
     switch (node.type) {
       case 'heading':
         const level = node.attrs.level || 2;
-        const fontSize = level === 1 ? 'text-4xl' : level === 2 ? 'text-3xl' : 'text-2xl';
+        // Setting both h2 and h3 level headings to text-2xl (24px) as requested
+        const fontSize = level === 1 ? 'text-3xl' : 'text-2xl';
         return `<h${level} class="${fontSize} font-extrabold mt-12 mb-6 text-[#08223d] tracking-tight">${renderNodes(node.content)}</h${level}>`;
       case 'paragraph':
         return `<p class="mb-6 leading-[1.8] text-gray-700">${renderNodes(node.content)}</p>`;

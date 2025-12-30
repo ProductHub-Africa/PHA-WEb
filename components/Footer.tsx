@@ -1,6 +1,4 @@
-
 import React, { useState } from 'react';
-// Fix: Ensure Link is correctly imported from react-router-dom
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
 import { VolunteerOverlay } from './VolunteerOverlay';
@@ -66,19 +64,19 @@ export const Footer: React.FC = () => {
 
           </div>
           
-          {/* Newsletter Section - Absolute or Bottom */}
+          {/* Newsletter Section */}
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-blue-900 gap-4">
              <div className="mb-4 md:mb-0 text-center md:text-left">
                <span className="text-sm text-gray-300">Subscribe to our newsletter</span>
              </div>
-             <div className="flex w-full md:w-auto">
+             <div className="flex w-full md:w-auto h-[46px]">
                <input 
                  type="email" 
                  placeholder="mail@mail.com"
                  aria-label="Email address for newsletter"
-                 className="px-4 py-2 rounded-l w-full md:w-64 text-gray-900 focus:outline-none"
+                 className="px-4 h-full rounded-l w-full md:w-64 text-gray-900 focus:outline-none"
                />
-               <button className="px-6 py-2 bg-[#135291] text-white rounded-r font-medium border border-[#135291] hover:bg-[#0d3a67] transition-colors">
+               <button className="px-6 h-full bg-[#135291] text-white rounded-r font-medium border border-[#135291] hover:bg-[#0d3a67] transition-colors">
                  Subscribe
                </button>
              </div>

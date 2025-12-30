@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
@@ -8,6 +7,9 @@ import { CommunityOverlay } from '../../components/CommunityOverlay';
 
 export const ContactPage: React.FC = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+
+  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-sm";
+  const labelClasses = "block text-sm font-bold text-gray-700 mb-2";
 
   return (
     <div 
@@ -93,29 +95,29 @@ export const ContactPage: React.FC = () => {
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                  <input type="text" className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="John" />
+                  <label className={labelClasses}>First Name</label>
+                  <input type="text" className={inputClasses} placeholder="John" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                  <input type="text" className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="Doe" />
+                  <label className={labelClasses}>Last Name</label>
+                  <input type="text" className={inputClasses} placeholder="Doe" />
                 </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Email</label>
-                  <input type="email" className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="john@example.com" />
+                  <label className={labelClasses}>Email</label>
+                  <input type="email" className={inputClasses} placeholder="john@example.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Phone</label>
-                  <input type="tel" className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="+234..." />
+                  <label className={labelClasses}>Phone</label>
+                  <input type="tel" className={inputClasses} placeholder="+234..." />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Subject</label>
-                 <select className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all text-gray-600">
+                <label className={labelClasses}>Subject</label>
+                 <select className={inputClasses}>
                     <option>General Inquiry</option>
                     <option>Bootcamps</option>
                     <option>Partnership</option>
@@ -124,7 +126,7 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
+                <label className={labelClasses}>Message</label>
                 <textarea rows={5} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="Tell us how we can help..."></textarea>
               </div>
 

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import { TYPOGRAPHY, COLORS } from '../../constants';
@@ -107,8 +106,8 @@ export const BlogPostPage: React.FC = () => {
            </div>
         </div>
 
-        {/* Hero Image */}
-        <div className="w-full aspect-[16/9] md:aspect-[21/9] rounded-[32px] overflow-hidden mb-20 shadow-2xl border border-gray-50">
+        {/* Hero Image - Hidden on mobile, visible on tablet/desktop */}
+        <div className="hidden md:block w-full aspect-[16/9] md:aspect-[21/9] card-radius overflow-hidden mb-20 border border-gray-50">
            <img 
              src={post.image} 
              alt={post.title} 
@@ -157,7 +156,7 @@ export const BlogPostPage: React.FC = () => {
           line-height: 1.25;
           letter-spacing: -0.02em;
         }
-        .cms-content-wrapper h2 { font-size: 2rem; }
+        .cms-content-wrapper h2 { font-size: 1.5rem; }
         .cms-content-wrapper h3 { font-size: 1.5rem; }
         .cms-content-wrapper p { margin-bottom: 1.8em; font-size: 1.125rem; }
         .cms-content-wrapper strong { color: #08223d; font-weight: 700; }
