@@ -12,8 +12,6 @@ const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
 const supporterTypes = [
   'Sponsor (Financial support)',
   'Partner (Strategic / Program / Institutional)',
-  'Mentor / Facilitator',
-  'Volunteer',
   'Community Supporter / Advocate',
   'Corporate / CSR Partner',
   'Media / Publicity Partner',
@@ -47,7 +45,7 @@ const expectations = [
   'Talent pipeline access',
   'CSR alignment',
   'Community goodwill (I just want to give back)',
-  'Other (specify)'
+  'Other'
 ];
 
 export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose }) => {
@@ -67,7 +65,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
     intentions: [] as string[],
     motivation: '',
     pastSupport: '',
-    expectations: [] as string[],
+    expectation: '',
     otherExpectations: '',
     consent: false
   });
@@ -84,9 +82,10 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
   if (!isOpen) return null;
 
   const handleToggle = (list: string[], item: string, key: keyof typeof formData) => {
-    const newList = list.includes(item) 
-      ? list.filter(i => i !== item) 
-      : [...list, item];
+    const currentList = list as string[];
+    const newList = currentList.includes(item) 
+      ? currentList.filter(i => i !== item) 
+      : [...currentList, item];
     setFormData({ ...formData, [key]: newList });
   };
 
@@ -97,6 +96,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
 
   const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
   const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
+  const checkboxClasses = "appearance-none w-5 h-5 border-2 border-gray-300 rounded bg-transparent checked:bg-[#135291] checked:border-[#135291] transition-all relative cursor-pointer outline-none after:content-[''] after:absolute after:hidden checked:after:block after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-white after:border-b-2 after:border-r-2 after:rotate-45";
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
@@ -182,8 +182,13 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">2. Type of Supporter</h4>
                 <div className="grid grid-cols-1 gap-2">
                   {supporterTypes.map(type => (
-                    <label key={type} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer border border-transparent hover:border-gray-100 transition-all">
-                      <input type="checkbox" className="w-4 h-4 rounded text-[#135291]" checked={formData.supporterType.includes(type)} onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} />
+                    <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all">
+                      <input 
+                        type="checkbox" 
+                        className={checkboxClasses} 
+                        checked={formData.supporterType.includes(type)} 
+                        onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} 
+                      />
                       <span className="text-sm text-gray-700">{type}</span>
                     </label>
                   ))}
@@ -197,8 +202,13 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">3. Support Focus</h4>
                 <div className="grid grid-cols-1 gap-2">
                   {interestAreas.map(area => (
-                    <label key={area} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                      <input type="checkbox" className="w-4 h-4 mt-1 rounded text-[#135291]" checked={formData.interests.includes(area)} onChange={() => handleToggle(formData.interests, area, 'interests')} />
+                    <label key={area} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className={checkboxClasses} 
+                        checked={formData.interests.includes(area)} 
+                        onChange={() => handleToggle(formData.interests, area, 'interests')} 
+                      />
                       <span className="text-sm text-gray-700">{area}</span>
                     </label>
                   ))}
@@ -209,8 +219,13 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">4. Intention</h4>
                 <div className="grid grid-cols-1 gap-2">
                   {intentions.map(intent => (
-                    <label key={intent} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                      <input type="checkbox" className="w-4 h-4 mt-1 rounded text-[#135291]" checked={formData.intentions.includes(intent)} onChange={() => handleToggle(formData.intentions, intent, 'intentions')} />
+                    <label key={intent} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className={checkboxClasses} 
+                        checked={formData.intentions.includes(intent)} 
+                        onChange={() => handleToggle(formData.intentions, intent, 'intentions')} 
+                      />
                       <span className="text-sm text-gray-700">{intent}</span>
                     </label>
                   ))}
@@ -223,20 +238,30 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
               </section>
 
               <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">6. Expectations</h4>
-                <div className="grid grid-cols-1 gap-2">
-                  {expectations.map(exp => (
-                    <label key={exp} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                      <input type="checkbox" className="w-4 h-4 rounded text-[#135291]" checked={formData.expectations.includes(exp)} onChange={() => handleToggle(formData.expectations, exp, 'expectations')} />
-                      <span className="text-sm text-gray-700">{exp}</span>
-                    </label>
-                  ))}
+                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">6. Primary Expectation</h4>
+                <div className="relative">
+                  <select 
+                    className={`${inputClasses} appearance-none cursor-pointer`}
+                    value={formData.expectation}
+                    onChange={(e) => setFormData({...formData, expectation: e.target.value})}
+                  >
+                    <option value="">Select your main expectation</option>
+                    {expectations.map(exp => <option key={exp} value={exp}>{exp}</option>)}
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                    <ChevronDown size={18} />
+                  </div>
                 </div>
+                {formData.expectation === 'Other' && (
+                  <div className="mt-4">
+                    <input type="text" className={inputClasses} placeholder="Specify other expectations" value={formData.otherExpectations} onChange={e => setFormData({...formData, otherExpectations: e.target.value})} />
+                  </div>
+                )}
               </section>
 
               <section className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
                 <label className="flex items-start gap-3 cursor-pointer">
-                  <input required type="checkbox" className="w-5 h-5 mt-0.5 rounded text-[#135291]" checked={formData.consent} onChange={e => setFormData({...formData, consent: e.target.checked})} />
+                  <input required type="checkbox" className={checkboxClasses} checked={formData.consent} onChange={e => setFormData({...formData, consent: e.target.checked})} />
                   <span className="text-xs font-bold text-[#08223d] uppercase tracking-wide">
                     I agree to be contacted by Product Hub Africa regarding this submission.
                   </span>

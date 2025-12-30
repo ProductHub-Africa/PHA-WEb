@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import { TYPOGRAPHY } from '../../constants';
 import { Calendar, Clock, Monitor, Check, ArrowLeft, Users, BookOpen, Star, Briefcase } from 'lucide-react';
+import { PartnerOverlay } from '../../components/PartnerOverlay';
 
 interface Course {
   id: string;
@@ -26,22 +26,22 @@ const courses: Course[] = [
 ];
 
 const mentors = [
-  { name: 'Osaite Emmanuel', role: 'Senior Product Designer', company: 'Google Partner', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Emmanuel_Osaite_gqhu4f.jpg' },
-  { name: 'Victoria Oladosu', role: 'Product Lead', company: 'TechStars Alum', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg' },
-  { name: 'Adegboye Opeyemi', role: 'Ops Lead', company: 'Global EdTech', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1766044618/Adegboye_Opeyemi_xukkuc.jpg' },
-  { name: 'Samuel Johnson', role: 'Data Scientist', company: 'Paystack', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Blessing Okafor', role: 'Full Stack Developer', company: 'Microsoft', image: 'https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=400' },
-  { name: 'David Smith', role: 'Security Analyst', company: 'AWS', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400' }
+  { name: 'Oluyomi Olushola', role: 'Product Manager', company: 'Unifonic Dubai', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125527/Olushola_Oluyomi_Micheal_z0wy0m.png' },
+  { name: 'Adegboye Opeyemi', role: 'UI/UX Engineer AI', company: 'Techlerator UK', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125522/adegboye_opeyemi_ninaao.png' },
+  { name: 'Innocent Ugochukwu', role: 'Programs Manager', company: 'Product Hub Africa', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125526/inncoent_Ugochukwu_u3yumx.png' },
+  { name: 'Blessing Iyare', role: 'Lead Project Coordinator', company: 'Ei Consulting United States', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767127118/Blessing_Iyare_r0xpdb.jpg' }
 ];
 
 export const BootcampsPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
+  const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const activeCourse = courseId ? courses.find(c => c.id === courseId) : null;
   const displayCourses = activeCourse ? [activeCourse] : courses;
 
   return (
     <div className="w-full bg-white pt-[120px] md:pt-[180px]">
       <div className="container mx-auto px-6">
+        <PartnerOverlay isOpen={isPartnerOpen} onClose={() => setIsPartnerOpen(false)} />
         
         {/* Header */}
         <div className="text-center mb-16 max-w-4xl mx-auto">
@@ -115,7 +115,7 @@ export const BootcampsPage: React.FC = () => {
             <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-4`}>Learn from Industry Experts</h2>
             <p className="text-gray-500">Mentors with experience from Africa's top unicorns and global tech firms.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             {mentors.map((mentor, i) => (
               <div key={i} className="text-center group">
                 <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors">
@@ -126,6 +126,17 @@ export const BootcampsPage: React.FC = () => {
                 <p className="text-[10px] md:text-xs text-gray-400 mt-1 uppercase tracking-wider">{mentor.company}</p>
               </div>
             ))}
+          </div>
+          
+          <div className="flex justify-center mt-16 pb-20">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="px-12"
+              onClick={() => setIsPartnerOpen(true)}
+            >
+              Become a Mentor
+            </Button>
           </div>
         </section>
 
