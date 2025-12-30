@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect } from 'react';
-// Fix: Ensure Link is correctly imported from react-router-dom
 import { Link } from 'react-router-dom';
 import { TYPOGRAPHY } from '../../constants';
 import { Clock, User, ChevronRight, Loader2, Layers } from 'lucide-react';
