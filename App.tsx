@@ -52,7 +52,8 @@ const App: React.FC = () => {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
+              {/* Note: * is used to capture full slugs like Articles/my-post */}
+              <Route path="/blog/*" element={<BlogPostPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
               <Route path="/stem-school" element={<StemSchoolPage />} />
               <Route path="/faq" element={<FAQPage />} />

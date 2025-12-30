@@ -1,9 +1,8 @@
 
 import React from 'react';
-// Fix: Ensure Link is correctly imported from react-router-dom
 import { Link } from 'react-router-dom';
 import { COLORS, TYPOGRAPHY } from '../../constants';
-import { BookOpen, Code, PenTool, Layout, ShieldCheck, Database } from 'lucide-react';
+import { BookOpen, Code, Layout, ShieldCheck, Database, Palette } from 'lucide-react';
 
 interface MegaMenuProps {
   onItemClick?: () => void;
@@ -12,7 +11,7 @@ interface MegaMenuProps {
 export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
   const courses = [
     { title: 'Product Management', id: 'product-management', icon: <Layout size={20} />, version: '2.5' },
-    { title: 'Product Design', id: 'product-design', icon: <PenTool size={20} />, version: '2.5' },
+    { title: 'Product Design', id: 'product-design', icon: <Palette size={20} />, version: '2.5' },
     { title: 'Data Analytics', id: 'data-analytics', icon: <Database size={20} />, version: '2.5' },
     { title: 'Cybersecurity', id: 'cybersecurity', icon: <ShieldCheck size={20} />, version: '2.5' },
     { title: 'Technical Writing', id: 'technical-writing', icon: <BookOpen size={20} />, version: '2.5' },
@@ -20,11 +19,11 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
   ];
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto bg-white z-50 rounded-2xl border border-gray-200 p-8 overflow-hidden">
+    <div className="w-full max-w-[1000px] mx-auto bg-white z-50 rounded-2xl border border-gray-200 p-8 overflow-hidden shadow-2xl animate-fade-in">
       <div className="grid grid-cols-12 gap-10">
         
         {/* Intro Section */}
-        <div className="col-span-12 md:col-span-4 bg-[#f8fafc] -m-8 p-8 flex flex-col justify-center">
+        <div className="col-span-12 md:col-span-4 bg-[#f8fafc] -m-8 p-8 flex flex-col justify-center border-r border-gray-100">
           <h3 
             className={`${TYPOGRAPHY.header03} font-bold mb-3`}
             style={{ color: COLORS.primary[700] }}
@@ -36,7 +35,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
           </p>
           <Link 
             to="/bootcamps" 
-            className="font-bold hover:underline inline-flex items-center"
+            className="font-bold hover:underline inline-flex items-center transition-all hover:gap-2"
             style={{ color: COLORS.primary[500] }}
             onClick={onItemClick}
           >
@@ -45,16 +44,16 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
         </div>
 
         {/* Courses Grid */}
-        <div className="col-span-12 md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 py-2">
+        <div className="col-span-12 md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 py-2">
           {courses.map((course, index) => (
             <Link 
               key={index} 
               to={`/bootcamps/${course.id}`}
-              className="group flex items-start space-x-4 p-3 rounded-xl hover:bg-blue-50/50 transition-colors"
+              className="group flex items-start space-x-4 p-3 rounded-xl hover:bg-blue-50 transition-all duration-200 border border-transparent hover:border-blue-100"
               onClick={onItemClick}
             >
               <div 
-                className="p-3 rounded-full shrink-0 mt-1 transition-colors group-hover:bg-blue-100"
+                className="p-3 rounded-full shrink-0 mt-1 transition-all group-hover:scale-110"
                 style={{ backgroundColor: COLORS.primary[50], color: COLORS.primary[600] }}
               >
                 {course.icon}

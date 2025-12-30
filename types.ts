@@ -31,7 +31,7 @@ export interface StatItem {
 
 export interface BlogPost {
   id: string;
-  slug?: string;
+  slug: string;
   title: string;
   excerpt: string;
   content?: string;
@@ -42,4 +42,5 @@ export interface BlogPost {
   category: string;
   image: string;
   isFeatured?: boolean;
+  tags?: string[];
 }
