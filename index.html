@@ -3,27 +3,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     
     <!-- Primary Meta Tags -->
     <title>Product Hub Africa | Build Your Tech Career</title>
     <meta name="title" content="Product Hub Africa | Build Your Tech Career">
     <meta name="description" content="Empowering the next generation of African tech talent through intensive bootcamps, mentorship, and a vibrant community of 5,000+ members.">
     <meta name="theme-color" content="#135291">
-
-    <!-- Open Graph / Facebook / WhatsApp -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://producthubafrica.org/">
-    <meta property="og:title" content="Product Hub Africa | Build Your Tech Career">
-    <meta property="og:description" content="Join Africa's leading tech-education community. Enroll in bootcamps for Product Management, Design, Engineering, and more.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200&h=630">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://producthubafrica.org/">
-    <meta property="twitter:title" content="Product Hub Africa | Build Your Tech Career">
-    <meta property="twitter:description" content="Join Africa's leading tech-education community. Enroll in bootcamps for Product Management, Design, Engineering, and more.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200&h=630">
 
     <!-- Favicon / Site Icon -->
     <link rel="icon" type="image/png" href="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png">
@@ -37,6 +23,7 @@
       html {
         scroll-behavior: smooth;
         height: 100%;
+        overflow-x: hidden;
       }
       body {
         font-family: 'Inter', sans-serif;
@@ -47,7 +34,9 @@
         width: 100%;
         min-height: 100%;
         position: relative;
-        font-size: 14px; /* Default for mobile */
+        font-size: 14px; /* Default for mobile text */
+        line-height: 1.6;
+        background-color: #fff;
       }
       @media (min-width: 768px) {
         body {
@@ -56,8 +45,13 @@
       }
       h1, h2, h3, h4, h5, h6 {
         font-family: 'Plus Jakarta Sans', sans-serif;
+        letter-spacing: -0.01em;
       }
-      /* Override container padding for mobile as requested */
+      /* Ensure scroll works on iOS */
+      #root {
+        overflow-x: hidden;
+      }
+      /* Override container padding for mobile */
       .container {
         padding-left: 14px !important;
         padding-right: 14px !important;
@@ -65,27 +59,28 @@
         margin-left: auto !important;
         margin-right: auto !important;
       }
-      @media (min-width: 640px) {
-        .container {
-          max-width: 640px !important;
-        }
-      }
       @media (min-width: 768px) {
         .container {
-          max-width: 768px !important;
-          padding-left: 1.5rem !important;
-          padding-right: 1.5rem !important;
+          padding-left: 2rem !important;
+          padding-right: 2rem !important;
         }
       }
-      @media (min-width: 1024px) {
-        .container {
-          max-width: 1024px !important;
+      /* Utility for mobile card radius as requested */
+      .card-radius {
+        border-radius: 12px !important;
+      }
+      @media (min-width: 768px) {
+        .card-radius {
+          border-radius: 24px !important;
         }
       }
-      @media (min-width: 1280px) {
-        .container {
-          max-width: 1280px !important;
-        }
+      /* Speed up animations globally */
+      .animate-fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
     </style>
   <script type="importmap">

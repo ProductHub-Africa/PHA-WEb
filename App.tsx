@@ -1,21 +1,22 @@
-import React, { Suspense, lazy } from 'react';
+
+import React, { Suspense, lazy, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 
-// Lazy load feature pages for optimization
-const HomePage = lazy(() => import('./features/home/HomePage').then(module => ({ default: module.HomePage })));
+// Eagerly load main pages for instant navigation as requested
+import { HomePage } from './features/home/HomePage';
+import { BlogPage } from './features/blog/BlogPage';
+
+// Lazy load other feature pages
 const BootcampsPage = lazy(() => import('./features/bootcamps/BootcampsPage').then(module => ({ default: module.BootcampsPage })));
 const AboutPage = lazy(() => import('./features/about-us/AboutPage').then(module => ({ default: module.AboutPage })));
 const CommunityPage = lazy(() => import('./features/community/CommunityPage').then(module => ({ default: module.CommunityPage })));
-const BlogPage = lazy(() => import('./features/blog/BlogPage').then(module => ({ default: module.BlogPage })));
 const BlogPostPage = lazy(() => import('./features/blog/BlogPostPage').then(module => ({ default: module.BlogPostPage })));
 const ContactPage = lazy(() => import('./features/contact-us/ContactPage').then(module => ({ default: module.ContactPage })));
 const StemSchoolPage = lazy(() => import('./features/stem-school/StemSchoolPage').then(module => ({ default: module.StemSchoolPage })));
 const FAQPage = lazy(() => import('./features/legal/FAQPage').then(module => ({ default: module.FAQPage })));
 const PrivacyPolicyPage = lazy(() => import('./features/legal/PrivacyPolicyPage').then(module => ({ default: module.PrivacyPolicyPage })));
-
-// Lazy load CookieConsent component
 const CookieConsent = lazy(() => import('./components/CookieConsent').then(module => ({ default: module.CookieConsent })));
 
 // Loading Component
@@ -28,11 +29,8 @@ const PageLoader = () => (
 // ScrollToTop utility component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  React.useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 };
@@ -41,7 +39,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen font-sans text-[#3a3a3a]">
+      <div className="flex flex-col min-h-screen bg-white">
         <Header />
         <main className="flex-grow">
           <Suspense fallback={<PageLoader />}>
@@ -52,7 +50,6 @@ const App: React.FC = () => {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/blog" element={<BlogPage />} />
-              {/* Note: * is used to capture full slugs like Articles/my-post */}
               <Route path="/blog/*" element={<BlogPostPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
               <Route path="/stem-school" element={<StemSchoolPage />} />

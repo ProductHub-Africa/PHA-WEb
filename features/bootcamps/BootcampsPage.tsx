@@ -1,248 +1,135 @@
 
 import React, { useState } from 'react';
-// Fix: Ensure useParams and Link are correctly imported from react-router-dom
 import { useParams, Link } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import { TYPOGRAPHY } from '../../constants';
-import { Calendar, Clock, Monitor, Check, ArrowLeft, Shield, Lock } from 'lucide-react';
+import { Calendar, Clock, Monitor, Check, ArrowLeft, Users, BookOpen, Star, Briefcase } from 'lucide-react';
 
 interface Course {
   id: string;
   title: string;
   desc: string;
   details: string;
-  price: string;
   outcomes: string[];
 }
 
 const courses: Course[] = [
-  { 
-    id: 'product-management',
-    title: 'Product Management', 
-    desc: 'Learn to define, manage, and ship world-class products. Master the entire product lifecycle from ideation to launch.',
-    details: '6 Weeks • Weekends • Live',
-    price: '₦150,000',
-    outcomes: [
-      'Master the Product Development Lifecycle (PDLC)',
-      'Learn user research and persona creation',
-      'Create product roadmaps and strategy documents',
-      'Understand agile methodologies and Scrum',
-      'Work with cross-functional teams (Engineering, Design)',
-      'Build a comprehensive portfolio project'
-    ]
-  },
-  { 
-    id: 'product-design',
-    title: 'Product Design (UI/UX)', 
-    desc: 'Master the art of user-centric design and prototyping. Create beautiful, functional interfaces that users love.',
-    details: '6 Weeks • Weekends • Live',
-    price: '₦150,000',
-    outcomes: [
-      'Master Figma for UI Design and Prototyping',
-      'Conduct User Research and Usability Testing',
-      'Create Wireframes and High-Fidelity Mockups',
-      'Understand Design Systems and Typography',
-      'Learn Accessibility standards (WCAG)',
-      'Design a complete mobile app or website case study'
-    ]
-  },
-  { 
-    id: 'cybersecurity',
-    title: 'Cybersecurity', 
-    desc: 'Protect digital assets with defensive security strategies. Learn to identify vulnerabilities and secure networks.',
-    details: '6 Weeks • Weekends • Live',
-    price: '₦200,000',
-    outcomes: [
-      'Understand Network Security fundamentals',
-      'Learn Penetration Testing and Ethical Hacking',
-      'Master Risk Assessment and Compliance',
-      'Secure Web Applications against OWASP Top 10',
-      'Incident Response and Threat Analysis',
-      'Hands-on labs with real-world scenarios'
-    ]
-  },
-  { 
-    id: 'data-analytics',
-    title: 'Data Analytics', 
-    desc: 'Turn raw data into actionable business insights. Master tools like Excel, SQL, and Power BI.',
-    details: '6 Weeks • Weekends • Live',
-    price: '₦180,000',
-    outcomes: [
-      'Master Data Cleaning and Transformation',
-      'Advanced Excel and Spreadsheet modeling',
-      'SQL for Database querying',
-      'Data Visualization with Power BI or Tableau',
-      'Statistical Analysis for Business',
-      'Capstone project analyzing real business data'
-    ]
-  },
-  { 
-    id: 'technical-writing',
-    title: 'Technical Writing', 
-    desc: 'Communicate complex technical concepts clearly. Bridge the gap between developers and end-users.',
-    details: '4 Weeks • Weekends • Live',
-    price: '₦100,000',
-    outcomes: [
-      'Create API Documentation and User Guides',
-      'Master Markdown and Documentation tools',
-      'Understand Information Architecture',
-      'Edit and Proofread technical content',
-      'Collaborate with Engineering teams',
-      'Build a portfolio of technical articles and docs'
-    ]
-  },
-  { 
-    id: 'software-engineering',
-    title: 'Software Engineering', 
-    desc: 'Choose between Frontend or Backend Development. Build robust, scalable applications.',
-    details: '6 Weeks • Weekends • Live',
-    price: '₦200,000',
-    outcomes: [
-      'Master HTML, CSS, and JavaScript/TypeScript',
-      'Frontend with React OR Backend with Node.js',
-      'Version Control with Git and GitHub',
-      'API Development and Integration',
-      'Database Management (SQL/NoSQL)',
-      'Deploy full-stack applications'
-    ]
-  },
+  { id: 'product-management', title: 'Product Management', desc: 'Master the lifecycle of successful products.', details: '6 Weeks • Weekends • Live', outcomes: ['Strategy', 'Roadmapping', 'Agile'] },
+  { id: 'data-analytics', title: 'Data Analytics', desc: 'Turn data into powerful business insights.', details: '6 Weeks • Weekends • Live', outcomes: ['SQL', 'Visualization', 'Python'] },
+  { id: 'ui-ux', title: 'UI/UX', desc: 'Design user-centric digital experiences.', details: '6 Weeks • Weekends • Live', outcomes: ['Figma', 'Prototyping', 'UX Research'] },
+  { id: 'mobile-dev', title: 'Mobile development', desc: 'Build modern mobile apps.', details: '8 Weeks • Weekends • Live', outcomes: ['React Native', 'Swift', 'Flutter'] },
+  { id: 'web-dev', title: 'Web Development', desc: 'Full-stack web solutions.', details: '8 Weeks • Weekends • Live', outcomes: ['React', 'NodeJS', 'CSS'] },
+  { id: 'virtual-assistance', title: 'Virtual/Assistance', desc: 'Essential digital administrative support.', details: '4 Weeks • Weekends • Live', outcomes: ['Admin', 'CRM', 'Communication'] },
+  { id: 'qa-testing', title: 'Software Testing / Quality Assurance', desc: 'Ensure software excellence.', details: '6 Weeks • Weekends • Live', outcomes: ['Manual', 'Automation', 'CI/CD'] },
+  { id: 'cybersecurity', title: 'Cybersecurity', desc: 'Protect systems and data.', details: '6 Weeks • Weekends • Live', outcomes: ['Network', 'Defense', 'Hacking'] },
+  { id: 'business-analytics', title: 'Business Analytics', desc: 'Solve business problems with data.', details: '6 Weeks • Weekends • Live', outcomes: ['Modeling', 'Forecasting', 'Strategy'] }
 ];
 
-interface PaystackModalProps {
-  course: Course | undefined;
-  onClose: () => void;
-}
-
-const PaystackModal: React.FC<PaystackModalProps> = ({ course, onClose }) => (
-  <div 
-    className="fixed inset-0 z-[100] flex items-center justify-center p-4" 
-    role="dialog" 
-    aria-modal="true" 
-    aria-labelledby="modal-title"
-  >
-    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
-    <div className="bg-white w-full max-w-md rounded-xl md:rounded-2xl overflow-hidden relative z-10 animate-scale-up shadow-2xl">
-      <div className="bg-white p-5 md:p-6 border-b border-gray-100 flex justify-between items-center">
-         <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Paystack_Logo.png" alt="Paystack" className="h-6" />
-         <button onClick={onClose} aria-label="Close modal"><span className="text-gray-400 font-bold text-xl">&times;</span></button>
-      </div>
-      <div className="p-5 md:p-8 text-center">
-         <p className="text-gray-500 mb-2">{course?.title} Bootcamp</p>
-         <h3 id="modal-title" className="text-3xl font-bold text-[#08223d] mb-8">{course?.price}</h3>
-         
-         <form className="space-y-4 text-left">
-           <div>
-             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-             <input type="email" placeholder="example@mail.com" className="w-full border border-gray-300 rounded p-3 text-sm" />
-           </div>
-           <div>
-             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Card Number</label>
-             <input type="text" placeholder="0000 0000 0000 0000" className="w-full border border-gray-300 rounded p-3 text-sm" />
-           </div>
-           <div className="grid grid-cols-2 gap-4">
-             <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Expiry</label>
-                <input type="text" placeholder="MM/YY" className="w-full border border-gray-300 rounded p-3 text-sm" />
-             </div>
-             <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">CVV</label>
-                <input type="text" placeholder="123" className="w-full border border-gray-300 rounded p-3 text-sm" />
-             </div>
-           </div>
-           <button type="button" className="w-full bg-[#3bb75e] text-white font-bold py-4 rounded hover:bg-[#2fa04e] transition-colors mt-4 flex items-center justify-center gap-2">
-             <Lock size={16} /> Pay {course?.price}
-           </button>
-         </form>
-         <p className="text-xs text-gray-400 mt-4 flex items-center justify-center gap-1">
-           <Shield size={12} /> Secured by Paystack
-         </p>
-      </div>
-    </div>
-  </div>
-);
+const mentors = [
+  { name: 'Osaite Emmanuel', role: 'Senior Product Designer', company: 'Google Partner', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Emmanuel_Osaite_gqhu4f.jpg' },
+  { name: 'Victoria Oladosu', role: 'Product Lead', company: 'TechStars Alum', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg' },
+  { name: 'Adegboye Opeyemi', role: 'Ops Lead', company: 'Global EdTech', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1766044618/Adegboye_Opeyemi_xukkuc.jpg' },
+  { name: 'Samuel Johnson', role: 'Data Scientist', company: 'Paystack', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Blessing Okafor', role: 'Full Stack Developer', company: 'Microsoft', image: 'https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=400' },
+  { name: 'David Smith', role: 'Security Analyst', company: 'AWS', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400' }
+];
 
 export const BootcampsPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-
   const activeCourse = courseId ? courses.find(c => c.id === courseId) : null;
   const displayCourses = activeCourse ? [activeCourse] : courses;
 
   return (
-    <div 
-      className="w-full pb-[60px] md:pb-[120px] pt-[140px] md:pt-[200px]"
-      style={{
-        background: 'linear-gradient(to bottom, #f0f6fa, #ffffff)'
-      }}
-    >
+    <div className="w-full bg-white pt-[120px] md:pt-[180px]">
       <div className="container mx-auto px-6">
         
         {/* Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+        <div className="text-center mb-16 max-w-4xl mx-auto">
           {activeCourse && (
             <Link to="/bootcamps" className="inline-flex items-center text-[#135291] font-bold mb-6 hover:underline">
               <ArrowLeft size={16} className="mr-2" /> Back to all courses
             </Link>
           )}
           <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-6`}>
-            {activeCourse ? activeCourse.title : 'Accelerate Your Tech Career'}
+            {activeCourse ? activeCourse.title : 'Intensive Cohort-Based Learning'}
           </h1>
           <p className={`${TYPOGRAPHY.body02} text-gray-500`}>
-            {activeCourse ? activeCourse.desc : 'Join our intensive, hands-on bootcamps designed to take you from beginner to professional in just weeks.'}
+            Our curriculum is built on industry standards and taught by active professionals. Get hands-on with live projects and peer reviews.
           </p>
         </div>
 
+        {/* Highlight Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20">
+          {[
+            { label: 'Live Sessions', icon: <Monitor size={20} /> },
+            { label: 'Project Based', icon: <Briefcase size={20} /> },
+            { label: 'Job Support', icon: <Users size={20} /> },
+            { label: 'Certification', icon: <Star size={20} /> }
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <div className="text-[#135291]">{item.icon}</div>
+              <span className="font-bold text-sm text-[#08223d]">{item.label}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           {displayCourses.map((course) => (
-             <div key={course.id} className="bg-white rounded-xl md:rounded-[20px] border border-gray-100 overflow-hidden flex flex-col h-full group">
-               <div className="p-5 md:p-8 pb-0">
-                 <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-[#135291] mb-6 group-hover:bg-[#135291] group-hover:text-white transition-colors">
-                    <Monitor size={24} />
+             <div key={course.id} className="bg-white card-radius border border-gray-100 flex flex-col h-full hover:border-[#135291] transition-all overflow-hidden shadow-none">
+               <div className="p-6 md:p-8 flex-grow">
+                 <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-[#135291] mb-6">
+                    <BookOpen size={20} />
                  </div>
-                 <h3 className="font-bold text-2xl text-[#08223d] mb-3">{course.title}</h3>
-                 <p className="text-gray-500 text-sm leading-relaxed mb-6 h-20 overflow-hidden">{course.desc}</p>
+                 <h3 className="font-bold text-xl text-[#08223d] mb-3">{course.title}</h3>
+                 <p className="text-gray-500 text-sm leading-relaxed mb-6">{course.desc}</p>
                  
-                 <div className="flex flex-wrap gap-3 mb-6">
-                   <div className="flex items-center text-xs font-bold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-full">
-                     <Calendar size={12} className="mr-1.5" /> 6 Weeks
+                 <div className="flex flex-wrap gap-2 mb-6">
+                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                     <Calendar size={12} className="mr-1.5" /> {course.details.split('•')[0].trim()}
                    </div>
-                   <div className="flex items-center text-xs font-bold text-gray-400 bg-gray-50 px-3 py-1.5 rounded-full">
+                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
                      <Clock size={12} className="mr-1.5" /> Weekends
                    </div>
                  </div>
 
-                 <div className="space-y-3 mb-8">
-                   {course.outcomes.slice(0, 3).map((outcome, idx) => (
-                     <div key={idx} className="flex items-start text-sm text-gray-600">
-                       <Check size={16} className="text-[#3bb75e] mr-2 shrink-0 mt-0.5" />
+                 <div className="space-y-3">
+                   {course.outcomes.map((outcome, idx) => (
+                     <div key={idx} className="flex items-start text-xs text-gray-600">
+                       <Check size={14} className="text-[#3bb75e] mr-2 shrink-0 mt-0.5" />
                        <span>{outcome}</span>
                      </div>
                    ))}
                  </div>
                </div>
-
-               <div className="mt-auto p-5 md:p-8 pt-0 border-t border-gray-50">
-                 <div className="flex items-end justify-between mb-6 mt-6">
-                   <div>
-                     <p className="text-xs text-gray-400 font-bold uppercase">Total Fee</p>
-                     <p className="text-2xl font-bold text-[#08223d]">{course.price}</p>
-                   </div>
-                 </div>
-                 <Button fullWidth onClick={() => setSelectedCourse(course)}>Enroll Now</Button>
+               <div className="p-6 border-t border-gray-50">
+                 <Button fullWidth>Enroll Now</Button>
                </div>
              </div>
           ))}
         </div>
 
-      </div>
+        {/* Meet Your Mentors */}
+        <section className="py-20 border-t border-gray-50">
+          <div className="text-center mb-16">
+            <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-4`}>Learn from Industry Experts</h2>
+            <p className="text-gray-500">Mentors with experience from Africa's top unicorns and global tech firms.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+            {mentors.map((mentor, i) => (
+              <div key={i} className="text-center group">
+                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors">
+                  <img src={mentor.image} alt={mentor.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                </div>
+                <h4 className="font-bold text-base md:text-lg text-[#08223d]">{mentor.name}</h4>
+                <p className="text-xs md:text-sm text-[#135291] font-medium">{mentor.role}</p>
+                <p className="text-[10px] md:text-xs text-gray-400 mt-1 uppercase tracking-wider">{mentor.company}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {selectedCourse && (
-        <PaystackModal 
-          course={selectedCourse} 
-          onClose={() => setSelectedCourse(null)} 
-        />
-      )}
+      </div>
     </div>
   );
 };

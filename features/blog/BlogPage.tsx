@@ -1,11 +1,30 @@
 
-import { ArrowRight, Filter, Layers, Loader2, Search, SortAsc, SortDesc, User } from 'lucide-react';
+import { Search, SortAsc, SortDesc, User } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Reveal } from '../../components/Reveal';
 import { TYPOGRAPHY } from '../../constants';
 import { BlogService } from '../../services/blogService';
 import { BlogPost } from '../../types';
+
+const BlogSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {[1, 2, 3, 4, 5, 6].map((i) => (
+      <div key={i} className="bg-white card-radius border border-gray-100 overflow-hidden animate-pulse">
+        <div className="aspect-[16/10] bg-gray-100" />
+        <div className="p-6">
+          <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
+          <div className="h-3 bg-gray-100 rounded w-full mb-2" />
+          <div className="h-3 bg-gray-100 rounded w-5/6 mb-6" />
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gray-200" />
+            <div className="h-3 bg-gray-100 rounded w-20" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 export const BlogPage: React.FC = () => {
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
@@ -25,216 +44,83 @@ export const BlogPage: React.FC = () => {
     loadPosts();
   }, []);
 
-  // Derive all unique tags from posts
   const availableTags = useMemo(() => {
     const tags = new Set<string>(['All']);
-    allPosts.forEach(post => {
-      post.tags?.forEach(tag => tags.add(tag));
-    });
+    allPosts.forEach(post => post.tags?.forEach(tag => tags.add(tag)));
     return Array.from(tags);
   }, [allPosts]);
 
-  // Filter and Sort Logic
   const filteredPosts = useMemo(() => {
     let result = [...allPosts];
-
-    // Filter by Tag
-    if (selectedTag !== 'All') {
-      result = result.filter(post => post.tags?.includes(selectedTag));
-    }
-
-    // Search Query
+    if (selectedTag !== 'All') result = result.filter(post => post.tags?.includes(selectedTag));
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(post => 
-        post.title.toLowerCase().includes(query) || 
-        post.excerpt.toLowerCase().includes(query)
-      );
+      const q = searchQuery.toLowerCase();
+      result = result.filter(p => p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q));
     }
-
-    // Sort
     result.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      return sortBy === 'newest' ? dateB - dateA : dateA - dateB;
+      const d1 = new Date(a.date).getTime();
+      const d2 = new Date(b.date).getTime();
+      return sortBy === 'newest' ? d2 - d1 : d1 - d2;
     });
-
     return result;
   }, [allPosts, selectedTag, searchQuery, sortBy]);
 
   const displayedPosts = filteredPosts.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredPosts.length;
 
   return (
-    <div className="w-full pb-32 pt-40 md:pt-56 bg-white min-h-screen">
+    <div className="w-full pb-32 pt-40 md:pt-48 bg-white min-h-screen">
       <div className="container mx-auto px-6">
-        
-        {/* Header Section */}
         <Reveal width="100%" className="text-center mb-16">
           <span className="text-[#daa728] font-bold tracking-widest uppercase text-xs mb-3 block">Perspective & Growth</span>
           <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-6`}>Knowledge Hub</h1>
           <p className={`${TYPOGRAPHY.body02} max-w-2xl mx-auto text-gray-500`}>
-            Industry insights, product strategies, and technical guides from Africa's leading tech experts.
+            Industry insights and technical guides from Africa's tech leaders.
           </p>
         </Reveal>
 
-        {/* Toolbar: Search (Retained as per request "after the search component") */}
-        <div className="flex flex-col lg:flex-row gap-6 items-center justify-between mb-12 p-6 bg-gray-50 rounded-[24px] border border-gray-100">
-          {/* Search */}
-          <div className="relative w-full lg:max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <input 
-              type="text"
-              placeholder="Search articles..."
-              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#135291] focus:border-transparent outline-none transition-all"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 p-4 bg-gray-50 card-radius border border-gray-100">
+          <div className="relative w-full md:max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input type="text" placeholder="Search..." className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg outline-none text-sm" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
           </div>
-
-          {/* Sort Control */}
-          <div className="flex items-center gap-3 shrink-0">
-             <button 
-               onClick={() => setSortBy(sortBy === 'newest' ? 'oldest' : 'newest')}
-               className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-[#08223d] hover:bg-gray-100 transition-all"
-             >
-               {sortBy === 'newest' ? <SortDesc size={18} /> : <SortAsc size={18} />}
-               {sortBy === 'newest' ? 'Newest First' : 'Oldest First'}
-             </button>
-          </div>
+          <button onClick={() => setSortBy(sortBy === 'newest' ? 'oldest' : 'newest')} className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-xs font-bold text-[#08223d] flex items-center gap-2">
+            {sortBy === 'newest' ? <SortDesc size={14} /> : <SortAsc size={14} />} {sortBy === 'newest' ? 'Newest' : 'Oldest'}
+          </button>
         </div>
 
-        {/* Categories (Styled to match image) */}
-        <div className="flex flex-wrap gap-3 mb-10 overflow-x-auto pb-4 scrollbar-hide">
-          {availableTags.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => setSelectedTag(tag)}
-              className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all border whitespace-nowrap ${
-                selectedTag === tag 
-                  ? 'bg-[#135291] text-white border-[#135291] shadow-md' 
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
-              }`}
-            >
+        <div className="flex gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
+          {availableTags.map(tag => (
+            <button key={tag} onClick={() => setSelectedTag(tag)} className={`px-5 py-2 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${selectedTag === tag ? 'bg-[#135291] text-white border-[#135291]' : 'bg-white text-gray-500 border-gray-200'}`}>
               {tag === 'All' ? 'View all' : tag}
             </button>
           ))}
         </div>
 
-        {/* Main Feed */}
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center py-32">
-             <Loader2 size={48} className="text-[#135291] animate-spin mb-4" />
-             <p className="text-gray-400 font-bold animate-pulse">Syncing with Storyblok...</p>
-          </div>
-        ) : filteredPosts.length === 0 ? (
-          <div className="text-center py-32 bg-gray-50 rounded-[40px] border border-dashed border-gray-200 max-w-4xl mx-auto">
-             <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300 shadow-sm">
-                <Layers size={32} />
-             </div>
-             <h3 className="text-2xl font-bold text-[#08223d] mb-2">No matches found</h3>
-             <p className="text-gray-400">Try adjusting your search or filters.</p>
-          </div>
+          <BlogSkeleton />
         ) : (
-          <div className="space-y-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {displayedPosts.map((post, i) => (
-                <Reveal key={post.id} width="100%" delay={i % 3 * 0.1}>
-                  <Link 
-                    to={`/blog/${post.slug}`} 
-                    className="group flex flex-col h-full bg-white rounded-[32px] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500"
-                  >
-                    {/* Card Image Container */}
-                    <div className="relative p-4 pb-0">
-                      <div className="aspect-[16/10] rounded-[24px] overflow-hidden relative">
-                        <img 
-                          src={post.image} 
-                          alt={post.title} 
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200';
-                          }}
-                        />
-                        {/* Category Overlay */}
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-[#135291] text-white text-[10px] md:text-[11px] font-bold px-4 py-1.5 rounded-full shadow-lg">
-                            {post.category || 'Insights'}
-                          </span>
-                        </div>
-                      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayedPosts.map((post) => (
+              <Link key={post.id} to={`/blog/${post.slug}`} className="group bg-white card-radius overflow-hidden border border-gray-100 transition-all flex flex-col h-full shadow-none">
+                <div className="aspect-[16/10] overflow-hidden relative">
+                  <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  <div className="absolute top-3 left-3"><span className="bg-[#135291] text-white text-[10px] font-bold px-3 py-1 rounded-full">{post.category}</span></div>
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-[#135291]">{post.title}</h3>
+                  <p className="text-gray-400 text-xs mb-6 line-clamp-2">{post.excerpt}</p>
+                  <div className="mt-auto flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><User size={14} className="text-gray-400" /></div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-900 leading-none">{post.author}</p>
+                      <p className="text-[10px] text-gray-400 mt-1">{post.date} • {post.readTime}</p>
                     </div>
-
-                    {/* Content Container */}
-                    <div className="p-7 pt-6 flex flex-col flex-1">
-                      <h3 className="text-[20px] font-bold text-gray-900 mb-3 leading-tight line-clamp-2 transition-colors group-hover:text-[#135291]">
-                        {post.title}
-                      </h3>
-                      <p className="text-gray-400 text-[14px] mb-8 line-clamp-2 leading-relaxed font-normal">
-                        {post.excerpt}
-                      </p>
-
-                      {/* Author Info / Footer */}
-                      <div className="mt-auto flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 border border-gray-50 flex items-center justify-center shrink-0">
-                          {post.authorImage ? (
-                            <img src={post.authorImage} alt={post.author} className="w-full h-full object-cover" />
-                          ) : (
-                            <User size={18} className="text-gray-400" />
-                          )}
-                        </div>
-                        <div className="overflow-hidden">
-                          <p className="text-[14px] font-bold text-gray-900 leading-none mb-1.5 truncate">
-                            {post.author}
-                          </p>
-                          <div className="flex items-center text-[12px] text-gray-400 font-medium whitespace-nowrap">
-                            <span>{post.date}</span>
-                            <span className="mx-2 text-gray-200">•</span>
-                            <span>{post.readTime}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-
-            {/* Pagination */}
-            {hasMore && (
-              <div className="flex justify-center pt-8">
-                <button 
-                  onClick={() => setVisibleCount(prev => prev + 6)}
-                  className="px-10 py-4 bg-white border-2 border-[#135291] text-[#135291] font-bold rounded-full hover:bg-[#135291] hover:text-white transition-all shadow-lg flex items-center gap-3"
-                >
-                  Load More Articles <ArrowRight size={18} />
-                </button>
-              </div>
-            )}
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
-
-        {/* Newsletter Signup Section */}
-        <section className="mt-40 bg-[#08223d] rounded-[40px] p-8 md:p-20 text-white relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-96 h-96 bg-[#135291] rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2"></div>
-           <div className="relative z-10 max-w-4xl">
-              <span className="text-[#daa728] font-bold tracking-widest uppercase text-sm mb-4 block">Weekly Briefing</span>
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">Stay ahead with the latest in tech & product</h2>
-              <p className="text-blue-100 text-lg mb-12 max-w-2xl leading-relaxed">
-                Join 10,000+ subscribers who receive our curated selection of industry news, community updates, and career opportunities every Monday.
-              </p>
-              <form className="flex flex-col sm:flex-row gap-4" onSubmit={e => e.preventDefault()}>
-                 <input 
-                   type="email" 
-                   placeholder="Enter your email address"
-                   className="flex-1 px-8 py-5 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-blue-200/50 outline-none focus:ring-2 focus:ring-[#daa728] transition-all"
-                 />
-                 <button className="px-10 py-5 bg-[#daa728] text-[#08223d] font-bold rounded-2xl hover:bg-white transition-all shadow-xl">
-                   Subscribe Now
-                 </button>
-              </form>
-              <p className="mt-6 text-sm text-blue-200/50">Zero spam. Only value. Unsubscribe anytime.</p>
-           </div>
-        </section>
       </div>
     </div>
   );
