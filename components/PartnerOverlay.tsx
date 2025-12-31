@@ -6,6 +6,7 @@ import { TYPOGRAPHY } from '../constants';
 interface PartnerOverlayProps {
   isOpen: boolean;
   onClose: () => void;
+  mode?: 'partner' | 'facilitator';
 }
 
 const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
@@ -48,7 +49,16 @@ const expectations = [
   'Other'
 ];
 
-export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose }) => {
+const tracks = [
+  'Product Management',
+  'Product Design',
+  'Data Analytics',
+  'Cybersecurity',
+  'Technical Writing',
+  'Software Engineering'
+];
+
+export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose, mode = 'partner' }) => {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -59,6 +69,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
     location: '',
     website: '',
     orgSize: '',
+    trackInterestedIn: '',
     supporterType: [] as string[],
     otherSupporter: '',
     interests: [] as string[],
@@ -95,8 +106,11 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
   };
 
   const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
+  const selectClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-semibold appearance-none cursor-pointer hover:bg-white shadow-sm";
   const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
   const checkboxClasses = "appearance-none w-5 h-5 border-2 border-gray-300 rounded bg-transparent checked:bg-[#135291] checked:border-[#135291] transition-all relative cursor-pointer outline-none after:content-[''] after:absolute after:hidden checked:after:block after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-white after:border-b-2 after:border-r-2 after:rotate-45";
+
+  const isFacilitatorMode = mode === 'facilitator';
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
@@ -107,7 +121,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
         {/* Sticky Header */}
         <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">Partner & Sponsor</h2>
+            <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
+              {isFacilitatorMode ? 'Become a Facilitator' : 'Partner & Sponsor'}
+            </h2>
             <p className="text-gray-500 text-xs">Collaborate with Product Hub Africa.</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -123,7 +139,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
               </div>
               <h3 className="text-2xl font-bold text-[#08223d] mb-4">Submission Received!</h3>
               <p className="text-gray-600 leading-relaxed">
-                Thank you for your interest in supporting Product Hub Africa. Our team will review your submission and reach out within 5–7 working days.
+                Thank you for your interest in {isFacilitatorMode ? 'facilitating with' : 'supporting'} Product Hub Africa. Our team will review your submission and reach out within 5–7 working days.
               </p>
               <Button className="mt-10" onClick={onClose}>Close</Button>
             </div>
@@ -138,8 +154,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
                       <input required type="text" className={inputClasses} placeholder="Your name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
                     </div>
                     <div>
-                      <label className={labelClasses}>Organization Name *</label>
-                      <input required type="text" className={inputClasses} placeholder="Company or 'Individual'" value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
+                      <label className={labelClasses}>{isFacilitatorMode ? 'Current Organization *' : 'Organization Name *'}</label>
+                      <input required type="text" className={inputClasses} placeholder={isFacilitatorMode ? "Where do you work?" : "Company or 'Individual'"} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -162,102 +178,140 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
                       <input required type="text" className={inputClasses} placeholder="Lagos, Nigeria" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                  {isFacilitatorMode && (
                     <div>
+                      <label className={labelClasses}>Track Interested In *</label>
+                      <div className="relative">
+                        <select 
+                          required
+                          className={selectClasses}
+                          value={formData.trackInterestedIn}
+                          onChange={(e) => setFormData({...formData, trackInterestedIn: e.target.value})}
+                        >
+                          <option value="">Select a track</option>
+                          {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
+                          <ChevronDown size={18} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className={isFacilitatorMode ? "w-full" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
+                    <div className={isFacilitatorMode ? "w-full" : ""}>
                       <label className={labelClasses}>Website / LinkedIn (Optional)</label>
                       <input type="url" className={inputClasses} placeholder="https://..." value={formData.website} onChange={e => setFormData({...formData, website: e.target.value})} />
                     </div>
-                    <div>
-                      <label className={labelClasses}>Organization Size (Optional)</label>
-                      <select className={inputClasses} value={formData.orgSize} onChange={e => setFormData({...formData, orgSize: e.target.value})}>
-                        <option value="">Select size</option>
-                        {orgSizes.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
+                    {!isFacilitatorMode && (
+                      <div>
+                        <label className={labelClasses}>Organization Size (Optional)</label>
+                        <div className="relative">
+                          <select className={selectClasses} value={formData.orgSize} onChange={e => setFormData({...formData, orgSize: e.target.value})}>
+                            <option value="">Select size</option>
+                            {orgSizes.map(s => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
+                            <ChevronDown size={18} />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </section>
+
+              {!isFacilitatorMode && (
+                <>
+                  <section>
+                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">2. Type of Supporter</h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      {supporterTypes.map(type => (
+                        <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all">
+                          <input 
+                            type="checkbox" 
+                            className={checkboxClasses} 
+                            checked={formData.supporterType.includes(type)} 
+                            onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} 
+                          />
+                          <span className="text-sm text-gray-700">{type}</span>
+                        </label>
+                      ))}
+                      {formData.supporterType.includes('Other') && (
+                        <input type="text" className={inputClasses} placeholder="Specify other type" value={formData.otherSupporter} onChange={e => setFormData({...formData, otherSupporter: e.target.value})} />
+                      )}
+                    </div>
+                  </section>
+
+                  <section>
+                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">3. Support Focus</h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      {interestAreas.map(area => (
+                        <label key={area} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className={checkboxClasses} 
+                            checked={formData.interests.includes(area)} 
+                            onChange={() => handleToggle(formData.interests, area, 'interests')} 
+                          />
+                          <span className="text-sm text-gray-700">{area}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section>
+                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">4. Intention</h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      {intentions.map(intent => (
+                        <label key={intent} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className={checkboxClasses} 
+                            checked={formData.intentions.includes(intent)} 
+                            onChange={() => handleToggle(formData.intentions, intent, 'intentions')} 
+                          />
+                          <span className="text-sm text-gray-700">{intent}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </section>
+                </>
+              )}
+
+              <section>
+                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">
+                  {isFacilitatorMode ? '2. Why facilitate with us? *' : '5. Motivation *'}
+                </h4>
+                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience and why you'd like to join our pool of experts." : "Why are you interested in supporting Product Hub Africa, and what impact would you like to help create?"} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+              </section>
+
+              {!isFacilitatorMode && (
+                <section>
+                  <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">
+                    6. Primary Expectation
+                  </h4>
+                  <div className="relative">
+                    <select 
+                      className={selectClasses}
+                      value={formData.expectation}
+                      onChange={(e) => setFormData({...formData, expectation: e.target.value})}
+                    >
+                      <option value="">Select your main expectation</option>
+                      {expectations.map(exp => <option key={exp} value={exp}>{exp}</option>)}
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
+                      <ChevronDown size={18} />
                     </div>
                   </div>
-                </div>
-              </section>
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">2. Type of Supporter</h4>
-                <div className="grid grid-cols-1 gap-2">
-                  {supporterTypes.map(type => (
-                    <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all">
-                      <input 
-                        type="checkbox" 
-                        className={checkboxClasses} 
-                        checked={formData.supporterType.includes(type)} 
-                        onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} 
-                      />
-                      <span className="text-sm text-gray-700">{type}</span>
-                    </label>
-                  ))}
-                  {formData.supporterType.includes('Other') && (
-                    <input type="text" className={inputClasses} placeholder="Specify other type" value={formData.otherSupporter} onChange={e => setFormData({...formData, otherSupporter: e.target.value})} />
+                  {formData.expectation === 'Other' && (
+                    <div className="mt-4">
+                      <input type="text" className={inputClasses} placeholder="Specify other expectations" value={formData.otherExpectations} onChange={e => setFormData({...formData, otherExpectations: e.target.value})} />
+                    </div>
                   )}
-                </div>
-              </section>
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">3. Support Focus</h4>
-                <div className="grid grid-cols-1 gap-2">
-                  {interestAreas.map(area => (
-                    <label key={area} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className={checkboxClasses} 
-                        checked={formData.interests.includes(area)} 
-                        onChange={() => handleToggle(formData.interests, area, 'interests')} 
-                      />
-                      <span className="text-sm text-gray-700">{area}</span>
-                    </label>
-                  ))}
-                </div>
-              </section>
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">4. Intention</h4>
-                <div className="grid grid-cols-1 gap-2">
-                  {intentions.map(intent => (
-                    <label key={intent} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className={checkboxClasses} 
-                        checked={formData.intentions.includes(intent)} 
-                        onChange={() => handleToggle(formData.intentions, intent, 'intentions')} 
-                      />
-                      <span className="text-sm text-gray-700">{intent}</span>
-                    </label>
-                  ))}
-                </div>
-              </section>
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">5. Motivation *</h4>
-                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder="Why are you interested in supporting Product Hub Africa, and what impact would you like to help create?" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
-              </section>
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">6. Primary Expectation</h4>
-                <div className="relative">
-                  <select 
-                    className={`${inputClasses} appearance-none cursor-pointer`}
-                    value={formData.expectation}
-                    onChange={(e) => setFormData({...formData, expectation: e.target.value})}
-                  >
-                    <option value="">Select your main expectation</option>
-                    {expectations.map(exp => <option key={exp} value={exp}>{exp}</option>)}
-                  </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <ChevronDown size={18} />
-                  </div>
-                </div>
-                {formData.expectation === 'Other' && (
-                  <div className="mt-4">
-                    <input type="text" className={inputClasses} placeholder="Specify other expectations" value={formData.otherExpectations} onChange={e => setFormData({...formData, otherExpectations: e.target.value})} />
-                  </div>
-                )}
-              </section>
+                </section>
+              )}
 
               <section className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -269,7 +323,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose 
               </section>
 
               <div className="pt-4 pb-10">
-                <Button fullWidth size="lg" type="submit">Submit Partnership Application</Button>
+                <Button fullWidth size="lg" type="submit">
+                  {isFacilitatorMode ? 'Submit Facilitator Application' : 'Submit Partnership Application'}
+                </Button>
               </div>
             </form>
           )}

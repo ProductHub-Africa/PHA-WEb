@@ -26,22 +26,34 @@ const courses: Course[] = [
 ];
 
 const mentors = [
-  { name: 'Oluyomi Olushola', role: 'Product Manager', company: 'Unifonic Dubai', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125527/Olushola_Oluyomi_Micheal_z0wy0m.png' },
-  { name: 'Adegboye Opeyemi', role: 'UI/UX Engineer AI', company: 'Techlerator UK', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125522/adegboye_opeyemi_ninaao.png' },
-  { name: 'Innocent Ugochukwu', role: 'Programs Manager', company: 'Product Hub Africa', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125526/inncoent_Ugochukwu_u3yumx.png' },
-  { name: 'Blessing Iyare', role: 'Lead Project Coordinator', company: 'Ei Consulting United States', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767127118/Blessing_Iyare_r0xpdb.jpg' }
+  { name: 'Oluyomi Olushola', role: 'Product Manager', company: '@Unifonic Dubai', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125527/Olushola_Oluyomi_Micheal_z0wy0m.png' },
+  { name: 'Adegboye Opeyemi', role: 'UI/UX Engineer AI', company: '@Techlerator UK', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125522/adegboye_opeyemi_ninaao.png' },
+  { name: 'Innocent Ugochukwu', role: 'Programs Manager', company: '@Product Hub Africa', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125526/inncoent_Ugochukwu_u3yumx.png' },
+  { name: 'Blessing Iyare', role: 'Lead Project Coordinator', company: '@Ei Consulting United States', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767127118/Blessing_Iyare_r0xpdb.jpg' },
+  { name: 'Aribiyi Basset', role: 'Frontend Developer', company: '@TIIDELab', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767127943/Aribiyi_Baseet_fom1td.png' },
+  { name: 'Halimat Thanni', role: 'Research Data Analyst', company: '@PropCrowdy Limited', image: 'https://res.cloudinary.com/dv7yvatu2/image/upload/v1767125526/Halimat_Thanni_fokdll.png' }
 ];
 
 export const BootcampsPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const [isPartnerOpen, setIsPartnerOpen] = useState(false);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [overlayMode, setOverlayMode] = useState<'partner' | 'facilitator'>('partner');
   const activeCourse = courseId ? courses.find(c => c.id === courseId) : null;
   const displayCourses = activeCourse ? [activeCourse] : courses;
+
+  const handleOpenFacilitatorForm = () => {
+    setOverlayMode('facilitator');
+    setIsOverlayOpen(true);
+  };
 
   return (
     <div className="w-full bg-white pt-[120px] md:pt-[180px]">
       <div className="container mx-auto px-6">
-        <PartnerOverlay isOpen={isPartnerOpen} onClose={() => setIsPartnerOpen(false)} />
+        <PartnerOverlay 
+          isOpen={isOverlayOpen} 
+          onClose={() => setIsOverlayOpen(false)} 
+          mode={overlayMode}
+        />
         
         {/* Header */}
         <div className="text-center mb-16 max-w-4xl mx-auto">
@@ -115,13 +127,13 @@ export const BootcampsPage: React.FC = () => {
             <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-4`}>Learn from Industry Experts</h2>
             <p className="text-gray-500">Mentors with experience from Africa's top unicorns and global tech firms.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12">
             {mentors.map((mentor, i) => (
               <div key={i} className="text-center group">
-                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors">
-                  <img src={mentor.image} alt={mentor.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors relative bg-gray-50">
+                  <img src={mentor.image} alt={mentor.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all absolute inset-0" />
                 </div>
-                <h4 className="font-bold text-base md:text-lg text-[#08223d]">{mentor.name}</h4>
+                <h4 className="font-bold text-base md:text-lg text-[#08223d] truncate px-2">{mentor.name}</h4>
                 <p className="text-xs md:text-sm text-[#135291] font-medium">{mentor.role}</p>
                 <p className="text-[10px] md:text-xs text-gray-400 mt-1 uppercase tracking-wider">{mentor.company}</p>
               </div>
@@ -133,9 +145,9 @@ export const BootcampsPage: React.FC = () => {
               size="lg" 
               variant="outline" 
               className="px-12"
-              onClick={() => setIsPartnerOpen(true)}
+              onClick={handleOpenFacilitatorForm}
             >
-              Become a Mentor
+              Become a facilitator
             </Button>
           </div>
         </section>

@@ -1,4 +1,3 @@
-
 import { Search, SortAsc, SortDesc, User } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -107,8 +106,8 @@ export const BlogPage: React.FC = () => {
                   <div className="absolute top-3 left-3"><span className="bg-[#135291] text-white text-[10px] font-bold px-3 py-1 rounded-full">{post.category}</span></div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-extrabold text-[#08223d] mb-4 leading-tight group-hover:text-[#135291] uppercase">{post.title}</h3>
-                  <p className="text-gray-400 text-sm mb-8 line-clamp-2">{post.excerpt}</p>
+                  <h3 className="text-[16px] font-extrabold text-[#08223d] mb-4 leading-tight group-hover:text-[#135291] uppercase">{post.title}</h3>
+                  <p className="text-gray-400 text-[14px] mb-8 line-clamp-2">{post.excerpt}</p>
                   <div className="mt-auto flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center shrink-0 border border-gray-100">
                       {post.authorImage ? (
