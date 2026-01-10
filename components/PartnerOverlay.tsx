@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ChevronDown } from 'lucide-react';
+import { X, ChevronDown, Loader2 } from 'lucide-react';
 import { Button } from './Button';
 import { TYPOGRAPHY } from '../constants';
 
@@ -9,6 +9,13 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator';
 }
 
+/**
+ * URLs for separate sheets. 
+ * Replace placeholders with your generated Web App URLs.
+ */
+const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxl3asaXDp5N1imxXIxeqq4I7kFCVqdVjxyPM5mRW7l39oGsKe6GHR0G4dCq-v4ktqSRQ/exec";
+const FACILITATOR_SCRIPT_URL = "YOUR_FACILITATOR_SHEET_URL_HERE";
+
 const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
 const supporterTypes = [
   'Sponsor (Financial support)',
@@ -16,36 +23,6 @@ const supporterTypes = [
   'Community Supporter / Advocate',
   'Corporate / CSR Partner',
   'Media / Publicity Partner',
-  'Other'
-];
-
-const interestAreas = [
-  'Tech Education & Training Programs',
-  'Product Management / Software Development Tracks',
-  'STEM-A-SCHOOL/ STEMCON Tour',
-  'Scholarships (Laptop, Training, Bootcamps)',
-  'Women & Girls in Tech Initiatives',
-  'Community Events & Meetups',
-  'Talent Development & Employability',
-  'Research, Innovation & Policy Advocacy'
-];
-
-const intentions = [
-  'Financial sponsorship',
-  'In-kind support (tools, software, devices, venue, internet, etc.)',
-  'Mentorship / Training delivery',
-  'Speaking engagements',
-  'Internship / Job placement opportunities',
-  'Partnerships / Co-branding',
-  'Media coverage or promotion'
-];
-
-const expectations = [
-  'Brand visibility',
-  'Impact reporting',
-  'Talent pipeline access',
-  'CSR alignment',
-  'Community goodwill (I just want to give back)',
   'Other'
 ];
 
@@ -59,6 +36,7 @@ const tracks = [
 ];
 
 export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose, mode = 'partner' }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -71,11 +49,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     orgSize: '',
     trackInterestedIn: '',
     supporterType: [] as string[],
-    otherSupporter: '',
-    interests: [] as string[],
-    intentions: [] as string[],
     motivation: '',
-    pastSupport: '',
     expectation: '',
     otherExpectations: '',
     consent: false
@@ -100,9 +74,50 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     setFormData({ ...formData, [key]: newList });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    const isFacilitator = mode === 'facilitator';
+    const targetUrl = isFacilitator ? FACILITATOR_SCRIPT_URL : PARTNER_SCRIPT_URL;
+    
+    try {
+      // Create payload matching your Sheet Headers exactly
+      const payload = {
+        timestamp: new Date().toLocaleString(),
+        fullName: formData.fullName,
+        orgName: formData.orgName,
+        role: formData.role,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        website: formData.website,
+        motivation: formData.motivation,
+        ...(isFacilitator 
+          ? { trackInterestedIn: formData.trackInterestedIn } 
+          : { 
+              orgSize: formData.orgSize,
+              supporterType: formData.supporterType.join(', '),
+              expectation: formData.expectation === 'Other' ? formData.otherExpectations : formData.expectation
+            }
+        )
+      };
+
+      await fetch(targetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Submission failed", error);
+      alert("Something went wrong. Please check your internet connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
@@ -118,7 +133,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
 
       <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
         
-        {/* Sticky Header */}
         <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
@@ -133,7 +147,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
 
         <div className="flex-1 overflow-y-auto p-6 md:p-10 scrollbar-hide">
           {submitted ? (
-            <div className="py-20 text-center">
+            <div className="py-20 text-center animate-fade-in">
               <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </div>
@@ -183,12 +197,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                     <div>
                       <label className={labelClasses}>Track Interested In *</label>
                       <div className="relative">
-                        <select 
-                          required
-                          className={selectClasses}
-                          value={formData.trackInterestedIn}
-                          onChange={(e) => setFormData({...formData, trackInterestedIn: e.target.value})}
-                        >
+                        <select required className={selectClasses} value={formData.trackInterestedIn} onChange={(e) => setFormData({...formData, trackInterestedIn: e.target.value})}>
                           <option value="">Select a track</option>
                           {tracks.map(t => <option key={t} value={t}>{t}</option>)}
                         </select>
@@ -199,13 +208,13 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                     </div>
                   )}
 
-                  <div className={isFacilitatorMode ? "w-full" : "grid grid-cols-1 md:grid-cols-2 gap-4"}>
-                    <div className={isFacilitatorMode ? "w-full" : ""}>
+                  <div className="w-full">
+                    <div>
                       <label className={labelClasses}>Website / LinkedIn (Optional)</label>
                       <input type="url" className={inputClasses} placeholder="https://..." value={formData.website} onChange={e => setFormData({...formData, website: e.target.value})} />
                     </div>
                     {!isFacilitatorMode && (
-                      <div>
+                      <div className="mt-4">
                         <label className={labelClasses}>Organization Size (Optional)</label>
                         <div className="relative">
                           <select className={selectClasses} value={formData.orgSize} onChange={e => setFormData({...formData, orgSize: e.target.value})}>
@@ -229,50 +238,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                     <div className="grid grid-cols-1 gap-2">
                       {supporterTypes.map(type => (
                         <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all">
-                          <input 
-                            type="checkbox" 
-                            className={checkboxClasses} 
-                            checked={formData.supporterType.includes(type)} 
-                            onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} 
-                          />
+                          <input type="checkbox" className={checkboxClasses} checked={formData.supporterType.includes(type)} onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} />
                           <span className="text-sm text-gray-700">{type}</span>
-                        </label>
-                      ))}
-                      {formData.supporterType.includes('Other') && (
-                        <input type="text" className={inputClasses} placeholder="Specify other type" value={formData.otherSupporter} onChange={e => setFormData({...formData, otherSupporter: e.target.value})} />
-                      )}
-                    </div>
-                  </section>
-
-                  <section>
-                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">3. Support Focus</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {interestAreas.map(area => (
-                        <label key={area} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            className={checkboxClasses} 
-                            checked={formData.interests.includes(area)} 
-                            onChange={() => handleToggle(formData.interests, area, 'interests')} 
-                          />
-                          <span className="text-sm text-gray-700">{area}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </section>
-
-                  <section>
-                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">4. Intention</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {intentions.map(intent => (
-                        <label key={intent} className="flex items-start gap-3 p-3 rounded-lg cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            className={checkboxClasses} 
-                            checked={formData.intentions.includes(intent)} 
-                            onChange={() => handleToggle(formData.intentions, intent, 'intentions')} 
-                          />
-                          <span className="text-sm text-gray-700">{intent}</span>
                         </label>
                       ))}
                     </div>
@@ -282,36 +249,10 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
 
               <section>
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">
-                  {isFacilitatorMode ? '2. Why facilitate with us? *' : '5. Motivation *'}
+                  {isFacilitatorMode ? '2. Why facilitate with us? *' : '2. Motivation *'}
                 </h4>
-                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience and why you'd like to join our pool of experts." : "Why are you interested in supporting Product Hub Africa, and what impact would you like to help create?"} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience..." : "Why are you interested in supporting..."} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
               </section>
-
-              {!isFacilitatorMode && (
-                <section>
-                  <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">
-                    6. Primary Expectation
-                  </h4>
-                  <div className="relative">
-                    <select 
-                      className={selectClasses}
-                      value={formData.expectation}
-                      onChange={(e) => setFormData({...formData, expectation: e.target.value})}
-                    >
-                      <option value="">Select your main expectation</option>
-                      {expectations.map(exp => <option key={exp} value={exp}>{exp}</option>)}
-                    </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
-                      <ChevronDown size={18} />
-                    </div>
-                  </div>
-                  {formData.expectation === 'Other' && (
-                    <div className="mt-4">
-                      <input type="text" className={inputClasses} placeholder="Specify other expectations" value={formData.otherExpectations} onChange={e => setFormData({...formData, otherExpectations: e.target.value})} />
-                    </div>
-                  )}
-                </section>
-              )}
 
               <section className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -323,8 +264,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
               </section>
 
               <div className="pt-4 pb-10">
-                <Button fullWidth size="lg" type="submit">
-                  {isFacilitatorMode ? 'Submit Facilitator Application' : 'Submit Partnership Application'}
+                <Button fullWidth size="lg" type="submit" disabled={isSubmitting}>
+                   {isSubmitting ? <><Loader2 size={18} className="animate-spin mr-2" /> Submitting...</> : (isFacilitatorMode ? 'Submit Facilitator Application' : 'Submit Partnership Application')}
                 </Button>
               </div>
             </form>
@@ -332,13 +273,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         </div>
       </div>
       <style>{`
-        @keyframes slideInRight {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        .animate-slide-in-right {
-          animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .animate-slide-in-right { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
       `}</style>
     </div>
   );
