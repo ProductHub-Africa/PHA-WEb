@@ -9,10 +9,6 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator';
 }
 
-/**
- * URLs for separate sheets. 
- * Replace placeholders with your generated Web App URLs.
- */
 const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxl3asaXDp5N1imxXIxeqq4I7kFCVqdVjxyPM5mRW7l39oGsKe6GHR0G4dCq-v4ktqSRQ/exec";
 const FACILITATOR_SCRIPT_URL = "YOUR_FACILITATOR_SHEET_URL_HERE";
 
@@ -24,6 +20,25 @@ const supporterTypes = [
   'Corporate / CSR Partner',
   'Media / Publicity Partner',
   'Other'
+];
+
+const interestAreas = [
+  'Tech Education & Training Programs',
+  'Product Management / Software Development Tracks',
+  'STEM-A-SCHOOL / STEMCON Tour',
+  'Scholarships (Laptop, Training, Bootcamps)',
+  'Women & Girls in Tech Initiatives',
+  'Community Events & Meetups',
+  'Talent Development & Employability'
+];
+
+const intentions = [
+  'Financial sponsorship',
+  'In-kind support (tools, software, devices, etc.)',
+  'Mentorship / Training delivery',
+  'Speaking engagements',
+  'Internship / Job placement opportunities',
+  'Partnerships / Co-branding'
 ];
 
 const tracks = [
@@ -49,6 +64,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     orgSize: '',
     trackInterestedIn: '',
     supporterType: [] as string[],
+    interests: [] as string[],
+    intentions: [] as string[],
     motivation: '',
     expectation: '',
     otherExpectations: '',
@@ -78,12 +95,17 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     e.preventDefault();
     if (isSubmitting) return;
     
-    setIsSubmitting(true);
     const isFacilitator = mode === 'facilitator';
     const targetUrl = isFacilitator ? FACILITATOR_SCRIPT_URL : PARTNER_SCRIPT_URL;
+
+    if (targetUrl.includes("YOUR_")) {
+      alert("Error: The script URL for this form has not been set yet. Please check the code.");
+      return;
+    }
+    
+    setIsSubmitting(true);
     
     try {
-      // Create payload matching your Sheet Headers exactly
       const payload = {
         timestamp: new Date().toLocaleString(),
         fullName: formData.fullName,
@@ -99,22 +121,27 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
           : { 
               orgSize: formData.orgSize,
               supporterType: formData.supporterType.join(', '),
+              interests: formData.interests.join(', '),
+              intentions: formData.intentions.join(', '),
               expectation: formData.expectation === 'Other' ? formData.otherExpectations : formData.expectation
             }
         )
       };
 
+      // Using text/plain ensures no CORS pre-flight, which is crucial for Google Apps Script 'no-cors' POST
       await fetch(targetUrl, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
         body: JSON.stringify(payload),
       });
       
       setSubmitted(true);
     } catch (error) {
-      console.error("Submission failed", error);
-      alert("Something went wrong. Please check your internet connection.");
+      console.error("Submission failed:", error);
+      alert("Submission failed. Please check your internet connection and verify that your Google Apps Script is deployed as 'Anyone'.");
     } finally {
       setIsSubmitting(false);
     }
@@ -132,7 +159,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
 
       <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
-        
         <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
@@ -145,7 +171,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 md:p-10 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto p-6 md:p-10">
           {submitted ? (
             <div className="py-20 text-center animate-fade-in">
               <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -159,8 +185,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Section 1: Basic Info */}
               <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">1. Basic Information</h4>
+                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">1. Basic Information</h4>
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -231,27 +258,56 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                 </div>
               </section>
 
+              {/* Section 2: Partnership Specifics */}
               {!isFacilitatorMode && (
-                <>
-                  <section>
-                    <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">2. Type of Supporter</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {supporterTypes.map(type => (
-                        <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all">
-                          <input type="checkbox" className={checkboxClasses} checked={formData.supporterType.includes(type)} onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} />
-                          <span className="text-sm text-gray-700">{type}</span>
-                        </label>
-                      ))}
+                <section>
+                  <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">2. Partnership Details</h4>
+                  <div className="space-y-6">
+                    <div>
+                      <label className={labelClasses}>Type of Supporter *</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                        {supporterTypes.map(type => (
+                          <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
+                            <input type="checkbox" className={checkboxClasses} checked={formData.supporterType.includes(type)} onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} />
+                            <span className="text-sm text-gray-700">{type}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </section>
-                </>
+
+                    <div>
+                      <label className={labelClasses}>Areas of Interest *</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                        {interestAreas.map(item => (
+                          <label key={item} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
+                            <input type="checkbox" className={checkboxClasses} checked={formData.interests.includes(item)} onChange={() => handleToggle(formData.interests, item, 'interests')} />
+                            <span className="text-sm text-gray-700">{item}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={labelClasses}>Mode of Support (Intentions) *</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
+                        {intentions.map(item => (
+                          <label key={item} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
+                            <input type="checkbox" className={checkboxClasses} checked={formData.intentions.includes(item)} onChange={() => handleToggle(formData.intentions, item, 'intentions')} />
+                            <span className="text-sm text-gray-700">{item}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </section>
               )}
 
+              {/* Section 3: Motivation */}
               <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100">
-                  {isFacilitatorMode ? '2. Why facilitate with us? *' : '2. Motivation *'}
+                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">
+                  {isFacilitatorMode ? '2. Experience & Motivation *' : '3. Motivation *'}
                 </h4>
-                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience..." : "Why are you interested in supporting..."} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience..." : "Why are you interested in supporting Product Hub Africa?"} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
               </section>
 
               <section className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">

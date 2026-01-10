@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Loader2 } from 'lucide-react';
+/* Added ChevronDown to imports */
+import { X, Loader2, ChevronDown } from 'lucide-react';
 import { Button } from './Button';
 import { TYPOGRAPHY } from '../constants';
 
@@ -8,7 +9,6 @@ interface CommunityOverlayProps {
   onClose: () => void;
 }
 
-// Dedicated URL for Community sheet
 const COMMUNITY_SCRIPT_URL = "YOUR_COMMUNITY_SHEET_URL_HERE";
 
 const months = [
@@ -62,13 +62,18 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     e.preventDefault();
     if (isSubmitting) return;
 
+    if (COMMUNITY_SCRIPT_URL.includes("YOUR_")) {
+      alert("Error: Community Script URL not set.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       await fetch(COMMUNITY_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ 
           timestamp: new Date().toLocaleString(),
           firstName: formData.firstName,
@@ -93,8 +98,8 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
-  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium";
-  const labelClasses = "block text-sm font-bold text-gray-700 mb-2.5";
+  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium text-sm";
+  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true" aria-labelledby="community-overlay-title">
@@ -125,44 +130,44 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-5">
                 <div>
-                  <label className={labelClasses}>First Name</label>
+                  <label className={labelClasses}>First Name *</label>
                   <input required type="text" className={inputClasses} placeholder="John" value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
                 </div>
                 <div>
-                  <label className={labelClasses}>Last Name</label>
+                  <label className={labelClasses}>Last Name *</label>
                   <input required type="text" className={inputClasses} placeholder="Doe" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
                 </div>
               </div>
               <div>
-                <label className={labelClasses}>Email Address</label>
+                <label className={labelClasses}>Email Address *</label>
                 <input required type="email" className={inputClasses} placeholder="john@example.com" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
               </div>
               <div>
-                <label className={labelClasses}>Track of Interest</label>
+                <label className={labelClasses}>Track of Interest *</label>
                 <div className="relative">
                   <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.track} onChange={(e) => setFormData({...formData, track: e.target.value})}>
                     <option value="">Select a track</option>
                     {tracks.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <ChevronDown size={18} />
                   </div>
                 </div>
               </div>
               <div>
-                <label className={labelClasses}>Country</label>
+                <label className={labelClasses}>Country *</label>
                 <div className="relative">
                   <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})}>
                     <option value="">Select your country</option>
                     {countries.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <ChevronDown size={18} />
                   </div>
                 </div>
               </div>
               <div>
-                <label className={labelClasses}>Years of Experience</label>
+                <label className={labelClasses}>Years of Experience *</label>
                 <div className="relative">
                   <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})}>
                     <option value="">Select experience level</option>
@@ -172,16 +177,16 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                     <option value="5+">5+ years</option>
                   </select>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <ChevronDown size={18} />
                   </div>
                 </div>
               </div>
               <div>
-                <label className={labelClasses}>WhatsApp Number</label>
+                <label className={labelClasses}>WhatsApp Number *</label>
                 <input required type="tel" className={inputClasses} placeholder="+234..." value={formData.whatsapp} onChange={(e) => setFormData({...formData, whatsapp: e.target.value})} />
               </div>
               <div>
-                <label className={labelClasses}>Date of Birth</label>
+                <label className={labelClasses}>Date of Birth *</label>
                 <div className="grid grid-cols-2 gap-5">
                   <div className="relative">
                     <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.dobMonth} onChange={(e) => setFormData({...formData, dobMonth: e.target.value})}>
@@ -189,7 +194,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                       {months.map(m => <option key={m} value={m}>{m}</option>)}
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <ChevronDown size={18} />
                     </div>
                   </div>
                   <div className="relative">
@@ -198,12 +203,12 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                       {days.map(d => <option key={d} value={d}>{d}</option>)}
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                      <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <ChevronDown size={18} />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="pt-8">
+              <div className="pt-8 pb-10">
                 <Button fullWidth size="lg" type="submit" disabled={isSubmitting}>
                   {isSubmitting ? <><Loader2 size={18} className="animate-spin mr-2" /> Submitting...</> : "Join Now"}
                 </Button>
@@ -212,6 +217,10 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
           )}
         </div>
       </div>
+      <style>{`
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .animate-slide-in-right { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+      `}</style>
     </div>
   );
 };
