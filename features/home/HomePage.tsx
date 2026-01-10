@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
@@ -173,8 +172,8 @@ export const HomePage: React.FC = () => {
         .animate-gradient-text { background-size: 200% auto; animation: gradient-flow 3s ease-in-out infinite; }
       `}</style>
 
-      {/* Hero Section - Background changed to white to match image BG */}
-      <section className="relative pt-[140px] pb-[100px] md:pt-[220px] md:pb-[200px] bg-white">
+      {/* Hero Section - Reduced top padding to 104px (80px header + 24px space) on desktop */}
+      <section className="relative pt-[100px] pb-[100px] md:pt-[104px] md:pb-[200px] bg-white">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <Reveal width="100%" className="lg:w-[40%] z-10 text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">

@@ -9,7 +9,7 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator';
 }
 
-const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxl3asaXDp5N1imxXIxeqq4I7kFCVqdVjxyPM5mRW7l39oGsKe6GHR0G4dCq-v4ktqSRQ/exec";
+const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzrgd3kv5uYbH8APadZ9HVIyIxGDAJX-jOA5StO-uJi/dev";
 const FACILITATOR_SCRIPT_URL = "YOUR_FACILITATOR_SHEET_URL_HERE";
 
 const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
@@ -20,25 +20,6 @@ const supporterTypes = [
   'Corporate / CSR Partner',
   'Media / Publicity Partner',
   'Other'
-];
-
-const interestAreas = [
-  'Tech Education & Training Programs',
-  'Product Management / Software Development Tracks',
-  'STEM-A-SCHOOL / STEMCON Tour',
-  'Scholarships (Laptop, Training, Bootcamps)',
-  'Women & Girls in Tech Initiatives',
-  'Community Events & Meetups',
-  'Talent Development & Employability'
-];
-
-const intentions = [
-  'Financial sponsorship',
-  'In-kind support (tools, software, devices, etc.)',
-  'Mentorship / Training delivery',
-  'Speaking engagements',
-  'Internship / Job placement opportunities',
-  'Partnerships / Co-branding'
 ];
 
 const tracks = [
@@ -64,11 +45,8 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     orgSize: '',
     trackInterestedIn: '',
     supporterType: [] as string[],
-    interests: [] as string[],
-    intentions: [] as string[],
     motivation: '',
     expectation: '',
-    otherExpectations: '',
     consent: false
   });
 
@@ -99,7 +77,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     const targetUrl = isFacilitator ? FACILITATOR_SCRIPT_URL : PARTNER_SCRIPT_URL;
 
     if (targetUrl.includes("YOUR_")) {
-      alert("Error: The script URL for this form has not been set yet. Please check the code.");
+      alert("Error: The script URL for this form has not been set yet.");
       return;
     }
     
@@ -121,14 +99,11 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
           : { 
               orgSize: formData.orgSize,
               supporterType: formData.supporterType.join(', '),
-              interests: formData.interests.join(', '),
-              intentions: formData.intentions.join(', '),
-              expectation: formData.expectation === 'Other' ? formData.otherExpectations : formData.expectation
+              expectation: formData.expectation
             }
         )
       };
 
-      // Using text/plain ensures no CORS pre-flight, which is crucial for Google Apps Script 'no-cors' POST
       await fetch(targetUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -141,7 +116,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       setSubmitted(true);
     } catch (error) {
       console.error("Submission failed:", error);
-      alert("Submission failed. Please check your internet connection and verify that your Google Apps Script is deployed as 'Anyone'.");
+      alert("Submission failed. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -185,7 +160,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Section 1: Basic Info */}
               <section>
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">1. Basic Information</h4>
                 <div className="space-y-4">
@@ -258,7 +232,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                 </div>
               </section>
 
-              {/* Section 2: Partnership Specifics */}
               {!isFacilitatorMode && (
                 <section>
                   <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">2. Partnership Details</h4>
@@ -274,35 +247,14 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                         ))}
                       </div>
                     </div>
-
                     <div>
-                      <label className={labelClasses}>Areas of Interest *</label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
-                        {interestAreas.map(item => (
-                          <label key={item} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
-                            <input type="checkbox" className={checkboxClasses} checked={formData.interests.includes(item)} onChange={() => handleToggle(formData.interests, item, 'interests')} />
-                            <span className="text-sm text-gray-700">{item}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className={labelClasses}>Mode of Support (Intentions) *</label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
-                        {intentions.map(item => (
-                          <label key={item} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
-                            <input type="checkbox" className={checkboxClasses} checked={formData.intentions.includes(item)} onChange={() => handleToggle(formData.intentions, item, 'intentions')} />
-                            <span className="text-sm text-gray-700">{item}</span>
-                          </label>
-                        ))}
-                      </div>
+                      <label className={labelClasses}>Your Expectations *</label>
+                      <textarea required rows={3} className="w-full min-h-[100px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder="What are your expectations from this partnership?" value={formData.expectation} onChange={e => setFormData({...formData, expectation: e.target.value})} />
                     </div>
                   </div>
                 </section>
               )}
 
-              {/* Section 3: Motivation */}
               <section>
                 <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">
                   {isFacilitatorMode ? '2. Experience & Motivation *' : '3. Motivation *'}
