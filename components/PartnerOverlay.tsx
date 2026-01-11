@@ -9,7 +9,8 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator';
 }
 
-const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzrgd3kv5uYbH8APadZ9HVIyIxGDAJX-jOA5StO-uJi/dev";
+// Ensure this is the "/exec" URL from your deployment
+const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCRkdyRVbIBt5EqUxhNSfHS2fs_qShTsrkf3VGIiioWPauKbUb_WFU8rrYVCqd5Ct7_A/exec";
 const FACILITATOR_SCRIPT_URL = "YOUR_FACILITATOR_SHEET_URL_HERE";
 
 const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
@@ -84,6 +85,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     setIsSubmitting(true);
     
     try {
+      // These keys MUST match the Google Apps Script mapping
       const payload = {
         timestamp: new Date().toLocaleString(),
         fullName: formData.fullName,
@@ -93,17 +95,13 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         phone: formData.phone,
         location: formData.location,
         website: formData.website,
+        orgSize: formData.orgSize,
+        supporterType: formData.supporterType.join(', '),
         motivation: formData.motivation,
-        ...(isFacilitator 
-          ? { trackInterestedIn: formData.trackInterestedIn } 
-          : { 
-              orgSize: formData.orgSize,
-              supporterType: formData.supporterType.join(', '),
-              expectation: formData.expectation
-            }
-        )
+        expectation: formData.expectation
       };
 
+      // Using no-cors because Apps Script doesn't return CORS headers on redirects
       await fetch(targetUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -113,10 +111,11 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         body: JSON.stringify(payload),
       });
       
+      // Since no-cors hides response, we assume success if no error is thrown
       setSubmitted(true);
     } catch (error) {
       console.error("Submission failed:", error);
-      alert("Submission failed. Please check your internet connection.");
+      alert("Submission failed. Please check your internet connection and ensure your Apps Script is deployed to 'Anyone'.");
     } finally {
       setIsSubmitting(false);
     }
