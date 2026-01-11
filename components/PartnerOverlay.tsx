@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { X, ChevronDown, Loader2 } from 'lucide-react';
+import { X, ChevronDown, Loader2, ArrowRight, ArrowLeft, Edit3, CheckCircle } from 'lucide-react';
 import { Button } from './Button';
 import { TYPOGRAPHY } from '../constants';
 
@@ -9,136 +10,93 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator';
 }
 
-// Ensure this is the "/exec" URL from your deployment
-const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwCRkdyRVbIBt5EqUxhNSfHS2fs_qShTsrkf3VGIiioWPauKbUb_WFU8rrYVCqd5Ct7_A/exec";
-const FACILITATOR_SCRIPT_URL = "YOUR_FACILITATOR_SHEET_URL_HERE";
+const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
 
-const orgSizes = ['Individual', 'Startup', 'SME', 'Enterprise', 'NGO'];
-const supporterTypes = [
-  'Sponsor (Financial support)',
-  'Partner (Strategic / Program / Institutional)',
-  'Community Supporter / Advocate',
-  'Corporate / CSR Partner',
-  'Media / Publicity Partner',
-  'Other'
-];
-
-const tracks = [
-  'Product Management',
-  'Product Design',
-  'Data Analytics',
-  'Cybersecurity',
-  'Technical Writing',
-  'Software Engineering'
-];
+const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
+const supporterTypes = ['Sponsor (Financial)', 'Partner (Strategic)', 'Community Supporter', 'Corporate Partner', 'Media Partner', 'Other'];
 
 export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose, mode = 'partner' }) => {
+  const [currentPage, setCurrentPage] = useState(0); // 0: Basic, 1: Details, 2: Review, 3: Success
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: '',
     orgName: '',
-    role: '',
     email: '',
     phone: '',
     location: '',
-    website: '',
-    orgSize: '',
     trackInterestedIn: '',
     supporterType: [] as string[],
-    motivation: '',
-    expectation: '',
-    consent: false
+    motivation: ''
   });
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       setSubmitted(false);
+      setCurrentPage(0);
     } else {
       document.body.style.overflow = 'unset';
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
-  const handleToggle = (list: string[], item: string, key: keyof typeof formData) => {
-    const currentList = list as string[];
-    const newList = currentList.includes(item) 
-      ? currentList.filter(i => i !== item) 
-      : [...currentList, item];
-    setFormData({ ...formData, [key]: newList });
+  const handleToggle = (item: string) => {
+    const newList = formData.supporterType.includes(item) 
+      ? formData.supporterType.filter(i => i !== item) 
+      : [...formData.supporterType, item];
+    setFormData({ ...formData, supporterType: newList });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (isSubmitting) return;
-    
-    const isFacilitator = mode === 'facilitator';
-    const targetUrl = isFacilitator ? FACILITATOR_SCRIPT_URL : PARTNER_SCRIPT_URL;
-
-    if (targetUrl.includes("YOUR_")) {
-      alert("Error: The script URL for this form has not been set yet.");
-      return;
-    }
-    
     setIsSubmitting(true);
     
-    try {
-      // These keys MUST match the Google Apps Script mapping
-      const payload = {
-        timestamp: new Date().toLocaleString(),
-        fullName: formData.fullName,
-        orgName: formData.orgName,
-        role: formData.role,
-        email: formData.email,
-        phone: formData.phone,
-        location: formData.location,
-        website: formData.website,
-        orgSize: formData.orgSize,
-        supporterType: formData.supporterType.join(', '),
-        motivation: formData.motivation,
-        expectation: formData.expectation
-      };
+    const isFac = mode === 'facilitator';
+    const payload = {
+      timestamp: new Date().toLocaleString(),
+      source: isFac ? 'Facilitator App' : 'Partner App',
+      sheetName: isFac ? 'Facilitators' : 'Partners',
+      ...formData,
+      supporterType: formData.supporterType.join(', ')
+    };
 
-      // Using no-cors because Apps Script doesn't return CORS headers on redirects
-      await fetch(targetUrl, {
+    try {
+      await fetch(PARTNER_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload),
       });
       
-      // Since no-cors hides response, we assume success if no error is thrown
+      const existing = JSON.parse(localStorage.getItem('pha_submissions') || '[]');
+      localStorage.setItem('pha_submissions', JSON.stringify([payload, ...existing]));
+
       setSubmitted(true);
+      setCurrentPage(3);
     } catch (error) {
-      console.error("Submission failed:", error);
-      alert("Submission failed. Please check your internet connection and ensure your Apps Script is deployed to 'Anyone'.");
+      console.error(error);
+      alert("Submission failed.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium";
-  const selectClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-semibold appearance-none cursor-pointer hover:bg-white shadow-sm";
-  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
-  const checkboxClasses = "appearance-none w-5 h-5 border-2 border-gray-300 rounded bg-transparent checked:bg-[#135291] checked:border-[#135291] transition-all relative cursor-pointer outline-none after:content-[''] after:absolute after:hidden checked:after:block after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-white after:border-b-2 after:border-r-2 after:rotate-45";
+  if (!isOpen) return null;
 
-  const isFacilitatorMode = mode === 'facilitator';
+  const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none text-sm font-medium";
+  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
-
       <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+        
         <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
-              {isFacilitatorMode ? 'Become a Facilitator' : 'Partner & Sponsor'}
+              {currentPage === 2 ? 'Review your submission' : submitted ? 'Success' : (mode === 'facilitator' ? 'Become a Facilitator' : 'Partner with Us')}
             </h2>
-            <p className="text-gray-500 text-xs">Collaborate with Product Hub Africa.</p>
+            <p className="text-gray-500 text-xs">{submitted ? 'Done' : `Step ${currentPage + 1} of 3`}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={24} className="text-gray-400" />
@@ -146,143 +104,121 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 md:p-10">
-          {submitted ? (
-            <div className="py-20 text-center animate-fade-in">
-              <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          {!submitted && (
+             <div className="flex gap-2 mb-8">
+              {[0, 1, 2].map((step) => (
+                <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+              ))}
+            </div>
+          )}
+
+          {currentPage === 3 ? (
+            <div className="animate-fade-in py-10 text-center">
+              <CheckCircle size={60} className="text-green-600 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold mb-4">Application Sent</h3>
+              <p className="text-gray-600 mb-8">We will reach out to you within 5 working days.</p>
+              <Button onClick={onClose}>Finish & Close</Button>
+            </div>
+          ) : currentPage === 2 ? (
+            <div className="animate-fade-in space-y-8">
+              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
+                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Information</h4>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Name', value: formData.fullName },
+                    { label: 'Email', value: formData.email },
+                    { label: 'Organization', value: formData.orgName },
+                    { label: 'Phone', value: formData.phone },
+                    { label: 'Location', value: formData.location },
+                    mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
+                  ].map((item, i) => (
+                    <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
+                      <span className="text-sm font-bold text-gray-400">{item.label}</span>
+                      <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-2xl font-bold text-[#08223d] mb-4">Submission Received!</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Thank you for your interest in {isFacilitatorMode ? 'facilitating with' : 'supporting'} Product Hub Africa. Our team will review your submission and reach out within 5–7 working days.
-              </p>
-              <Button className="mt-10" onClick={onClose}>Close</Button>
+              <div className="flex gap-4 pt-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3 border-gray-200 text-gray-600">
+                  <Edit3 size={18} className="mr-2" /> Edit Details
+                </Button>
+                <Button fullWidth size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Finish & Submit"}
+                </Button>
+              </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">1. Basic Information</h4>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form className="space-y-6">
+              {currentPage === 0 && (
+                <div className="animate-fade-in space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className={labelClasses}>Full Name *</label>
-                      <input required type="text" className={inputClasses} placeholder="Your name" value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
+                      <input required className={inputClasses} value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
                     </div>
                     <div>
-                      <label className={labelClasses}>{isFacilitatorMode ? 'Current Organization *' : 'Organization Name *'}</label>
-                      <input required type="text" className={inputClasses} placeholder={isFacilitatorMode ? "Where do you work?" : "Company or 'Individual'"} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
+                      <label className={labelClasses}>{mode === 'facilitator' ? 'Current Org' : 'Org Name'}</label>
+                      <input required className={inputClasses} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClasses}>Work Email *</label>
+                    <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className={labelClasses}>Role / Title *</label>
-                      <input required type="text" className={inputClasses} placeholder="Your position" value={formData.role} onChange={e => setFormData({...formData, role: e.target.value})} />
+                      <label className={labelClasses}>Phone *</label>
+                      <input required type="tel" className={inputClasses} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                     </div>
                     <div>
-                      <label className={labelClasses}>Email Address *</label>
-                      <input required type="email" className={inputClasses} placeholder="email@address.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                      <label className={labelClasses}>Location *</label>
+                      <input required className={inputClasses} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClasses}>Phone Number *</label>
-                      <input required type="tel" className={inputClasses} placeholder="+234..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className={labelClasses}>Country / City *</label>
-                      <input required type="text" className={inputClasses} placeholder="Lagos, Nigeria" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
-                    </div>
-                  </div>
-
-                  {isFacilitatorMode && (
-                    <div>
-                      <label className={labelClasses}>Track Interested In *</label>
-                      <div className="relative">
-                        <select required className={selectClasses} value={formData.trackInterestedIn} onChange={(e) => setFormData({...formData, trackInterestedIn: e.target.value})}>
-                          <option value="">Select a track</option>
-                          {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
-                          <ChevronDown size={18} />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="w-full">
-                    <div>
-                      <label className={labelClasses}>Website / LinkedIn (Optional)</label>
-                      <input type="url" className={inputClasses} placeholder="https://..." value={formData.website} onChange={e => setFormData({...formData, website: e.target.value})} />
-                    </div>
-                    {!isFacilitatorMode && (
-                      <div className="mt-4">
-                        <label className={labelClasses}>Organization Size (Optional)</label>
-                        <div className="relative">
-                          <select className={selectClasses} value={formData.orgSize} onChange={e => setFormData({...formData, orgSize: e.target.value})}>
-                            <option value="">Select size</option>
-                            {orgSizes.map(s => <option key={s} value={s}>{s}</option>)}
-                          </select>
-                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#135291]">
-                            <ChevronDown size={18} />
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                  <div className="pt-6">
+                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>Continue</Button>
                   </div>
                 </div>
-              </section>
+              )}
 
-              {!isFacilitatorMode && (
-                <section>
-                  <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">2. Partnership Details</h4>
-                  <div className="space-y-6">
+              {currentPage === 1 && (
+                <div className="animate-fade-in space-y-6">
+                  {mode === 'facilitator' ? (
                     <div>
-                      <label className={labelClasses}>Type of Supporter *</label>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
-                        {supporterTypes.map(type => (
-                          <label key={type} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer border border-transparent transition-all hover:bg-gray-50">
-                            <input type="checkbox" className={checkboxClasses} checked={formData.supporterType.includes(type)} onChange={() => handleToggle(formData.supporterType, type, 'supporterType')} />
-                            <span className="text-sm text-gray-700">{type}</span>
+                      <label className={labelClasses}>Track of Interest *</label>
+                      <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
+                        <option value="">Select track</option>
+                        {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                      </select>
+                    </div>
+                  ) : (
+                    <div>
+                      <label className={labelClasses}>Support Types *</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {supporterTypes.map(t => (
+                          <label key={t} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 border border-gray-100">
+                            <input type="checkbox" checked={formData.supporterType.includes(t)} onChange={() => handleToggle(t)} className="w-4 h-4" />
+                            <span className="text-xs">{t}</span>
                           </label>
                         ))}
                       </div>
                     </div>
-                    <div>
-                      <label className={labelClasses}>Your Expectations *</label>
-                      <textarea required rows={3} className="w-full min-h-[100px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder="What are your expectations from this partnership?" value={formData.expectation} onChange={e => setFormData({...formData, expectation: e.target.value})} />
-                    </div>
+                  )}
+                  <div>
+                    <label className={labelClasses}>Motivation / Message *</label>
+                    <textarea required rows={4} className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
                   </div>
-                </section>
+                  <div className="flex gap-4 pt-6">
+                    <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3">Back</Button>
+                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                  </div>
+                </div>
               )}
-
-              <section>
-                <h4 className="text-[#135291] font-bold text-sm mb-5 pb-2 border-b border-gray-100 uppercase tracking-widest">
-                  {isFacilitatorMode ? '2. Experience & Motivation *' : '3. Motivation *'}
-                </h4>
-                <textarea required rows={4} className="w-full min-h-[120px] px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 text-sm font-medium resize-none" placeholder={isFacilitatorMode ? "Tell us about your experience..." : "Why are you interested in supporting Product Hub Africa?"} value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
-              </section>
-
-              <section className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input required type="checkbox" className={checkboxClasses} checked={formData.consent} onChange={e => setFormData({...formData, consent: e.target.checked})} />
-                  <span className="text-xs font-bold text-[#08223d] uppercase tracking-wide">
-                    I agree to be contacted by Product Hub Africa regarding this submission.
-                  </span>
-                </label>
-              </section>
-
-              <div className="pt-4 pb-10">
-                <Button fullWidth size="lg" type="submit" disabled={isSubmitting}>
-                   {isSubmitting ? <><Loader2 size={18} className="animate-spin mr-2" /> Submitting...</> : (isFacilitatorMode ? 'Submit Facilitator Application' : 'Submit Partnership Application')}
-                </Button>
-              </div>
             </form>
           )}
         </div>
       </div>
-      <style>{`
-        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        .animate-slide-in-right { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-      `}</style>
     </div>
   );
 };

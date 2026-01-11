@@ -18,6 +18,7 @@ const StemSchoolPage = lazy(() => import('./features/stem-school/StemSchoolPage'
 const FAQPage = lazy(() => import('./features/legal/FAQPage').then(module => ({ default: module.FAQPage })));
 const PrivacyPolicyPage = lazy(() => import('./features/legal/PrivacyPolicyPage').then(module => ({ default: module.PrivacyPolicyPage })));
 const CookieConsent = lazy(() => import('./components/CookieConsent').then(module => ({ default: module.CookieConsent })));
+const ResponsesPage = lazy(() => import('./features/admin/ResponsesPage').then(module => ({ default: module.ResponsesPage })));
 
 // Loading Component
 const PageLoader = () => (
@@ -55,6 +56,7 @@ const App: React.FC = () => {
               <Route path="/stem-school" element={<StemSchoolPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/responses" element={<ResponsesPage />} />
             </Routes>
           </Suspense>
         </main>

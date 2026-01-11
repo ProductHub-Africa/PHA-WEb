@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, CheckCircle, ArrowLeft, ArrowRight, Edit3 } from 'lucide-react';
 import { Button } from './Button';
 import { TYPOGRAPHY } from '../constants';
 
@@ -8,19 +9,11 @@ interface VolunteerOverlayProps {
   onClose: () => void;
 }
 
-// Dedicated URL for Volunteer sheet
-const VOLUNTEER_SCRIPT_URL = "YOUR_VOLUNTEER_SHEET_URL_HERE";
-
-const departments = [
-  'Events Management',
-  'Community Management',
-  'Social Media & Content',
-  'Technical Facilitation',
-  'Partnerships',
-  'Design & Creative'
-];
+const VOLUNTEER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+const departments = ['Events Management', 'Community Management', 'Social Media & Content', 'Technical Facilitation', 'Partnerships', 'Design & Creative'];
 
 export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onClose }) => {
+  const [currentPage, setCurrentPage] = useState(0); // 0: Basic, 1: Details, 2: Review, 3: Success
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -28,7 +21,6 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
     lastName: '',
     email: '',
     department: '',
-    portfolio: '',
     linkedin: '',
     reason: ''
   });
@@ -37,107 +29,166 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       setSubmitted(false);
+      setCurrentPage(0);
     } else {
       document.body.style.overflow = 'unset';
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+
+    const payload = {
+      timestamp: new Date().toLocaleString(),
+      source: 'Volunteer App',
+      sheetName: 'Volunteer',
+      ...formData
+    };
+
     try {
       await fetch(VOLUNTEER_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          timestamp: new Date().toLocaleString(),
-          fullName: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          department: formData.department,
-          linkedin: formData.linkedin,
-          reason: formData.reason
-        }),
+        body: JSON.stringify(payload),
       });
+
+      const existing = JSON.parse(localStorage.getItem('pha_submissions') || '[]');
+      localStorage.setItem('pha_submissions', JSON.stringify([payload, ...existing]));
+
       setSubmitted(true);
+      setCurrentPage(3);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please check your internet connection.");
+      alert("Something went wrong.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (!isOpen) return null;
+
   const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium";
   const labelClasses = "block text-sm font-bold text-gray-700 mb-2.5";
 
   return (
-    <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true" aria-labelledby="volunteer-overlay-title">
+    <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" onClick={onClose} />
       <div className="relative w-full max-w-[620px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
         <div className="sticky top-0 bg-white z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
-            <h2 id="volunteer-overlay-title" className="text-2xl font-extrabold text-[#08223d] mb-1 block">Volunteer with Us</h2>
-            <p className="text-gray-500 text-xs block">Join our team and help build the future.</p>
+            <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
+              {currentPage === 2 ? 'Review your submission' : submitted ? 'Success' : 'Volunteer with Us'}
+            </h2>
+            <p className="text-gray-500 text-xs">{submitted ? 'Saved' : `Step ${currentPage + 1} of 3`}</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors" aria-label="Close volunteer overlay">
-            <X size={24} className="text-gray-400 hover:text-gray-600" />
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+            <X size={24} className="text-gray-400" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-8 md:p-10 scrollbar-hide">
-          {submitted ? (
-            <div className="py-20 text-center animate-fade-in">
-              <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-              <h3 className="text-2xl font-bold text-[#08223d] mb-4">Application Sent!</h3>
-              <p className="text-gray-600 leading-relaxed mb-8">Thank you for your interest. We'll be in touch shortly.</p>
-              <Button fullWidth onClick={onClose}>Close</Button>
+
+        <div className="flex-1 overflow-y-auto p-8 md:p-10">
+          {!submitted && (
+             <div className="flex gap-2 mb-8">
+              {[0, 1, 2].map((step) => (
+                <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+              ))}
             </div>
-          ) : (
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-2 gap-5">
+          )}
+
+          {currentPage === 3 ? (
+            <div className="animate-fade-in space-y-8">
+               <div className="flex items-center gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                <CheckCircle className="text-[#135291] shrink-0" size={32} />
                 <div>
-                  <label className={labelClasses}>First Name</label>
-                  <input required type="text" className={inputClasses} placeholder="John" value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
-                </div>
-                <div>
-                  <label className={labelClasses}>Last Name</label>
-                  <input required type="text" className={inputClasses} placeholder="Doe" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
+                  <h3 className="font-bold text-[#08223d]">Application Sent</h3>
+                  <p className="text-sm text-[#135291]/70">Thank you for volunteering!</p>
                 </div>
               </div>
-              <div>
-                <label className={labelClasses}>Email Address</label>
-                <input required type="email" className={inputClasses} placeholder="john@example.com" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
-              </div>
-              <div>
-                <label className={labelClasses}>Department of Interest</label>
-                <div className="relative">
-                  <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.department} onChange={(e) => setFormData({...formData, department: e.target.value})}>
-                    <option value="">Select a department</option>
-                    {departments.map(d => <option key={d} value={d}>{d}</option>)}
-                  </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </div>
+              <Button fullWidth size="lg" onClick={onClose}>Done</Button>
+            </div>
+          ) : currentPage === 2 ? (
+            <div className="animate-fade-in space-y-8">
+              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
+                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Confirm Details</h4>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Full Name', value: `${formData.firstName} ${formData.lastName}` },
+                    { label: 'Email', value: formData.email },
+                    { label: 'Department', value: formData.department },
+                    { label: 'LinkedIn', value: formData.linkedin || 'N/A' },
+                    { label: 'Motivation', value: formData.reason }
+                  ].map((item, i) => (
+                    <div key={i} className="flex flex-col border-b border-gray-200 pb-3 last:border-0">
+                      <span className="text-xs font-bold text-gray-400 uppercase mb-1">{item.label}</span>
+                      <span className="text-sm font-black text-[#08223d]">{item.value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className="w-full">
-                <label className={labelClasses}>Website / LinkedIn (Optional)</label>
-                <input type="url" className={inputClasses} placeholder="https://..." value={formData.linkedin} onChange={(e) => setFormData({...formData, linkedin: e.target.value})} />
-              </div>
-              <div>
-                <label className={labelClasses}>Motivation</label>
-                <textarea className="w-full min-h-[120px] px-5 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium" placeholder="Tell us why you'd be a good fit..." value={formData.reason} onChange={(e) => setFormData({...formData, reason: e.target.value})} />
-              </div>
-              <div className="pt-8 pb-10">
-                <Button fullWidth size="lg" type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? <><Loader2 size={18} className="animate-spin mr-2" /> Submitting...</> : "Submit Application"}
+              <div className="flex gap-4 pt-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3 border-gray-200 text-gray-600">
+                  <Edit3 size={18} className="mr-2" /> Edit Details
+                </Button>
+                <Button fullWidth size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? <Loader2 className="animate-spin" /> : "Finish & Submit"}
                 </Button>
               </div>
+            </div>
+          ) : (
+            <form className="space-y-6">
+              {currentPage === 0 && (
+                <div className="animate-fade-in space-y-6">
+                  <div className="grid grid-cols-2 gap-5">
+                    <div>
+                      <label className={labelClasses}>First Name</label>
+                      <input required className={inputClasses} value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
+                    </div>
+                    <div>
+                      <label className={labelClasses}>Last Name</label>
+                      <input required className={inputClasses} value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
+                    </div>
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Email Address</label>
+                    <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                  </div>
+                  <div className="pt-6">
+                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+                      Next Step <ArrowRight size={18} className="ml-2" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {currentPage === 1 && (
+                <div className="animate-fade-in space-y-6">
+                  <div>
+                    <label className={labelClasses}>Department</label>
+                    <select required className={inputClasses} value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
+                      <option value="">Select Department</option>
+                      {departments.map(d => <option key={d} value={d}>{d}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={labelClasses}>LinkedIn Profile</label>
+                    <input type="url" placeholder="https://linkedin.com/in/..." className={inputClasses} value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
+                  </div>
+                  <div>
+                    <label className={labelClasses}>Why do you want to join? *</label>
+                    <textarea required className="w-full min-h-[120px] p-5 bg-gray-50 border border-gray-200 rounded-xl outline-none" value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} />
+                  </div>
+                  <div className="flex gap-4 pt-6">
+                    <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3">
+                      Back
+                    </Button>
+                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(2)}>
+                      Review Application
+                    </Button>
+                  </div>
+                </div>
+              )}
             </form>
           )}
         </div>

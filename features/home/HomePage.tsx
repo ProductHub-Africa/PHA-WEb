@@ -8,7 +8,7 @@ import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationC
 
 const partners = [
   { name: 'Alt_School', logo: 'https://lh3.googleusercontent.com/d/1pjaKvAb9hsaVAzjXAvciE-u_ZLnOYlm-' },
-  { name: 'Propel', logo: 'https://lh3.googleusercontent.com/d/10DVZAwYsSJnnuVe27T2T8dSuGD2JemO3' },
+  { name: 'Propel', logo: 'https://logo.clearbit.com/propel.community' },
   { name: 'STEM-A-SCHOOL BY PHA', logo: 'https://lh3.googleusercontent.com/d/1iPIpRNiMc4Qjq7SMJU0roYvq3uEcFCqM' },
   { name: 'WealthWise', logo: 'https://lh3.googleusercontent.com/d/1LKECFqvh__m-a405bDymwcVZvkhiaVbw' }
 ];
@@ -172,8 +172,8 @@ export const HomePage: React.FC = () => {
         .animate-gradient-text { background-size: 200% auto; animation: gradient-flow 3s ease-in-out infinite; }
       `}</style>
 
-      {/* Hero Section - Increased top padding to 120px on desktop */}
-      <section className="relative pt-[100px] pb-[100px] md:pt-[120px] md:pb-[200px] bg-white">
+      {/* Hero Section - Padding set to 140px on desktop */}
+      <section className="relative pt-[100px] pb-[100px] md:pt-[140px] md:pb-[200px] bg-white">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <Reveal width="100%" className="lg:w-[40%] z-10 text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">
@@ -205,7 +205,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Trusted Partners - Reduced top/bottom padding to 0px on desktop */}
+      {/* Trusted Partners - 0px padding on desktop */}
       <section className="py-[60px] md:py-[0px] bg-white border-y border-gray-50 overflow-hidden">
         <div className="w-full overflow-hidden relative">
           <div className="flex animate-scroll w-max items-center">
