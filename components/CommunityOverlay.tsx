@@ -1,8 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
-import { X, Loader2, ChevronDown, CheckCircle, ArrowLeft, ArrowRight, Edit3 } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { X, Loader2, ChevronDown, CheckCircle, ArrowRight, Edit3 } from 'lucide-react';
 import { Button } from './Button';
-import { TYPOGRAPHY } from '../constants';
 
 interface CommunityOverlayProps {
   isOpen: boolean;
@@ -26,10 +25,20 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     track: '',
     experience: '',
     whatsapp: '',
-    dobMonth: '',
-    dobDay: '',
+    birthday: '',
     country: ''
   });
+
+  const birthdayOptions = useMemo(() => {
+    const opts: string[] = [];
+    months.forEach(m => {
+      const days = m === 'February' ? 29 : [4, 6, 9, 11].includes(months.indexOf(m) + 1) ? 30 : 31;
+      for (let d = 1; d <= days; d++) {
+        opts.push(`${d} ${m}`);
+      }
+    });
+    return opts;
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -50,10 +59,11 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
       source: 'Community Hub',
       sheetName: 'Community',
       ...formData,
-      dob: `${formData.dobDay} ${formData.dobMonth}`
+      dob: formData.birthday
     };
 
     try {
+      // Use text/plain to avoid CORS preflight (OPTIONS) which Google Apps Script doesn't handle natively
       await fetch(COMMUNITY_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -68,7 +78,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
       setCurrentPage(3);
     } catch (error) {
       console.error("Submission failed", error);
-      alert("Submission failed. Please check connection.");
+      alert("Something went wrong. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -84,10 +94,10 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" onClick={onClose} />
       <div className="relative w-full max-w-[620px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
         
-        <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
+        <div className="sticky top-0 bg-white z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
-              {currentPage === 2 ? 'Review your submission' : submitted ? 'Success' : 'Join the Community'}
+              {currentPage === 2 ? 'Review submission' : submitted ? 'Success' : 'Join the Community'}
             </h2>
             <p className="text-gray-500 text-xs">
               {submitted ? 'Record saved' : `Step ${currentPage + 1} of 3`}
@@ -98,140 +108,148 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-8 md:p-10">
-          {!submitted && (
-            <div className="flex gap-2 mb-8">
-              {[0, 1, 2].map((step) => (
-                <div key={step} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
-              ))}
-            </div>
-          )}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-8 md:p-10">
+            {!submitted && (
+              <div className="flex gap-2 mb-8">
+                {[0, 1, 2].map((step) => (
+                  <div key={step} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+                ))}
+              </div>
+            )}
 
-          {currentPage === 3 ? (
-            <div className="animate-fade-in space-y-8">
-              <div className="flex items-center gap-4 p-6 bg-green-50 rounded-2xl border border-green-100">
-                <CheckCircle className="text-green-600 shrink-0" size={32} />
-                <div>
-                  <h3 className="font-bold text-green-900">Successfully Submitted</h3>
-                  <p className="text-sm text-green-700">Thank you! Your application has been recorded.</p>
+            {currentPage === 3 ? (
+              <div className="animate-fade-in space-y-8">
+                <div className="flex items-center gap-4 p-6 bg-green-50 rounded-2xl border border-green-100">
+                  <CheckCircle className="text-green-600 shrink-0" size={32} />
+                  <div>
+                    <h3 className="font-bold text-green-900">Successfully Submitted</h3>
+                    <p className="text-sm text-green-700">Thank you! Your application has been recorded.</p>
+                  </div>
                 </div>
               </div>
-              <Button fullWidth size="lg" onClick={onClose}>Finish & Close</Button>
-            </div>
-          ) : currentPage === 2 ? (
-            <div className="animate-fade-in space-y-8">
-              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
-                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Your Data</h4>
-                <div className="space-y-4">
-                  {[
-                    { label: 'Full Name', value: `${formData.firstName} ${formData.lastName}` },
-                    { label: 'Email', value: formData.email },
-                    { label: 'WhatsApp', value: formData.whatsapp },
-                    { label: 'Track', value: formData.track },
-                    { label: 'Country', value: formData.country },
-                    { label: 'Experience', value: `${formData.experience} Years` },
-                    { label: 'Birthday', value: `${formData.dobDay} ${formData.dobMonth}` }
-                  ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
-                      <span className="text-sm font-bold text-gray-400">{item.label}</span>
-                      <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
+            ) : currentPage === 2 ? (
+              <div className="animate-fade-in space-y-8">
+                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                  <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Your Data</h4>
+                  <div className="space-y-4">
+                    {[
+                      { label: 'Full Name', value: `${formData.firstName} ${formData.lastName}` },
+                      { label: 'Email', value: formData.email },
+                      { label: 'WhatsApp', value: formData.whatsapp },
+                      { label: 'Track', value: formData.track },
+                      { label: 'Country', value: formData.country },
+                      { label: 'Experience', value: `${formData.experience} Years` },
+                      { label: 'Birthday', value: formData.birthday }
+                    ].map((item, i) => (
+                      <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
+                        <span className="text-sm font-bold text-gray-400">{item.label}</span>
+                        <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {currentPage === 0 && (
+                  <div className="animate-fade-in space-y-6">
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClasses}>First Name *</label>
+                        <input required type="text" className={inputClasses} value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
+                      </div>
+                      <div>
+                        <label className={labelClasses}>Last Name *</label>
+                        <input required type="text" className={inputClasses} value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div>
+                      <label className={labelClasses}>Email Address *</label>
+                      <input required type="email" className={inputClasses} value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                    </div>
+                    <div>
+                      <label className={labelClasses}>WhatsApp Number *</label>
+                      <input required type="tel" className={inputClasses} value={formData.whatsapp} onChange={(e) => setFormData({...formData, whatsapp: e.target.value})} />
+                    </div>
+                  </div>
+                )}
 
-              <div className="flex gap-4 pt-4">
-                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3 border-gray-200 text-gray-600">
-                  <Edit3 size={18} className="mr-2" /> Edit Details
+                {currentPage === 1 && (
+                  <div className="animate-fade-in space-y-6">
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClasses}>Track of Interest *</label>
+                        <div className="relative">
+                          <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.track} onChange={(e) => setFormData({...formData, track: e.target.value})}>
+                            <option value="">Select track</option>
+                            {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                          </select>
+                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className={labelClasses}>Country *</label>
+                        <div className="relative">
+                          <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})}>
+                            <option value="">Select country</option>
+                            {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-5">
+                      <div>
+                        <label className={labelClasses}>Experience *</label>
+                        <select required className={`${inputClasses} appearance-none`} value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})}>
+                          <option value="">Years</option>
+                          <option value="0-1">0-1</option>
+                          <option value="1-3">1-3</option>
+                          <option value="3-5">3-5</option>
+                          <option value="5+">5+</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClasses}>Birthday (Date & Month)</label>
+                        <div className="relative">
+                          <select required className={`${inputClasses} appearance-none`} value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})}>
+                            <option value="">Select Day & Month</option>
+                            {birthdayOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                          </select>
+                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="px-8 pb-8 pt-4 md:px-10 bg-white border-t border-gray-50 mt-auto">
+            {submitted ? (
+              <Button fullWidth size="lg" onClick={onClose}>Close</Button>
+            ) : currentPage === 2 ? (
+              <div className="flex gap-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">
+                  <Edit3 size={16} className="mr-2" /> Edit Info
                 </Button>
-                <Button fullWidth size="lg" onClick={handleSubmit} disabled={isSubmitting}>
-                  {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Finish & Submit"}
+                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
                 </Button>
               </div>
-            </div>
-          ) : (
-            <form className="space-y-6">
-              {currentPage === 0 && (
-                <div className="animate-fade-in space-y-6">
-                  <div className="grid grid-cols-2 gap-5">
-                    <div>
-                      <label className={labelClasses}>First Name *</label>
-                      <input required type="text" className={inputClasses} value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className={labelClasses}>Last Name *</label>
-                      <input required type="text" className={inputClasses} value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClasses}>Email Address *</label>
-                    <input required type="email" className={inputClasses} value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
-                  </div>
-                  <div>
-                    <label className={labelClasses}>WhatsApp Number *</label>
-                    <input required type="tel" className={inputClasses} value={formData.whatsapp} onChange={(e) => setFormData({...formData, whatsapp: e.target.value})} />
-                  </div>
-                  <div className="pt-6">
-                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)} className="group">
-                      Continue <ArrowRight size={18} className="ml-2" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {currentPage === 1 && (
-                <div className="animate-fade-in space-y-6">
-                  <div>
-                    <label className={labelClasses}>Track of Interest *</label>
-                    <div className="relative">
-                      <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.track} onChange={(e) => setFormData({...formData, track: e.target.value})}>
-                        <option value="">Select a track</option>
-                        {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                      </select>
-                      <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClasses}>Country *</label>
-                    <div className="relative">
-                      <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})}>
-                        <option value="">Select country</option>
-                        {countries.map(c => <option key={c} value={c}>{c}</option>)}
-                      </select>
-                      <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-5">
-                    <div>
-                      <label className={labelClasses}>Experience *</label>
-                      <select required className={`${inputClasses} appearance-none`} value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})}>
-                        <option value="">Years</option>
-                        <option value="0-1">0-1</option>
-                        <option value="1-3">1-3</option>
-                        <option value="3-5">3-5</option>
-                        <option value="5+">5+</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className={labelClasses}>Birthday Month</label>
-                      <select required className={`${inputClasses} appearance-none`} value={formData.dobMonth} onChange={(e) => setFormData({...formData, dobMonth: e.target.value})}>
-                        <option value="">Month</option>
-                        {months.map(m => <option key={m} value={m}>{m}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 pt-6">
-                    <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3">
-                      <ArrowLeft size={18} className="mr-2" /> Back
-                    </Button>
-                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(2)}>
-                      Review Details
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </form>
-          )}
+            ) : currentPage === 1 ? (
+              <div className="flex gap-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
+                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+              </div>
+            ) : (
+              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+                Continue <ArrowRight size={18} className="ml-2" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

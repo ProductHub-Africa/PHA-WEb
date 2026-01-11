@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, ChevronDown, Loader2, ArrowRight, ArrowLeft, Edit3, CheckCircle } from 'lucide-react';
+import { X, ChevronDown, Loader2, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from './Button';
-import { TYPOGRAPHY } from '../constants';
 
 interface PartnerOverlayProps {
   isOpen: boolean;
@@ -75,7 +74,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       setCurrentPage(3);
     } catch (error) {
       console.error(error);
-      alert("Submission failed.");
+      alert("Something went wrong. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -91,10 +90,10 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
       <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
         
-        <div className="sticky top-0 bg-white/95 backdrop-blur-md z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
+        <div className="sticky top-0 bg-white z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
-              {currentPage === 2 ? 'Review your submission' : submitted ? 'Success' : (mode === 'facilitator' ? 'Become a Facilitator' : 'Partner with Us')}
+              {currentPage === 2 ? 'Review submission' : submitted ? 'Success' : (mode === 'facilitator' ? 'Become a Facilitator' : 'Partner with Us')}
             </h2>
             <p className="text-gray-500 text-xs">{submitted ? 'Done' : `Step ${currentPage + 1} of 3`}</p>
           </div>
@@ -103,120 +102,128 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 md:p-10">
-          {!submitted && (
-             <div className="flex gap-2 mb-8">
-              {[0, 1, 2].map((step) => (
-                <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
-              ))}
-            </div>
-          )}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-6 md:p-10">
+            {!submitted && (
+               <div className="flex gap-2 mb-8">
+                {[0, 1, 2].map((step) => (
+                  <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+                ))}
+              </div>
+            )}
 
-          {currentPage === 3 ? (
-            <div className="animate-fade-in py-10 text-center">
-              <CheckCircle size={60} className="text-green-600 mx-auto mb-6" />
-              <h3 className="text-2xl font-bold mb-4">Application Sent</h3>
-              <p className="text-gray-600 mb-8">We will reach out to you within 5 working days.</p>
-              <Button onClick={onClose}>Finish & Close</Button>
-            </div>
-          ) : currentPage === 2 ? (
-            <div className="animate-fade-in space-y-8">
-              <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
-                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Information</h4>
-                <div className="space-y-4">
-                  {[
-                    { label: 'Name', value: formData.fullName },
-                    { label: 'Email', value: formData.email },
-                    { label: 'Organization', value: formData.orgName },
-                    { label: 'Phone', value: formData.phone },
-                    { label: 'Location', value: formData.location },
-                    mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
-                  ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
-                      <span className="text-sm font-bold text-gray-400">{item.label}</span>
-                      <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
-                    </div>
-                  ))}
+            {currentPage === 3 ? (
+              <div className="animate-fade-in py-10 text-center">
+                <CheckCircle size={60} className="text-green-600 mx-auto mb-6" />
+                <h3 className="text-2xl font-bold mb-4">Application Sent</h3>
+                <p className="text-gray-600 mb-8">We will reach out to you within 5 working days.</p>
+              </div>
+            ) : currentPage === 2 ? (
+              <div className="animate-fade-in space-y-8">
+                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                  <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Information</h4>
+                  <div className="space-y-4">
+                    {[
+                      { label: 'Name', value: formData.fullName },
+                      { label: 'Email', value: formData.email },
+                      { label: 'Organization', value: formData.orgName },
+                      { label: 'Phone', value: formData.phone },
+                      { label: 'Location', value: formData.location },
+                      mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
+                    ].map((item, i) => (
+                      <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
+                        <span className="text-sm font-bold text-gray-400">{item.label}</span>
+                        <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="flex gap-4 pt-4">
-                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3 border-gray-200 text-gray-600">
-                  <Edit3 size={18} className="mr-2" /> Edit Details
-                </Button>
-                <Button fullWidth size="lg" onClick={handleSubmit} disabled={isSubmitting}>
-                  {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : "Finish & Submit"}
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <form className="space-y-6">
-              {currentPage === 0 && (
-                <div className="animate-fade-in space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClasses}>Full Name *</label>
-                      <input required className={inputClasses} value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className={labelClasses}>{mode === 'facilitator' ? 'Current Org' : 'Org Name'}</label>
-                      <input required className={inputClasses} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={labelClasses}>Work Email *</label>
-                    <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClasses}>Phone *</label>
-                      <input required type="tel" className={inputClasses} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className={labelClasses}>Location *</label>
-                      <input required className={inputClasses} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
-                    </div>
-                  </div>
-                  <div className="pt-6">
-                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>Continue</Button>
-                  </div>
-                </div>
-              )}
-
-              {currentPage === 1 && (
-                <div className="animate-fade-in space-y-6">
-                  {mode === 'facilitator' ? (
-                    <div>
-                      <label className={labelClasses}>Track of Interest *</label>
-                      <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
-                        <option value="">Select track</option>
-                        {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                      </select>
-                    </div>
-                  ) : (
-                    <div>
-                      <label className={labelClasses}>Support Types *</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        {supporterTypes.map(t => (
-                          <label key={t} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 border border-gray-100">
-                            <input type="checkbox" checked={formData.supporterType.includes(t)} onChange={() => handleToggle(t)} className="w-4 h-4" />
-                            <span className="text-xs">{t}</span>
-                          </label>
-                        ))}
+            ) : (
+              <div className="space-y-6">
+                {currentPage === 0 && (
+                  <div className="animate-fade-in space-y-6">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClasses}>Full Name *</label>
+                        <input required className={inputClasses} value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
+                      </div>
+                      <div>
+                        <label className={labelClasses}>{mode === 'facilitator' ? 'Current Org' : 'Org Name'}</label>
+                        <input required className={inputClasses} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
                       </div>
                     </div>
-                  )}
-                  <div>
-                    <label className={labelClasses}>Motivation / Message *</label>
-                    <textarea required rows={4} className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                    <div>
+                      <label className={labelClasses}>Work Email *</label>
+                      <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClasses}>Phone *</label>
+                        <input required type="tel" className={inputClasses} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                      </div>
+                      <div>
+                        <label className={labelClasses}>Location *</label>
+                        <input required className={inputClasses} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-4 pt-6">
-                    <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="w-1/3">Back</Button>
-                    <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                )}
+
+                {currentPage === 1 && (
+                  <div className="animate-fade-in space-y-6">
+                    {mode === 'facilitator' ? (
+                      <div>
+                        <label className={labelClasses}>Track of Interest *</label>
+                        <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
+                          <option value="">Select track</option>
+                          {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                    ) : (
+                      <div>
+                        <label className={labelClasses}>Support Types *</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          {supporterTypes.map(t => (
+                            <label key={t} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 border border-gray-100">
+                              <input type="checkbox" checked={formData.supporterType.includes(t)} onChange={() => handleToggle(t)} className="w-4 h-4" />
+                              <span className="text-xs">{t}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <div>
+                      <label className={labelClasses}>Motivation / Message *</label>
+                      <textarea required rows={4} className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                    </div>
                   </div>
-                </div>
-              )}
-            </form>
-          )}
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="px-6 pb-8 pt-4 md:px-10 border-t border-gray-50 bg-white mt-auto">
+            {submitted ? (
+              <Button fullWidth onClick={onClose}>Close</Button>
+            ) : currentPage === 2 ? (
+              <div className="flex gap-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
+                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
+                </Button>
+              </div>
+            ) : currentPage === 1 ? (
+              <div className="flex gap-4">
+                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
+                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+              </div>
+            ) : (
+              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+                Continue <ArrowRight size={18} className="ml-2" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

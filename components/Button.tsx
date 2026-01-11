@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { COLORS } from '../constants';
 
@@ -18,13 +19,13 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Added h-[46px] and md:h-auto to maintain exact mobile height requirement
-  const baseStyles = "inline-flex items-center justify-center rounded-full transition-colors duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed h-[46px] md:h-auto";
+  // Strictly enforced 46px height for all buttons as per request
+  const baseStyles = "inline-flex items-center justify-center rounded-xl transition-all duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed h-[46px]";
   
   const sizeStyles = {
-    sm: "px-5 py-2 text-[14px]",
-    md: "px-8 py-3 text-[14px] md:text-[16px]",
-    lg: "px-10 py-4 text-[14px] md:text-[18px]",
+    sm: "px-5 text-[13px]",
+    md: "px-8 text-[14px]",
+    lg: "px-10 text-[15px]",
   };
 
   const getVariantStyles = () => {
@@ -33,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
         return {
           backgroundColor: isHovered ? COLORS.primary[600] : COLORS.primary[500],
           color: '#fff',
-          boxShadow: isHovered ? '0 10px 15px -3px rgba(19, 82, 145, 0.2), 0 4px 6px -2px rgba(19, 82, 145, 0.1)' : '0 4px 6px -1px rgba(19, 82, 145, 0.1), 0 2px 4px -1px rgba(19, 82, 145, 0.06)'
+          boxShadow: isHovered ? '0 10px 15px -3px rgba(19, 82, 145, 0.2)' : 'none'
         };
       case 'secondary':
         return {
@@ -44,7 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
       case 'outline':
         return {
           backgroundColor: isHovered ? COLORS.primary[50] : 'transparent',
-          border: `2px solid ${COLORS.primary[500]}`,
+          border: `1.5px solid ${COLORS.primary[500]}`,
           color: COLORS.primary[500],
         };
       case 'text':
@@ -65,8 +66,6 @@ export const Button: React.FC<ButtonProps> = ({
       className={`${baseStyles} ${sizeStyles[size]} ${widthClass} ${className}`}
       style={{
         ...variantStyle,
-        borderColor: variant === 'outline' ? variantStyle.border?.split(' ')[2] : undefined,
-        borderWidth: variant === 'outline' ? '2px' : '0px',
         ...style
       }}
       onMouseEnter={() => setIsHovered(true)}
