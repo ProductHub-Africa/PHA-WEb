@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { X, Loader2, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from './Button';
@@ -39,16 +38,17 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
     if (isSubmitting) return;
     setIsSubmitting(true);
 
+    // Using Title Case keys to ensure headers match standard sheet expectations
     const payload = {
-      timestamp: new Date().toLocaleString(),
-      source: 'Volunteer App',
+      'Timestamp': new Date().toLocaleString(),
+      'Source': 'Volunteer App',
       sheetName: 'Volunteer',
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      department: formData.department,
-      linkedin: formData.linkedin,
-      reason: formData.reason
+      'First Name': formData.firstName,
+      'Last Name': formData.lastName,
+      'Email': formData.email,
+      'Department': formData.department,
+      'LinkedIn': formData.linkedin,
+      'Motivation': formData.reason
     };
 
     try {

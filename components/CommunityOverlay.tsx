@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, Loader2, ChevronDown, CheckCircle, ArrowRight, Edit3 } from 'lucide-react';
 import { Button } from './Button';
@@ -55,18 +54,19 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     if (isSubmitting) return;
     setIsSubmitting(true);
 
+    // Using Title Case keys to ensure headers match standard sheet expectations
     const payload = { 
-      timestamp: new Date().toLocaleString(),
-      source: 'Community Hub',
-      sheetName: 'Community',
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      whatsapp: formData.whatsapp,
-      track: formData.track,
-      country: formData.country,
-      experience: formData.experience,
-      birthday: formData.birthday
+      'Timestamp': new Date().toLocaleString(),
+      'Source': 'Community Hub',
+      sheetName: 'Community', // Control parameter for script routing
+      'First Name': formData.firstName,
+      'Last Name': formData.lastName,
+      'Email': formData.email,
+      'WhatsApp': formData.whatsapp,
+      'Track': formData.track,
+      'Country': formData.country,
+      'Experience': formData.experience,
+      'Birthday': formData.birthday
     };
 
     try {

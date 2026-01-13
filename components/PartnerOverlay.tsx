@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { X, ChevronDown, Loader2, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from './Button';
@@ -55,18 +54,19 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     if (isSubmitting) return;
     setIsSubmitting(true);
     
+    // Using Title Case keys to ensure headers match standard sheet expectations
     const payload = {
-      timestamp: new Date().toLocaleString(),
-      source: mode === 'facilitator' ? 'Facilitator App' : mode === 'sponsor' ? 'Sponsor App' : 'Partner App',
+      'Timestamp': new Date().toLocaleString(),
+      'Source': mode === 'facilitator' ? 'Facilitator App' : mode === 'sponsor' ? 'Sponsor App' : 'Partner App',
       sheetName: mode === 'facilitator' ? 'Facilitators' : mode === 'sponsor' ? 'Sponsors' : 'Partners',
-      fullName: formData.fullName,
-      email: formData.email,
-      orgName: formData.orgName,
-      phone: formData.phone,
-      location: formData.location,
-      trackInterestedIn: formData.trackInterestedIn,
-      supporterType: formData.supporterType.join(', '),
-      motivation: formData.motivation
+      'Full Name': formData.fullName,
+      'Email': formData.email,
+      'Organization': formData.orgName,
+      'Phone': formData.phone,
+      'Location': formData.location,
+      'Track': formData.trackInterestedIn,
+      'Supporter Type': formData.supporterType.join(', '),
+      'Message': formData.motivation
     };
 
     try {

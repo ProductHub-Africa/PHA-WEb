@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
@@ -30,13 +29,14 @@ export const AboutPage: React.FC = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     
+    // Using Title Case keys to ensure headers match standard sheet expectations
     const payload = {
-      timestamp: new Date().toLocaleString(),
-      fullName: formData.fullName,
-      email: formData.email,
-      department: formData.department,
-      experience: formData.experience,
-      source: 'About Page Form',
+      'Timestamp': new Date().toLocaleString(),
+      'Full Name': formData.fullName,
+      'Email': formData.email,
+      'Department': formData.department,
+      'Experience': formData.experience,
+      'Source': 'About Page Form',
       sheetName: 'Volunteer'
     };
 
