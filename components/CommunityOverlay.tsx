@@ -8,7 +8,7 @@ interface CommunityOverlayProps {
 }
 
 // EXACT NEW URL PROVIDED
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLi17lu5x0Txu9GgDrx-zL78LWIhQk9LaaDxgPSoIOigL4JRjfmy7-tmzEn7Vf3yKc/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYt9kghTFi4wYyR7aw2gfAEliOzz8BDv_bhZnk6ijgtc5TQmfFmYj1Gp107Wyq4smx/exec";
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
@@ -54,11 +54,11 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Using Title Case keys to ensure headers match standard sheet expectations
+    // Using Title Case keys ensures the Google Script creates readable headers
     const payload = { 
       'Timestamp': new Date().toLocaleString(),
       'Source': 'Community Hub',
-      sheetName: 'Community', // Control parameter for script routing
+      'sheetName': 'Community', 
       'First Name': formData.firstName,
       'Last Name': formData.lastName,
       'Email': formData.email,

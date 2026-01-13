@@ -9,7 +9,7 @@ interface PartnerOverlayProps {
 }
 
 // EXACT NEW URL PROVIDED
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLi17lu5x0Txu9GgDrx-zL78LWIhQk9LaaDxgPSoIOigL4JRjfmy7-tmzEn7Vf3yKc/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYt9kghTFi4wYyR7aw2gfAEliOzz8BDv_bhZnk6ijgtc5TQmfFmYj1Gp107Wyq4smx/exec";
 
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
 const supporterTypes = ['Sponsor (Financial)', 'Partner (Strategic)', 'Community Supporter', 'Corporate Partner', 'Media Partner', 'Other'];
@@ -54,11 +54,11 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     if (isSubmitting) return;
     setIsSubmitting(true);
     
-    // Using Title Case keys to ensure headers match standard sheet expectations
+    // Using Title Case keys
     const payload = {
       'Timestamp': new Date().toLocaleString(),
       'Source': mode === 'facilitator' ? 'Facilitator App' : mode === 'sponsor' ? 'Sponsor App' : 'Partner App',
-      sheetName: mode === 'facilitator' ? 'Facilitators' : mode === 'sponsor' ? 'Sponsors' : 'Partners',
+      'sheetName': mode === 'facilitator' ? 'Facilitators' : mode === 'sponsor' ? 'Sponsors' : 'Partners',
       'Full Name': formData.fullName,
       'Email': formData.email,
       'Organization': formData.orgName,

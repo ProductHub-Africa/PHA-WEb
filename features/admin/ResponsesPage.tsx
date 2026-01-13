@@ -47,21 +47,24 @@ export const ResponsesPage: React.FC = () => {
                 <div className="flex justify-between items-start mb-6 pb-4 border-b border-gray-50">
                    <div>
                       <span className="inline-block px-3 py-1 bg-blue-50 text-[#135291] rounded-full text-[10px] font-black uppercase tracking-wider mb-2">
-                        {sub.source || 'General'}
+                        {sub['Source'] || sub.source || 'General'}
                       </span>
                       <h4 className="font-black text-lg text-[#08223d]">
-                        {sub.firstName} {sub.lastName} {sub.fullName || ''}
+                        {/* Handle both new Title Case keys and old camelCase keys for backward compatibility */}
+                        {sub['First Name'] || sub.firstName} {sub['Last Name'] || sub.lastName} {sub['Full Name'] || sub.fullName || ''}
                       </h4>
                    </div>
                    <div className="text-right">
-                      <p className="text-xs text-gray-400 font-bold">{sub.timestamp}</p>
+                      <p className="text-xs text-gray-400 font-bold">{sub['Timestamp'] || sub.timestamp}</p>
                       <p className="text-[10px] text-green-600 font-black uppercase mt-1">Live Sync Line {submissions.length - i + 1}</p>
                    </div>
                 </div>
                 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                    {Object.entries(sub).map(([key, value]: [string, any]) => {
-                     if (['timestamp', 'source', 'firstName', 'lastName', 'fullName'].includes(key)) return null;
+                     // Filter out keys already shown in the header or internal keys
+                     if (['Timestamp', 'timestamp', 'Source', 'source', 'First Name', 'firstName', 'Last Name', 'lastName', 'Full Name', 'fullName', 'sheetName'].includes(key)) return null;
+                     
                      return (
                        <div key={key}>
                           <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">{key}</p>

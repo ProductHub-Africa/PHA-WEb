@@ -5,7 +5,7 @@ import { Heart, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '../../components/Button';
 
 // EXACT NEW URL PROVIDED
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLi17lu5x0Txu9GgDrx-zL78LWIhQk9LaaDxgPSoIOigL4JRjfmy7-tmzEn7Vf3yKc/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYt9kghTFi4wYyR7aw2gfAEliOzz8BDv_bhZnk6ijgtc5TQmfFmYj1Gp107Wyq4smx/exec";
 
 const teamMembers = [
   { name: "Victoria Oladosu", role: "Founder, Lead Community manager", image: "https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg" },
@@ -29,7 +29,7 @@ export const AboutPage: React.FC = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
     
-    // Using Title Case keys to ensure headers match standard sheet expectations
+    // Using Title Case keys
     const payload = {
       'Timestamp': new Date().toLocaleString(),
       'Full Name': formData.fullName,
@@ -37,7 +37,7 @@ export const AboutPage: React.FC = () => {
       'Department': formData.department,
       'Experience': formData.experience,
       'Source': 'About Page Form',
-      sheetName: 'Volunteer'
+      'sheetName': 'Volunteer'
     };
 
     try {

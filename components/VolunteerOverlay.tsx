@@ -8,7 +8,7 @@ interface VolunteerOverlayProps {
 }
 
 // EXACT NEW URL PROVIDED
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLi17lu5x0Txu9GgDrx-zL78LWIhQk9LaaDxgPSoIOigL4JRjfmy7-tmzEn7Vf3yKc/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYt9kghTFi4wYyR7aw2gfAEliOzz8BDv_bhZnk6ijgtc5TQmfFmYj1Gp107Wyq4smx/exec";
 const departments = ['Events Management', 'Community Management', 'Social Media & Content', 'Technical Facilitation', 'Partnerships', 'Design & Creative'];
 
 export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onClose }) => {
@@ -38,11 +38,11 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    // Using Title Case keys to ensure headers match standard sheet expectations
+    // Using Title Case keys
     const payload = {
       'Timestamp': new Date().toLocaleString(),
       'Source': 'Volunteer App',
-      sheetName: 'Volunteer',
+      'sheetName': 'Volunteer',
       'First Name': formData.firstName,
       'Last Name': formData.lastName,
       'Email': formData.email,
