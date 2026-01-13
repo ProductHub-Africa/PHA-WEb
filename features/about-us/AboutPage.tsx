@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 import { Heart, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '../../components/Button';
 
-// Updated with your new production URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+// THE NEW URL PROVIDED BY USER
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGuwNJN8YJsxKPvvgvAjCaxTqcYsUVJcMQoGcRqhh2BsegopH4vP-h5KylyWntW_82/exec";
 
 const teamMembers = [
   { name: "Victoria Oladosu", role: "Founder, Lead Community manager", image: "https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg" },

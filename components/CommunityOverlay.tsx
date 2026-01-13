@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, Loader2, ChevronDown, CheckCircle, ArrowRight, Edit3 } from 'lucide-react';
 import { Button } from './Button';
@@ -8,8 +7,8 @@ interface CommunityOverlayProps {
   onClose: () => void;
 }
 
-// Updated with your new production URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7pxlJ0F13vJ9xGMIO_fZjJ4qwX6FA7bsa8y0ses_499DcdZFeu3tp3GK6MO3cfhym/exec";
+// THE NEW URL PROVIDED BY USER
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGuwNJN8YJsxKPvvgvAjCaxTqcYsUVJcMQoGcRqhh2BsegopH4vP-h5KylyWntW_82/exec";
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
@@ -70,7 +69,6 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     };
 
     try {
-      // Use no-cors and text/plain to ensure Google Apps Script receives the data without preflight errors
       await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -85,7 +83,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
       setCurrentPage(3);
     } catch (error) {
       console.error("Submission failed", error);
-      alert("Something went wrong. Please check your internet connection.");
+      alert("Network error. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }

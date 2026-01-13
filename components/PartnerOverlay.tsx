@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { X, ChevronDown, Loader2, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from './Button';
@@ -9,7 +8,8 @@ interface PartnerOverlayProps {
   mode?: 'partner' | 'facilitator' | 'sponsor';
 }
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7pxlJ0F13vJ9xGMIO_fZjJ4qwX6FA7bsa8y0ses_499DcdZFeu3tp3GK6MO3cfhym/exec";
+// THE NEW URL PROVIDED BY USER
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGuwNJN8YJsxKPvvgvAjCaxTqcYsUVJcMQoGcRqhh2BsegopH4vP-h5KylyWntW_82/exec";
 
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
 const supporterTypes = ['Sponsor (Financial)', 'Partner (Strategic)', 'Community Supporter', 'Corporate Partner', 'Media Partner', 'Other'];
@@ -35,7 +35,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       setSubmitted(false);
       setCurrentPage(0);
       
-      // Auto-check Sponsor if in sponsor mode
       if (mode === 'sponsor') {
         setFormData(prev => ({ ...prev, supporterType: ['Sponsor (Financial)'] }));
       }
@@ -84,7 +83,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       setCurrentPage(3);
     } catch (error) {
       console.error(error);
-      alert("Submission failed. Check internet connection.");
+      alert("Submission failed. Check your network connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -149,7 +148,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                       { label: 'Location', value: formData.location },
                       mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
                     ].map((item, i) => (
-                      <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
+                      <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
                         <span className="text-sm font-bold text-gray-400">{item.label}</span>
                         <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
                       </div>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { X, Loader2, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from './Button';
@@ -8,8 +7,8 @@ interface VolunteerOverlayProps {
   onClose: () => void;
 }
 
-// Updated with your new production URL
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+// THE NEW URL PROVIDED BY USER
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGuwNJN8YJsxKPvvgvAjCaxTqcYsUVJcMQoGcRqhh2BsegopH4vP-h5KylyWntW_82/exec";
 const departments = ['Events Management', 'Community Management', 'Social Media & Content', 'Technical Facilitation', 'Partnerships', 'Design & Creative'];
 
 export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onClose }) => {
@@ -66,7 +65,7 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
       setCurrentPage(3);
     } catch (err) {
       console.error(err);
-      alert("Submission failed. Check connection.");
+      alert("Submission failed. Check your network connection.");
     } finally {
       setIsSubmitting(false);
     }
