@@ -1,11 +1,12 @@
+
 import React, { useState } from 'react';
 import { TYPOGRAPHY } from '../../constants';
 import { Reveal } from '../../components/Reveal';
 import { Heart, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '../../components/Button';
 
-// THE NEW URL PROVIDED BY USER
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbGuwNJN8YJsxKPvvgvAjCaxTqcYsUVJcMQoGcRqhh2BsegopH4vP-h5KylyWntW_82/exec";
+// EXACT NEW URL PROVIDED
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzLi17lu5x0Txu9GgDrx-zL78LWIhQk9LaaDxgPSoIOigL4JRjfmy7-tmzEn7Vf3yKc/exec";
 
 const teamMembers = [
   { name: "Victoria Oladosu", role: "Founder, Lead Community manager", image: "https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg" },
@@ -153,20 +154,20 @@ export const AboutPage: React.FC = () => {
                         <div className="relative">
                           <label className={labelClasses}>Department</label>
                           <select required className={selectClasses} value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
-                            <option value="">Select Dept</option>
-                            <option>Programs</option>
-                            <option>Design</option>
-                            <option>Technical</option>
-                            <option>Community</option>
+                            <option value="" className="text-gray-900">Select Dept</option>
+                            <option className="text-gray-900">Programs</option>
+                            <option className="text-gray-900">Design</option>
+                            <option className="text-gray-900">Technical</option>
+                            <option className="text-gray-900">Community</option>
                           </select>
                         </div>
                         <div className="relative">
                           <label className={labelClasses}>Experience</label>
                           <select required className={selectClasses} value={formData.experience} onChange={e => setFormData({...formData, experience: e.target.value})}>
-                            <option value="">Select level</option>
-                            <option>0 - 1 Year</option>
-                            <option>1 - 3 Years</option>
-                            <option>3+ Years</option>
+                            <option value="" className="text-gray-900">Select level</option>
+                            <option className="text-gray-900">0 - 1 Year</option>
+                            <option className="text-gray-900">1 - 3 Years</option>
+                            <option className="text-gray-900">3+ Years</option>
                           </select>
                         </div>
                       </div>
