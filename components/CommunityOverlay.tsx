@@ -8,14 +8,15 @@ interface CommunityOverlayProps {
   onClose: () => void;
 }
 
-const COMMUNITY_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+// Updated with your new production URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7pxlJ0F13vJ9xGMIO_fZjJ4qwX6FA7bsa8y0ses_499DcdZFeu3tp3GK6MO3cfhym/exec";
 
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
 const countries = ['Nigeria', 'Ghana', 'Kenya', 'South Africa', 'Rwanda', 'Egypt', 'Uganda', 'Tanzania', 'Ethiopia', 'Morocco', 'Other'];
 
 export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onClose }) => {
-  const [currentPage, setCurrentPage] = useState(0); // 0: Info, 1: Track, 2: Review, 3: Success
+  const [currentPage, setCurrentPage] = useState(0); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -58,13 +59,19 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
       timestamp: new Date().toLocaleString(),
       source: 'Community Hub',
       sheetName: 'Community',
-      ...formData,
-      dob: formData.birthday
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      whatsapp: formData.whatsapp,
+      track: formData.track,
+      country: formData.country,
+      experience: formData.experience,
+      birthday: formData.birthday
     };
 
     try {
-      // Use text/plain to avoid CORS preflight (OPTIONS) which Google Apps Script doesn't handle natively
-      await fetch(COMMUNITY_SCRIPT_URL, {
+      // Use no-cors and text/plain to ensure Google Apps Script receives the data without preflight errors
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -142,7 +149,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                       { label: 'Experience', value: `${formData.experience} Years` },
                       { label: 'Birthday', value: formData.birthday }
                     ].map((item, i) => (
-                      <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
+                      <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
                         <span className="text-sm font-bold text-gray-400">{item.label}</span>
                         <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
                       </div>
@@ -232,20 +239,20 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
               <Button fullWidth size="lg" onClick={onClose}>Close</Button>
             ) : currentPage === 2 ? (
               <div className="flex gap-4">
-                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">
+                <Button variant="outline" className="flex-1" onClick={() => setCurrentPage(0)}>
                   <Edit3 size={16} className="mr-2" /> Edit Info
                 </Button>
-                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                <Button className="flex-1" onClick={handleSubmit} disabled={isSubmitting}>
                   {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
                 </Button>
               </div>
             ) : currentPage === 1 ? (
               <div className="flex gap-4">
-                <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
-                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                <Button variant="outline" className="flex-1" onClick={() => setCurrentPage(0)}>Back</Button>
+                <Button className="flex-1" onClick={() => setCurrentPage(2)}>Review Details</Button>
               </div>
             ) : (
-              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+              <Button fullWidth size="lg" onClick={() => setCurrentPage(1)}>
                 Continue <ArrowRight size={18} className="ml-2" />
               </Button>
             )}

@@ -19,13 +19,13 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Strictly enforced 46px height for all buttons as per request
-  const baseStyles = "inline-flex items-center justify-center rounded-xl transition-all duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed h-[46px]";
+  // Strictly enforced 46px height for all buttons
+  const baseStyles = "inline-flex items-center justify-center rounded-xl transition-all duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-50 disabled:cursor-not-allowed h-[46px] text-sm md:text-base";
   
   const sizeStyles = {
-    sm: "px-5 text-[13px]",
-    md: "px-8 text-[14px]",
-    lg: "px-10 text-[15px]",
+    sm: "px-5",
+    md: "px-8",
+    lg: "px-10",
   };
 
   const getVariantStyles = () => {
@@ -34,13 +34,11 @@ export const Button: React.FC<ButtonProps> = ({
         return {
           backgroundColor: isHovered ? COLORS.primary[600] : COLORS.primary[500],
           color: '#fff',
-          boxShadow: isHovered ? '0 10px 15px -3px rgba(19, 82, 145, 0.2)' : 'none'
         };
       case 'secondary':
         return {
           backgroundColor: isHovered ? COLORS.secondary[400] : COLORS.secondary[500],
           color: COLORS.grey[900],
-          boxShadow: isHovered ? '0 10px 15px -3px rgba(218, 167, 40, 0.2)' : 'none'
         };
       case 'outline':
         return {
@@ -64,10 +62,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={`${baseStyles} ${sizeStyles[size]} ${widthClass} ${className}`}
-      style={{
-        ...variantStyle,
-        ...style
-      }}
+      style={{ ...variantStyle, ...style }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       {...props}

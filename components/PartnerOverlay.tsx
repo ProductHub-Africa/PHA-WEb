@@ -6,16 +6,16 @@ import { Button } from './Button';
 interface PartnerOverlayProps {
   isOpen: boolean;
   onClose: () => void;
-  mode?: 'partner' | 'facilitator';
+  mode?: 'partner' | 'facilitator' | 'sponsor';
 }
 
-const PARTNER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7pxlJ0F13vJ9xGMIO_fZjJ4qwX6FA7bsa8y0ses_499DcdZFeu3tp3GK6MO3cfhym/exec";
 
 const tracks = ['Product Management', 'Product Design', 'Data Analytics', 'Cybersecurity', 'Technical Writing', 'Software Engineering'];
 const supporterTypes = ['Sponsor (Financial)', 'Partner (Strategic)', 'Community Supporter', 'Corporate Partner', 'Media Partner', 'Other'];
 
 export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose, mode = 'partner' }) => {
-  const [currentPage, setCurrentPage] = useState(0); // 0: Basic, 1: Details, 2: Review, 3: Success
+  const [currentPage, setCurrentPage] = useState(0); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,10 +34,15 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       document.body.style.overflow = 'hidden';
       setSubmitted(false);
       setCurrentPage(0);
+      
+      // Auto-check Sponsor if in sponsor mode
+      if (mode === 'sponsor') {
+        setFormData(prev => ({ ...prev, supporterType: ['Sponsor (Financial)'] }));
+      }
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [isOpen]);
+  }, [isOpen, mode]);
 
   const handleToggle = (item: string) => {
     const newList = formData.supporterType.includes(item) 
@@ -50,17 +55,22 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     if (isSubmitting) return;
     setIsSubmitting(true);
     
-    const isFac = mode === 'facilitator';
     const payload = {
       timestamp: new Date().toLocaleString(),
-      source: isFac ? 'Facilitator App' : 'Partner App',
-      sheetName: isFac ? 'Facilitators' : 'Partners',
-      ...formData,
-      supporterType: formData.supporterType.join(', ')
+      source: mode === 'facilitator' ? 'Facilitator App' : mode === 'sponsor' ? 'Sponsor App' : 'Partner App',
+      sheetName: mode === 'facilitator' ? 'Facilitators' : mode === 'sponsor' ? 'Sponsors' : 'Partners',
+      fullName: formData.fullName,
+      email: formData.email,
+      orgName: formData.orgName,
+      phone: formData.phone,
+      location: formData.location,
+      trackInterestedIn: formData.trackInterestedIn,
+      supporterType: formData.supporterType.join(', '),
+      motivation: formData.motivation
     };
 
     try {
-      await fetch(PARTNER_SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -74,7 +84,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       setCurrentPage(3);
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please check your internet connection.");
+      alert("Submission failed. Check internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -85,6 +95,14 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
   const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none text-sm font-medium";
   const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
 
+  const getTitle = () => {
+    if (currentPage === 2) return 'Review submission';
+    if (submitted) return 'Success';
+    if (mode === 'facilitator') return 'Become a Facilitator';
+    if (mode === 'sponsor') return 'Become a Sponsor';
+    return 'Partner with Us';
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
@@ -93,7 +111,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         <div className="sticky top-0 bg-white z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
-              {currentPage === 2 ? 'Review submission' : submitted ? 'Success' : (mode === 'facilitator' ? 'Become a Facilitator' : 'Partner with Us')}
+              {getTitle()}
             </h2>
             <p className="text-gray-500 text-xs">{submitted ? 'Done' : `Step ${currentPage + 1} of 3`}</p>
           </div>
@@ -131,7 +149,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                       { label: 'Location', value: formData.location },
                       mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
                     ].map((item, i) => (
-                      <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
+                      <div key={i} className="flex justify-between items-start border-b border-gray-200 pb-3 last:border-0">
                         <span className="text-sm font-bold text-gray-400">{item.label}</span>
                         <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
                       </div>

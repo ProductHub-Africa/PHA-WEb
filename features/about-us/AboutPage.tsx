@@ -5,8 +5,8 @@ import { Reveal } from '../../components/Reveal';
 import { Heart, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '../../components/Button';
 
-// Dedicated URL for Volunteer sheet
-const VOLUNTEER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+// Updated with your new production URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
 
 const teamMembers = [
   { name: "Victoria Oladosu", role: "Founder, Lead Community manager", image: "https://res.cloudinary.com/dv7yvatu2/image/upload/v1767110878/Oladosu_Victoria_dpc5be.jpg" },
@@ -29,30 +29,34 @@ export const AboutPage: React.FC = () => {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    
+    const payload = {
+      timestamp: new Date().toLocaleString(),
+      fullName: formData.fullName,
+      email: formData.email,
+      department: formData.department,
+      experience: formData.experience,
+      source: 'About Page Form',
+      sheetName: 'Volunteer'
+    };
+
     try {
-      await fetch(VOLUNTEER_SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({
-          timestamp: new Date().toLocaleString(),
-          fullName: formData.fullName,
-          email: formData.email,
-          department: formData.department,
-          experience: formData.experience,
-          source: 'About Page Volunteer Form',
-          sheetName: 'Volunteer'
-        }),
+        body: JSON.stringify(payload),
       });
       setSubmitted(true);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please check your internet connection.");
+      alert("Submission failed. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Strictly enforced 46px height for inputs and selects
   const inputClasses = "w-full h-[46px] bg-white/10 border border-white/20 rounded-xl px-4 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all text-sm";
   const selectClasses = "w-full h-[46px] bg-white/10 border border-white/20 rounded-xl px-4 text-white focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all text-sm appearance-none cursor-pointer";
   const labelClasses = "block text-xs font-bold text-blue-200 mb-2 uppercase tracking-wide";
@@ -168,9 +172,9 @@ export const AboutPage: React.FC = () => {
                         </div>
                       </div>
                       <div className="pt-2">
-                        <button type="submit" disabled={isSubmitting} className="w-full h-[46px] bg-[#daa728] text-[#08223d] font-bold px-6 rounded-xl hover:bg-white transition-all flex justify-center items-center disabled:opacity-50">
+                        <Button fullWidth size="lg" type="submit" disabled={isSubmitting} variant="secondary">
                           {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : "Submit Application"}
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   </>

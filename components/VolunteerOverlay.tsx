@@ -8,11 +8,12 @@ interface VolunteerOverlayProps {
   onClose: () => void;
 }
 
-const VOLUNTEER_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
+// Updated with your new production URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVd5qKy8fRGMHQGybPaIE8hi6tEfiAeye91UlATEfr/exec";
 const departments = ['Events Management', 'Community Management', 'Social Media & Content', 'Technical Facilitation', 'Partnerships', 'Design & Creative'];
 
 export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onClose }) => {
-  const [currentPage, setCurrentPage] = useState(0); // 0: Basic, 1: Details, 2: Review, 3: Success
+  const [currentPage, setCurrentPage] = useState(0); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,11 +43,16 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
       timestamp: new Date().toLocaleString(),
       source: 'Volunteer App',
       sheetName: 'Volunteer',
-      ...formData
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      department: formData.department,
+      linkedin: formData.linkedin,
+      reason: formData.reason
     };
 
     try {
-      await fetch(VOLUNTEER_SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -60,7 +66,7 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
       setCurrentPage(3);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong. Please check your internet connection.");
+      alert("Submission failed. Check connection.");
     } finally {
       setIsSubmitting(false);
     }

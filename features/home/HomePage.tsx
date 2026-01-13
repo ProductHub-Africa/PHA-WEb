@@ -1,10 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import { Reveal } from '../../components/Reveal';
 import { CommunityOverlay } from '../../components/CommunityOverlay';
 import { PartnerOverlay } from '../../components/PartnerOverlay';
 import { TYPOGRAPHY } from '../../constants';
-import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Quote } from 'lucide-react';
+import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationCap, Quote, ChevronDown, ChevronUp } from 'lucide-react';
 
 const partners = [
   { name: 'Alt_School', logo: 'https://lh3.googleusercontent.com/d/1pjaKvAb9hsaVAzjXAvciE-u_ZLnOYlm-' },
@@ -119,6 +120,7 @@ export const HomePage: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(150);
+  const [showAllTestimonials, setShowAllTestimonials] = useState(false);
 
   const toRotate = ["Tech Professional", "Product Designer", "Product Manager", "Software Engineer", "Data Analyst", "Technical Writer"];
   const period = 2000;
@@ -320,7 +322,7 @@ export const HomePage: React.FC = () => {
             <p className="text-gray-500 leading-relaxed">Discover how our alumni across Africa are testifying to the transformative impact of PHA training on their careers.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
+            {(showAllTestimonials ? testimonials : testimonials.slice(0, 3)).map((t, i) => (
               <Reveal key={i} delay={i * 0.05} width="100%">
                 <div className="p-8 bg-gray-50 card-radius border border-gray-100 relative h-full flex flex-col hover:border-[#daa728] transition-colors group">
                   <div className="text-[#daa728] mb-6 group-hover:scale-110 transition-transform origin-left"><Quote size={32} /></div>
@@ -346,6 +348,19 @@ export const HomePage: React.FC = () => {
                 </div>
               </Reveal>
             ))}
+          </div>
+
+          <div className="mt-12 text-center">
+             <button 
+               onClick={() => setShowAllTestimonials(!showAllTestimonials)}
+               className="inline-flex items-center gap-2 text-[#135291] font-bold hover:gap-3 transition-all group"
+             >
+               {showAllTestimonials ? (
+                 <>View less <ChevronUp size={20} className="group-hover:-translate-y-1 transition-transform" /></>
+               ) : (
+                 <>View more testimonials <ChevronDown size={20} className="group-hover:translate-y-1 transition-transform" /></>
+               )}
+             </button>
           </div>
         </div>
       </section>
