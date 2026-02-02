@@ -26,7 +26,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     location: '',
     trackInterestedIn: '',
     supporterType: [] as string[],
-    motivation: ''
+    motivation: '',
+    linkedin: '',
+    portfolio: ''
   });
 
   useEffect(() => {
@@ -66,7 +68,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
       'Location': formData.location,
       'Track': formData.trackInterestedIn,
       'Supporter Type': formData.supporterType.join(', '),
-      'Message': formData.motivation
+      'Message': formData.motivation,
+      'LinkedIn': formData.linkedin,
+      'Portfolio': formData.portfolio
     };
 
     try {
@@ -103,6 +107,30 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     return 'Partner with Us';
   };
 
+  const getReviewItems = () => {
+    const baseItems = [
+      { label: 'Name', value: formData.fullName },
+      { label: 'Email', value: formData.email },
+      { label: 'Organization', value: formData.orgName },
+      { label: 'Phone', value: formData.phone },
+      { label: 'Location', value: formData.location },
+    ];
+
+    if (mode === 'facilitator') {
+      return [
+        ...baseItems,
+        { label: 'Track', value: formData.trackInterestedIn },
+        { label: 'LinkedIn', value: formData.linkedin || 'N/A' },
+        { label: 'Portfolio', value: formData.portfolio || 'N/A' }
+      ];
+    }
+
+    return [
+      ...baseItems,
+      { label: 'Type', value: formData.supporterType.join(', ') }
+    ];
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
@@ -113,7 +141,9 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
               {getTitle()}
             </h2>
-            <p className="text-gray-500 text-xs">{submitted ? 'Done' : `Step ${currentPage + 1} of 3`}</p>
+            {!submitted && (
+              <p className="text-gray-500 text-xs">Step {currentPage + 1} of 3</p>
+            )}
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={24} className="text-gray-400" />
@@ -141,17 +171,10 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                 <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Information</h4>
                   <div className="space-y-4">
-                    {[
-                      { label: 'Name', value: formData.fullName },
-                      { label: 'Email', value: formData.email },
-                      { label: 'Organization', value: formData.orgName },
-                      { label: 'Phone', value: formData.phone },
-                      { label: 'Location', value: formData.location },
-                      mode === 'facilitator' ? { label: 'Track', value: formData.trackInterestedIn } : { label: 'Type', value: formData.supporterType.join(', ') },
-                    ].map((item, i) => (
+                    {getReviewItems().map((item, i) => (
                       <div key={i} className="flex justify-between items-start border-b border-gray-100 pb-3 last:border-0">
                         <span className="text-sm font-bold text-gray-400">{item.label}</span>
-                        <span className="text-sm font-black text-[#08223d] text-right">{item.value}</span>
+                        <span className="text-sm font-black text-[#08223d] text-right break-words max-w-[60%]">{item.value}</span>
                       </div>
                     ))}
                   </div>
@@ -191,13 +214,25 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                 {currentPage === 1 && (
                   <div className="animate-fade-in space-y-6">
                     {mode === 'facilitator' ? (
-                      <div>
-                        <label className={labelClasses}>Track of Interest *</label>
-                        <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
-                          <option value="">Select track</option>
-                          {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                        </select>
-                      </div>
+                      <>
+                        <div>
+                          <label className={labelClasses}>Track of Interest *</label>
+                          <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
+                            <option value="">Select track</option>
+                            {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                          </select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                             <label className={labelClasses}>LinkedIn URL</label>
+                             <input type="url" placeholder="https://linkedin.com/in/..." className={inputClasses} value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
+                          </div>
+                          <div>
+                             <label className={labelClasses}>Portfolio URL</label>
+                             <input type="url" placeholder="https://..." className={inputClasses} value={formData.portfolio} onChange={e => setFormData({...formData, portfolio: e.target.value})} />
+                          </div>
+                        </div>
+                      </>
                     ) : (
                       <div>
                         <label className={labelClasses}>Support Types *</label>

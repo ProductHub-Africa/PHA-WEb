@@ -51,13 +51,23 @@
       #root {
         overflow-x: hidden;
       }
-      /* Override container padding for mobile */
+      
+      /* Constrain the main content area (body of the app) to 1440px centered */
+      main {
+        max-width: 1440px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+      }
+
+      /* Override container to align content with the 1440px grid */
       .container {
         padding-left: 14px !important;
         padding-right: 14px !important;
-        max-width: 100% !important;
+        max-width: 1440px !important; /* Constrain grid content to 1440px */
         margin-left: auto !important;
         margin-right: auto !important;
+        width: 100%;
       }
       @media (min-width: 768px) {
         .container {

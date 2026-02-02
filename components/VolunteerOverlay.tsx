@@ -86,7 +86,9 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
               {currentPage === 2 ? 'Review submission' : submitted ? 'Success' : 'Volunteer with Us'}
             </h2>
-            <p className="text-gray-500 text-xs">{submitted ? 'Saved' : `Step ${currentPage + 1} of 3`}</p>
+            {!submitted && (
+              <p className="text-gray-500 text-xs">Step {currentPage + 1} of 3</p>
+            )}
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={24} className="text-gray-400" />

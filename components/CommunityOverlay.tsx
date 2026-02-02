@@ -105,9 +105,11 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
               {currentPage === 2 ? 'Review submission' : submitted ? 'Success' : 'Join the Community'}
             </h2>
-            <p className="text-gray-500 text-xs">
-              {submitted ? 'Record saved' : `Step ${currentPage + 1} of 3`}
-            </p>
+            {!submitted && (
+              <p className="text-gray-500 text-xs">
+                Step {currentPage + 1} of 3
+              </p>
+            )}
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
             <X size={24} className="text-gray-400" />
