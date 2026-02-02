@@ -52,19 +52,16 @@
         overflow-x: hidden;
       }
       
-      /* Constrain the main content area (body of the app) to 1440px centered */
+      /* Main content wrapper is full width to allow backgrounds to bleed */
       main {
-        max-width: 1440px;
-        margin-left: auto;
-        margin-right: auto;
         width: 100%;
       }
 
-      /* Override container to align content with the 1440px grid */
+      /* Use .container to constrain content to 1440px and center it */
       .container {
         padding-left: 14px !important;
         padding-right: 14px !important;
-        max-width: 1440px !important; /* Constrain grid content to 1440px */
+        max-width: 1440px !important; 
         margin-left: auto !important;
         margin-right: auto !important;
         width: 100%;
