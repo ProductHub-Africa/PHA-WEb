@@ -13,7 +13,7 @@ export const StemSchoolPage: React.FC = () => {
       <div className="container mx-auto px-6">
         <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-6`}>STEM School</h1>
         <p className="text-gray-600 mb-12 text-xl">Programs tailored for younger students (K-12) to ignite passion in Science, Technology, Engineering, and Math.</p>
-        <div className="p-16 bg-[#e7eef4] rounded-3xl inline-block">
+        <div className="p-16 bg-[#e7eef4] rounded-xl inline-block">
           <p className="font-bold text-2xl text-[#135291]">Coming Soon</p>
         </div>
       </div>

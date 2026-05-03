@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '../../components/Button';
+import { Input, Select, Textarea, Label } from '../../components/FormElements';
 import { Reveal } from '../../components/Reveal';
 import { TYPOGRAPHY } from '../../constants';
 import { Mail, MapPin, Slack, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
@@ -7,9 +8,16 @@ import { CommunityOverlay } from '../../components/CommunityOverlay';
 
 export const ContactPage: React.FC = () => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: 'General Inquiry',
+    message: ''
+  });
 
-  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-sm";
-  const labelClasses = "block text-sm font-bold text-gray-700 mb-2";
+  const isFormValid = formData.firstName && formData.lastName && formData.email && formData.message;
 
   return (
     <div 
@@ -92,46 +100,46 @@ export const ContactPage: React.FC = () => {
           {/* Contact Form */}
           <div className="lg:w-7/12 p-5 lg:p-14 bg-white">
             <h3 className="text-2xl font-bold text-[#08223d] mb-8">Send us a message</h3>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={labelClasses}>First Name</label>
-                  <input type="text" className={inputClasses} placeholder="John" />
+                  <Label required>First Name</Label>
+                  <Input type="text" placeholder="John" value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
                 </div>
                 <div>
-                  <label className={labelClasses}>Last Name</label>
-                  <input type="text" className={inputClasses} placeholder="Doe" />
+                  <Label required>Last Name</Label>
+                  <Input type="text" placeholder="Doe" value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
                 </div>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className={labelClasses}>Email</label>
-                  <input type="email" className={inputClasses} placeholder="john@example.com" />
+                  <Label required>Email</Label>
+                  <Input type="email" placeholder="john@example.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                 </div>
                 <div>
-                  <label className={labelClasses}>Phone</label>
-                  <input type="tel" className={inputClasses} placeholder="+234..." />
+                  <Label>Phone</Label>
+                  <Input type="tel" placeholder="+234..." value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                 </div>
               </div>
 
               <div>
-                <label className={labelClasses}>Subject</label>
-                 <select className={inputClasses}>
+                <Label>Subject</Label>
+                 <Select value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})}>
                     <option>General Inquiry</option>
                     <option>Bootcamps</option>
                     <option>Partnership</option>
                     <option>Support</option>
-                 </select>
+                 </Select>
               </div>
 
               <div>
-                <label className={labelClasses}>Message</label>
-                <textarea rows={5} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none transition-all placeholder-gray-400" placeholder="Tell us how we can help..."></textarea>
+                <Label required>Message</Label>
+                <Textarea rows={5} placeholder="Tell us how we can help..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} />
               </div>
 
               <div className="pt-4">
-                <Button size="lg">Send Message</Button>
+                <Button size="lg" disabled={!isFormValid}>Send Message</Button>
               </div>
             </form>
           </div>

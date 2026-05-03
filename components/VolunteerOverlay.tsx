@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Loader2, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from './Button';
+import { Input, Select, Textarea, Label } from './FormElements';
 
 interface VolunteerOverlayProps {
   isOpen: boolean;
@@ -34,8 +35,12 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
     }
   }, [isOpen]);
 
+  const isStep0Valid = formData.firstName && formData.lastName && formData.email;
+  const isStep1Valid = formData.department && formData.reason;
+  const isFormValid = isStep0Valid && isStep1Valid;
+
   const handleSubmit = async () => {
-    if (isSubmitting) return;
+    if (isSubmitting || !isFormValid) return;
     setIsSubmitting(true);
 
     // Using Title Case keys
@@ -74,13 +79,10 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
-  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium text-sm";
-  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
-
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" onClick={onClose} />
-      <div className="relative w-full max-w-[620px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+      <div className="relative w-full max-w-[620px] bg-white h-full animate-slide-in-right flex flex-col">
         <div className="sticky top-0 bg-white z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-extrabold text-[#08223d] mb-1">
@@ -96,18 +98,18 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-8 md:p-10">
+          <div className="flex-1 overflow-y-auto p-5 md:pt-5 md:px-5 md:pb-10">
             {!submitted && (
                <div className="flex gap-2 mb-8">
                 {[0, 1, 2].map((step) => (
-                  <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+                  <div key={step} className={`h-1.5 flex-1 rounded-xl ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
                 ))}
               </div>
             )}
 
             {currentPage === 3 ? (
               <div className="animate-fade-in space-y-8">
-                 <div className="flex items-center gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                 <div className="flex items-center gap-4 p-6 bg-blue-50 rounded-xl border border-blue-100">
                   <CheckCircle className="text-[#135291] shrink-0" size={32} />
                   <div>
                     <h3 className="font-bold text-[#08223d]">Application Sent</h3>
@@ -117,7 +119,7 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
               </div>
             ) : currentPage === 2 ? (
               <div className="animate-fade-in space-y-8">
-                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Confirm Details</h4>
                   <div className="space-y-4">
                     {[
@@ -141,17 +143,17 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
                   <div className="animate-fade-in space-y-6">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className={labelClasses}>First Name</label>
-                        <input required className={inputClasses} value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
+                        <Label required>First Name</Label>
+                        <Input required value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} />
                       </div>
                       <div>
-                        <label className={labelClasses}>Last Name</label>
-                        <input required className={inputClasses} value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
+                        <Label required>Last Name</Label>
+                        <Input required value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} />
                       </div>
                     </div>
                     <div>
-                      <label className={labelClasses}>Email Address</label>
-                      <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                      <Label required>Email Address</Label>
+                      <Input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                     </div>
                   </div>
                 )}
@@ -159,19 +161,19 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
                 {currentPage === 1 && (
                   <div className="animate-fade-in space-y-6">
                     <div>
-                      <label className={labelClasses}>Department</label>
-                      <select required className={inputClasses} value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
+                      <Label required>Department</Label>
+                      <Select required value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}>
                         <option value="">Select Department</option>
                         {departments.map(d => <option key={d} value={d}>{d}</option>)}
-                      </select>
+                      </Select>
                     </div>
                     <div>
-                      <label className={labelClasses}>LinkedIn Profile</label>
-                      <input type="url" placeholder="https://linkedin.com/in/..." className={inputClasses} value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
+                      <Label>LinkedIn Profile</Label>
+                      <Input type="url" placeholder="https://linkedin.com/in/..." value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
                     </div>
                     <div>
-                      <label className={labelClasses}>Why do you want to join? *</label>
-                      <textarea required className="w-full min-h-[120px] p-5 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm" value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} />
+                      <Label required>Why do you want to join?</Label>
+                      <Textarea required placeholder="Tell us why you want to join Product Hub Africa..." value={formData.reason} onChange={e => setFormData({...formData, reason: e.target.value})} />
                     </div>
                   </div>
                 )}
@@ -185,17 +187,17 @@ export const VolunteerOverlay: React.FC<VolunteerOverlayProps> = ({ isOpen, onCl
             ) : currentPage === 2 ? (
               <div className="flex gap-4">
                 <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
-                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting || !isFormValid}>
                   {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
                 </Button>
               </div>
             ) : currentPage === 1 ? (
               <div className="flex gap-4">
                 <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
-                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)} disabled={!isStep1Valid}>Review Details</Button>
               </div>
             ) : (
-              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)} disabled={!isStep0Valid}>
                 Next Step <ArrowRight size={18} className="ml-2" />
               </Button>
             )}

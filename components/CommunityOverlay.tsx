@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { X, Loader2, ChevronDown, CheckCircle, ArrowRight, Edit3 } from 'lucide-react';
 import { Button } from './Button';
+import { Input, Select, Label } from './FormElements';
 
 interface CommunityOverlayProps {
   isOpen: boolean;
@@ -50,8 +51,12 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
     }
   }, [isOpen]);
 
+  const isStep0Valid = formData.firstName && formData.lastName && formData.email && formData.whatsapp;
+  const isStep1Valid = formData.track && formData.country && formData.experience;
+  const isFormValid = isStep0Valid && isStep1Valid;
+
   const handleSubmit = async () => {
-    if (isSubmitting) return;
+    if (isSubmitting || !isFormValid) return;
     setIsSubmitting(true);
 
     // Using Title Case keys ensures the Google Script creates readable headers
@@ -92,13 +97,10 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
 
   if (!isOpen) return null;
 
-  const inputClasses = "w-full h-[46px] px-5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-[#135291] outline-none transition-all placeholder-gray-400 text-gray-800 font-medium text-sm";
-  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
-
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" onClick={onClose} />
-      <div className="relative w-full max-w-[620px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+      <div className="relative w-full max-w-[620px] bg-white h-full animate-slide-in-right flex flex-col">
         
         <div className="sticky top-0 bg-white z-30 px-8 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
@@ -117,18 +119,18 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-8 md:p-10">
+          <div className="flex-1 overflow-y-auto p-5 md:pt-5 md:px-5 md:pb-10">
             {!submitted && (
               <div className="flex gap-2 mb-8">
                 {[0, 1, 2].map((step) => (
-                  <div key={step} className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+                  <div key={step} className={`h-1.5 flex-1 rounded-xl transition-all duration-500 ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
                 ))}
               </div>
             )}
 
             {currentPage === 3 ? (
               <div className="animate-fade-in space-y-8">
-                <div className="flex items-center gap-4 p-6 bg-green-50 rounded-2xl border border-green-100">
+                <div className="flex items-center gap-4 p-6 bg-green-50 rounded-xl border border-green-100">
                   <CheckCircle className="text-green-600 shrink-0" size={32} />
                   <div>
                     <h3 className="font-bold text-green-900">Successfully Submitted</h3>
@@ -138,7 +140,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
               </div>
             ) : currentPage === 2 ? (
               <div className="animate-fade-in space-y-8">
-                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Your Data</h4>
                   <div className="space-y-4">
                     {[
@@ -164,21 +166,21 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                   <div className="animate-fade-in space-y-6">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className={labelClasses}>First Name *</label>
-                        <input required type="text" className={inputClasses} value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
+                        <Label required>First Name</Label>
+                        <Input required type="text" value={formData.firstName} onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
                       </div>
                       <div>
-                        <label className={labelClasses}>Last Name *</label>
-                        <input required type="text" className={inputClasses} value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
+                        <Label required>Last Name</Label>
+                        <Input required type="text" value={formData.lastName} onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
                       </div>
                     </div>
                     <div>
-                      <label className={labelClasses}>Email Address *</label>
-                      <input required type="email" className={inputClasses} value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                      <Label required>Email Address</Label>
+                      <Input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} />
                     </div>
                     <div>
-                      <label className={labelClasses}>WhatsApp Number *</label>
-                      <input required type="tel" className={inputClasses} value={formData.whatsapp} onChange={(e) => setFormData({...formData, whatsapp: e.target.value})} />
+                      <Label required>WhatsApp Number</Label>
+                      <Input required type="tel" value={formData.whatsapp} onChange={(e) => setFormData({...formData, whatsapp: e.target.value})} />
                     </div>
                   </div>
                 )}
@@ -187,46 +189,37 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                   <div className="animate-fade-in space-y-6">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className={labelClasses}>Track of Interest *</label>
-                        <div className="relative">
-                          <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.track} onChange={(e) => setFormData({...formData, track: e.target.value})}>
-                            <option value="">Select track</option>
-                            {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                          </select>
-                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                        </div>
+                        <Label required>Track of Interest</Label>
+                        <Select required value={formData.track} onChange={(e) => setFormData({...formData, track: e.target.value})}>
+                          <option value="">Select track</option>
+                          {tracks.map(t => <option key={t} value={t}>{t}</option>)}
+                        </Select>
                       </div>
                       <div>
-                        <label className={labelClasses}>Country *</label>
-                        <div className="relative">
-                          <select required className={`${inputClasses} appearance-none cursor-pointer`} value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})}>
-                            <option value="">Select country</option>
-                            {countries.map(c => <option key={c} value={c}>{c}</option>)}
-                          </select>
-                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                        </div>
+                        <Label required>Country</Label>
+                        <Select required value={formData.country} onChange={(e) => setFormData({...formData, country: e.target.value})}>
+                          <option value="">Select country</option>
+                          {countries.map(c => <option key={c} value={c}>{c}</option>)}
+                        </Select>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className={labelClasses}>Experience *</label>
-                        <select required className={`${inputClasses} appearance-none`} value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})}>
+                        <Label required>Experience</Label>
+                        <Select required value={formData.experience} onChange={(e) => setFormData({...formData, experience: e.target.value})}>
                           <option value="">Years</option>
                           <option value="0-1">0-1</option>
                           <option value="1-3">1-3</option>
                           <option value="3-5">3-5</option>
                           <option value="5+">5+</option>
-                        </select>
+                        </Select>
                       </div>
                       <div>
-                        <label className={labelClasses}>Birthday (Date & Month)</label>
-                        <div className="relative">
-                          <select required className={`${inputClasses} appearance-none`} value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})}>
-                            <option value="">Select Day & Month</option>
-                            {birthdayOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                          </select>
-                          <ChevronDown size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                        </div>
+                        <Label>Birthday (Date & Month)</Label>
+                        <Select value={formData.birthday} onChange={(e) => setFormData({...formData, birthday: e.target.value})}>
+                          <option value="">Select Day & Month</option>
+                          {birthdayOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                        </Select>
                       </div>
                     </div>
                   </div>
@@ -243,17 +236,17 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
                 <Button variant="outline" className="flex-1" onClick={() => setCurrentPage(0)}>
                   <Edit3 size={16} className="mr-2" /> Edit Info
                 </Button>
-                <Button className="flex-1" onClick={handleSubmit} disabled={isSubmitting}>
+                <Button className="flex-1" onClick={handleSubmit} disabled={isSubmitting || !isFormValid}>
                   {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
                 </Button>
               </div>
             ) : currentPage === 1 ? (
               <div className="flex gap-4">
                 <Button variant="outline" className="flex-1" onClick={() => setCurrentPage(0)}>Back</Button>
-                <Button className="flex-1" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                <Button className="flex-1" onClick={() => setCurrentPage(2)} disabled={!isStep1Valid}>Review Details</Button>
               </div>
             ) : (
-              <Button fullWidth size="lg" onClick={() => setCurrentPage(1)}>
+              <Button fullWidth size="lg" onClick={() => setCurrentPage(1)} disabled={!isStep0Valid}>
                 Continue <ArrowRight size={18} className="ml-2" />
               </Button>
             )}

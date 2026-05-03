@@ -46,7 +46,7 @@ export const FAQPage: React.FC = () => {
         <div className="max-w-3xl mx-auto space-y-6">
           {faqs.map((faq, index) => (
             <Reveal key={index} width="100%" delay={index * 0.1}>
-              <div className="bg-white p-6 md:p-8 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-white p-6 md:p-8 rounded-xl border border-gray-100 transition-all">
                 <h3 className={`${TYPOGRAPHY.header03} text-lg mb-3 text-[#08223d]`}>{faq.question}</h3>
                 <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
               </div>

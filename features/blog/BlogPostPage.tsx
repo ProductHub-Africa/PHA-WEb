@@ -46,7 +46,7 @@ export const BlogPostPage: React.FC = () => {
       <div className="min-h-screen pt-40 container mx-auto px-6 text-center">
         <h2 className={TYPOGRAPHY.header02}>Article not found</h2>
         <p className="text-gray-500 mb-8 mt-2">The article you are looking for might have been moved or deleted.</p>
-        <Link to="/blog" className="inline-flex items-center justify-center px-10 py-4 bg-[#135291] text-white rounded-full font-bold hover:bg-[#0d3a67] transition-all shadow-lg">
+        <Link to="/blog" className="inline-flex items-center justify-center px-10 py-4 bg-[#135291] text-white rounded-xl font-bold hover:bg-[#0d3a67] transition-all">
           Return to Blog
         </Link>
       </div>
@@ -65,7 +65,7 @@ export const BlogPostPage: React.FC = () => {
               </div>
               Back to Articles
            </Link>
-           <div className="inline-block text-xs font-black text-[#135291] bg-[#135291]/5 px-5 py-2 rounded-full border border-[#135291]/10 tracking-widest uppercase">
+           <div className="inline-block text-xs font-black text-[#135291] bg-[#135291]/5 px-5 py-2 rounded-xl border border-[#135291]/10 tracking-widest uppercase">
              {post.category}
            </div>
         </div>
@@ -125,7 +125,7 @@ export const BlogPostPage: React.FC = () => {
         </div>
 
         {/* Share & Footer */}
-        <div className="mt-24 p-8 md:p-12 bg-gray-50 rounded-[32px] border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="mt-24 p-8 md:p-12 bg-gray-50 rounded-xl border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-8">
            <div className="text-center md:text-left">
              <h4 className="font-black text-[#08223d] text-xl mb-2">Did you find this helpful?</h4>
              <p className="text-gray-500 font-medium">Share this article with your tech circle and help others grow.</p>
@@ -138,7 +138,7 @@ export const BlogPostPage: React.FC = () => {
                  window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${window.location.href}`, '_blank');
                }
              }}
-             className="flex items-center gap-3 px-8 py-4 rounded-full bg-white hover:bg-[#135291] hover:text-white transition-all text-[#135291] font-bold border-2 border-[#135291]/10 shadow-sm group"
+             className="flex items-center gap-3 px-8 py-4 rounded-xl bg-white hover:bg-[#135291] hover:text-white transition-all text-[#135291] font-bold border-2 border-[#135291]/10 group"
            >
               <Share2 size={20} className="group-hover:rotate-12 transition-transform" /> 
               Share with Network
@@ -171,7 +171,7 @@ export const BlogPostPage: React.FC = () => {
         }
         .cms-content-wrapper ul { list-style: disc; padding-left: 1.5em; margin-bottom: 1.8em; }
         .cms-content-wrapper li { margin-bottom: 0.8em; }
-        .cms-content-wrapper img { border-radius: 24px; margin: 3em 0; width: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .cms-content-wrapper img { border-radius: 12px; margin: 3em 0; width: 100%; }
       `}</style>
     </article>
   );

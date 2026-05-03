@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronDown, Loader2, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from './Button';
+import { Input, Select, Textarea, Label } from './FormElements';
 
 interface PartnerOverlayProps {
   isOpen: boolean;
@@ -52,8 +53,15 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
     setFormData({ ...formData, supporterType: newList });
   };
 
+  const isStep0Valid = formData.fullName && formData.orgName && formData.email && formData.phone && formData.location;
+  const isStep1Valid = mode === 'facilitator' 
+    ? (formData.trackInterestedIn && formData.motivation)
+    : (formData.supporterType.length > 0 && formData.motivation);
+    
+  const isFormValid = isStep0Valid && isStep1Valid;
+
   const handleSubmit = async () => {
-    if (isSubmitting) return;
+    if (isSubmitting || !isFormValid) return;
     setIsSubmitting(true);
     
     // Using Title Case keys
@@ -96,9 +104,6 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
 
   if (!isOpen) return null;
 
-  const inputClasses = "w-full h-[46px] px-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#135291] outline-none text-sm font-medium";
-  const labelClasses = "block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider";
-
   const getTitle = () => {
     if (currentPage === 2) return 'Review submission';
     if (submitted) return 'Success';
@@ -134,7 +139,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
   return (
     <div className="fixed inset-0 z-[100] flex justify-end" role="dialog" aria-modal="true">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose} />
-      <div className="relative w-full max-w-[670px] bg-white h-full shadow-2xl animate-slide-in-right flex flex-col">
+      <div className="relative w-full max-w-[670px] bg-white h-full animate-slide-in-right flex flex-col">
         
         <div className="sticky top-0 bg-white z-30 px-6 py-6 md:px-10 border-b border-gray-100 flex justify-between items-center">
           <div>
@@ -151,11 +156,11 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
         </div>
 
         <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-6 md:p-10">
+          <div className="flex-1 overflow-y-auto p-5 md:pt-5 md:px-5 md:pb-10">
             {!submitted && (
                <div className="flex gap-2 mb-8">
                 {[0, 1, 2].map((step) => (
-                  <div key={step} className={`h-1.5 flex-1 rounded-full ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
+                  <div key={step} className={`h-1.5 flex-1 rounded-xl ${currentPage >= step ? 'bg-[#135291]' : 'bg-gray-100'}`} />
                 ))}
               </div>
             )}
@@ -168,7 +173,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
               </div>
             ) : currentPage === 2 ? (
               <div className="animate-fade-in space-y-8">
-                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
                   <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#135291] mb-6">Verify Information</h4>
                   <div className="space-y-4">
                     {getReviewItems().map((item, i) => (
@@ -186,26 +191,26 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                   <div className="animate-fade-in space-y-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className={labelClasses}>Full Name *</label>
-                        <input required className={inputClasses} value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
+                        <Label required>Full Name</Label>
+                        <Input required value={formData.fullName} onChange={e => setFormData({...formData, fullName: e.target.value})} />
                       </div>
                       <div>
-                        <label className={labelClasses}>{mode === 'facilitator' ? 'Current Org' : 'Org Name'}</label>
-                        <input required className={inputClasses} value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
+                        <Label required>{mode === 'facilitator' ? 'Current Org' : 'Org Name'}</Label>
+                        <Input required value={formData.orgName} onChange={e => setFormData({...formData, orgName: e.target.value})} />
                       </div>
                     </div>
                     <div>
-                      <label className={labelClasses}>Work Email *</label>
-                      <input required type="email" className={inputClasses} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                      <Label required>Work Email</Label>
+                      <Input required type="email" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className={labelClasses}>Phone *</label>
-                        <input required type="tel" className={inputClasses} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                        <Label required>Phone</Label>
+                        <Input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
                       </div>
                       <div>
-                        <label className={labelClasses}>Location *</label>
-                        <input required className={inputClasses} value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
+                        <Label required>Location</Label>
+                        <Input required value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
                       </div>
                     </div>
                   </div>
@@ -216,39 +221,39 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
                     {mode === 'facilitator' ? (
                       <>
                         <div>
-                          <label className={labelClasses}>Track of Interest *</label>
-                          <select required className={inputClasses} value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
+                          <Label required>Track of Interest</Label>
+                          <Select required value={formData.trackInterestedIn} onChange={e => setFormData({...formData, trackInterestedIn: e.target.value})}>
                             <option value="">Select track</option>
                             {tracks.map(t => <option key={t} value={t}>{t}</option>)}
-                          </select>
+                          </Select>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                             <label className={labelClasses}>LinkedIn URL</label>
-                             <input type="url" placeholder="https://linkedin.com/in/..." className={inputClasses} value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
+                             <Label>LinkedIn URL</Label>
+                             <Input type="url" placeholder="https://linkedin.com/in/..." value={formData.linkedin} onChange={e => setFormData({...formData, linkedin: e.target.value})} />
                           </div>
                           <div>
-                             <label className={labelClasses}>Portfolio URL</label>
-                             <input type="url" placeholder="https://..." className={inputClasses} value={formData.portfolio} onChange={e => setFormData({...formData, portfolio: e.target.value})} />
+                             <Label>Portfolio URL</Label>
+                             <Input type="url" placeholder="https://..." value={formData.portfolio} onChange={e => setFormData({...formData, portfolio: e.target.value})} />
                           </div>
                         </div>
                       </>
                     ) : (
                       <div>
-                        <label className={labelClasses}>Support Types *</label>
+                        <Label required>Support Types</Label>
                         <div className="grid grid-cols-2 gap-2">
                           {supporterTypes.map(t => (
-                            <label key={t} className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 border border-gray-100">
-                              <input type="checkbox" checked={formData.supporterType.includes(t)} onChange={() => handleToggle(t)} className="w-4 h-4" />
-                              <span className="text-xs">{t}</span>
+                            <label key={t} className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-all border ${formData.supporterType.includes(t) ? 'bg-[#135291]/5 border-[#135291]/20' : 'bg-gray-50 border-gray-100'} hover:bg-gray-100`}>
+                              <input type="checkbox" checked={formData.supporterType.includes(t)} onChange={() => handleToggle(t)} className="w-4 h-4 accent-[#135291]" />
+                              <span className="text-xs font-medium text-gray-700">{t}</span>
                             </label>
                           ))}
                         </div>
                       </div>
                     )}
                     <div>
-                      <label className={labelClasses}>Motivation / Message *</label>
-                      <textarea required rows={4} className="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm" value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
+                      <Label required>Motivation / Message</Label>
+                      <Textarea required rows={4} placeholder="Tell us more about your interest..." value={formData.motivation} onChange={e => setFormData({...formData, motivation: e.target.value})} />
                     </div>
                   </div>
                 )}
@@ -262,17 +267,17 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
             ) : currentPage === 2 ? (
               <div className="flex gap-4">
                 <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
-                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting}>
+                <Button className="flex-1" size="lg" onClick={handleSubmit} disabled={isSubmitting || !isFormValid}>
                   {isSubmitting ? <Loader2 size={16} className="animate-spin mr-2" /> : "Finish & Submit"}
                 </Button>
               </div>
             ) : currentPage === 1 ? (
               <div className="flex gap-4">
                 <Button variant="outline" type="button" onClick={() => setCurrentPage(0)} className="flex-1">Back</Button>
-                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)}>Review Details</Button>
+                <Button className="flex-1" size="lg" type="button" onClick={() => setCurrentPage(2)} disabled={!isStep1Valid}>Review Details</Button>
               </div>
             ) : (
-              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)}>
+              <Button fullWidth size="lg" type="button" onClick={() => setCurrentPage(1)} disabled={!isStep0Valid}>
                 Continue <ArrowRight size={18} className="ml-2" />
               </Button>
             )}

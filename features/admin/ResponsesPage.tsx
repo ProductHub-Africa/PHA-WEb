@@ -35,7 +35,7 @@ export const ResponsesPage: React.FC = () => {
         </div>
 
         {submissions.length === 0 ? (
-          <div className="bg-white rounded-3xl p-20 text-center border border-dashed border-gray-300">
+          <div className="bg-white rounded-xl p-20 text-center border border-dashed border-gray-300">
              <Database size={48} className="mx-auto text-gray-300 mb-6" />
              <h3 className="text-xl font-bold text-gray-400">No responses logged yet</h3>
              <p className="text-gray-400">Submit any form to see the data appear here.</p>
@@ -43,10 +43,10 @@ export const ResponsesPage: React.FC = () => {
         ) : (
           <div className="grid gap-6">
             {submissions.map((sub, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 transition-all">
                 <div className="flex justify-between items-start mb-6 pb-4 border-b border-gray-50">
                    <div>
-                      <span className="inline-block px-3 py-1 bg-blue-50 text-[#135291] rounded-full text-[10px] font-black uppercase tracking-wider mb-2">
+                      <span className="inline-block px-3 py-1 bg-blue-50 text-[#135291] rounded-xl text-[10px] font-black uppercase tracking-wider mb-2">
                         {sub['Source'] || sub.source || 'General'}
                       </span>
                       <h4 className="font-black text-lg text-[#08223d]">

@@ -9,7 +9,7 @@ import { Target, Eye, UserPlus, Users, Zap, BookOpen, Layers, Globe, GraduationC
 
 const partners = [
   { name: 'Alt_School', logo: 'https://lh3.googleusercontent.com/d/1pjaKvAb9hsaVAzjXAvciE-u_ZLnOYlm-' },
-  { name: 'Propel', logo: 'https://logo.clearbit.com/propel.community' },
+  { name: 'Propel', logo: 'https://lh3.googleusercontent.com/d/10DVZAwYsSJnnuVe27N2T8dSuGD2JemO3' },
   { name: 'STEM-A-SCHOOL BY PHA', logo: 'https://lh3.googleusercontent.com/d/1iPIpRNiMc4Qjq7SMJU0roYvq3uEcFCqM' },
   { name: 'WealthWise', logo: 'https://lh3.googleusercontent.com/d/1LKECFqvh__m-a405bDymwcVZvkhiaVbw' }
 ];
@@ -152,7 +152,7 @@ export const HomePage: React.FC = () => {
 
   const LogoComponent = ({ className = "h-[1em] inline-block align-baseline ml-2" }) => (
     <img 
-      src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
+      src="https://res.cloudinary.com/dv7yvatu2/image/upload/v1777792660/PHA_Logo_1_i0anih.svg" 
       alt="Product Hub Africa" 
       className={className}
     />
@@ -167,7 +167,7 @@ export const HomePage: React.FC = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-scroll { animation: scroll 7.5s linear infinite; }
+        .animate-scroll { animation: scroll 40s linear infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .animate-blink { animation: blink 0.7s step-end infinite; }
         @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -179,13 +179,13 @@ export const HomePage: React.FC = () => {
         <div className="container mx-auto px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           <Reveal width="100%" className="lg:w-[40%] z-10 text-center lg:text-left">
             <div className="flex justify-center lg:justify-start">
-              <span className="inline-flex items-center bg-blue-50 text-[#135291] px-4 py-2 rounded-full font-bold mb-6 mt-3 tracking-wide text-xs border border-blue-100">
+              <span className="inline-flex items-center bg-blue-50 text-[#135291] px-4 py-2 rounded-xl font-bold mb-6 mt-3 tracking-wide text-xs border border-blue-100">
                 Build Your Tech Career as a <span className="inline-block transition-all duration-300 ml-1 overflow-hidden align-bottom">
                   {text}<span className="animate-blink border-r-2 border-[#daa728] ml-0.5">&nbsp;</span>
                 </span>
               </span>
             </div>
-            <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-8 leading-[1.1]`}>
+            <h1 className={`${TYPOGRAPHY.header01} text-[#08223d] mb-8 leading-[1.1] max-w-[600px] mx-auto lg:mx-0`}>
               <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#135291] via-[#00c6ff] to-[#135291]">Ignite</span> Your Passion for <span className="animate-gradient-text bg-clip-text text-transparent bg-gradient-to-r from-[#2a9d8f] via-[#00ffcc] to-[#2a9d8f]">Tech</span> at <span className="text-[#135291]">Product Hub Africa</span>!
             </h1>
             <p className={`${TYPOGRAPHY.body02} text-gray-500 mb-10 max-w-lg mx-auto lg:mx-0`}>
@@ -213,7 +213,7 @@ export const HomePage: React.FC = () => {
           <div className="flex animate-scroll w-max items-center">
             <div className="flex items-center gap-[60px] px-6">
               {partners.concat(partners).concat(partners).concat(partners).map((p, i) => (
-                <div key={i} className="flex items-center justify-center shrink-0 min-w-[150px] md:min-w-[180px] opacity-70">
+                <div key={i} className="flex items-center justify-center shrink-0 min-w-[150px] md:min-w-[180px] opacity-100 grayscale hover:grayscale-0 transition-all">
                   <img src={p.logo} alt={p.name} className="h-12 md:h-16 w-auto object-contain" referrerPolicy="no-referrer" />
                 </div>
               ))}
@@ -286,7 +286,7 @@ export const HomePage: React.FC = () => {
               <p className={`${TYPOGRAPHY.body02} text-gray-500 mb-10`}>Kick start your career in Tech by enrolling in our expert-led bootcamps.</p>
               <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
                 {courseTracks.map((track, i) => (
-                  <div key={i} className="p-6 card-radius border border-gray-100 bg-white hover:border-[#135291] transition-all">
+                  <div key={i} className="p-6 rounded-xl border border-gray-100 bg-white hover:border-[#135291] transition-all">
                     <h3 className="font-bold text-lg mb-2">{track.title}</h3>
                     <p className="text-sm text-gray-500 leading-relaxed">{track.desc}</p>
                   </div>
@@ -303,7 +303,7 @@ export const HomePage: React.FC = () => {
           <h2 className={`${TYPOGRAPHY.header02} text-[#08223d] mb-6`}>Why You Should Join Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {whyJoinCards.map((card, i) => (
-              <div key={i} className="bg-white p-8 card-radius border border-gray-100 text-left">
+              <div key={i} className="bg-white p-8 rounded-xl border border-gray-100 text-left">
                 <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-6" style={{ backgroundColor: card.color + '15', color: card.color }}>{card.icon}</div>
                 <h4 className="font-bold text-lg mb-3">{card.title}</h4>
                 <p className="text-gray-500 text-sm leading-relaxed">{card.desc}</p>
@@ -324,7 +324,7 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {(showAllTestimonials ? testimonials : testimonials.slice(0, 3)).map((t, i) => (
               <Reveal key={i} delay={i * 0.05} width="100%">
-                <div className="p-8 bg-gray-50 card-radius border border-gray-100 relative h-full flex flex-col hover:border-[#daa728] transition-colors group">
+                <div className="p-8 bg-gray-50 rounded-xl border border-gray-100 relative h-full flex flex-col hover:border-[#daa728] transition-colors group">
                   <div className="text-[#daa728] mb-6 group-hover:scale-110 transition-transform origin-left"><Quote size={32} /></div>
                   <p className="text-gray-600 mb-8 italic leading-relaxed flex-grow">"{t.content}"</p>
                   <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
@@ -339,7 +339,7 @@ export const HomePage: React.FC = () => {
                             src={countryFlags[t.country]} 
                             alt={t.country} 
                             title={t.country}
-                            className="h-4 w-auto object-contain rounded-sm shadow-sm"
+                            className="h-4 w-auto object-contain rounded-sm"
                           />
                         )}
                       </div>

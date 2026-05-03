@@ -89,7 +89,7 @@ export const BlogPage: React.FC = () => {
 
         <div className="flex gap-2 mb-10 overflow-x-auto pb-2 scrollbar-hide">
           {availableTags.map(tag => (
-            <button key={tag} onClick={() => setSelectedTag(tag)} className={`px-5 py-2 rounded-full text-xs font-bold transition-all border whitespace-nowrap ${selectedTag === tag ? 'bg-[#135291] text-white border-[#135291]' : 'bg-white text-gray-500 border-gray-200'}`}>
+            <button key={tag} onClick={() => setSelectedTag(tag)} className={`px-5 py-2 rounded-xl text-xs font-bold transition-all border whitespace-nowrap ${selectedTag === tag ? 'bg-[#135291] text-white border-[#135291]' : 'bg-white text-gray-500 border-gray-200'}`}>
               {tag === 'All' ? 'View all' : tag}
             </button>
           ))}
@@ -103,7 +103,7 @@ export const BlogPage: React.FC = () => {
               <Link key={post.id} to={`/blog/${post.slug}`} className="group bg-white card-radius overflow-hidden border-[1.5px] border-gray-100 transition-all flex flex-col h-full shadow-none hover:border-[#135291]/20">
                 <div className="aspect-[16/10] overflow-hidden relative">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-                  <div className="absolute top-3 left-3"><span className="bg-[#135291] text-white text-[10px] font-bold px-3 py-1 rounded-full">{post.category}</span></div>
+                  <div className="absolute top-3 left-3"><span className="bg-[#135291] text-white text-[10px] font-bold px-3 py-1 rounded-xl">{post.category}</span></div>
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-[16px] font-extrabold text-[#08223d] mb-4 leading-tight group-hover:text-[#135291] uppercase">{post.title}</h3>
