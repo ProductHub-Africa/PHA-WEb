@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
             <div className="lg:col-span-2">
               <div className="mb-6">
                 <img 
-                  src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
+                  src="/logo.svg" 
                   alt="Product Hub Africa" 
                   className="h-10 w-auto object-contain brightness-0 invert"
                 />

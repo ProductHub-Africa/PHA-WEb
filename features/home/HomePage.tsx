@@ -152,7 +152,7 @@ export const HomePage: React.FC = () => {
 
   const LogoComponent = ({ className = "h-[1em] inline-block align-baseline ml-2" }) => (
     <img 
-      src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
+      src="/logo.svg" 
       alt="Product Hub Africa" 
       className={className}
     />
@@ -167,7 +167,7 @@ export const HomePage: React.FC = () => {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .animate-scroll { animation: scroll 7.5s linear infinite; }
+        .animate-scroll { animation: scroll 15s linear infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .animate-blink { animation: blink 0.7s step-end infinite; }
         @keyframes gradient-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
