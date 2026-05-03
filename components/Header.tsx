@@ -61,7 +61,7 @@ export const Header: React.FC = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 shrink-0">
               <img 
-                src="/logo.svg" 
+                src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
                 alt="Product Hub Africa" 
                 className="h-10 md:h-12 w-auto object-contain"
               />
@@ -133,7 +133,7 @@ export const Header: React.FC = () => {
             <div className="px-6 h-20 flex items-center justify-between border-b border-gray-50 shrink-0">
                 <Link to="/" onClick={() => setIsMenuOpen(false)}>
                   <img 
-                    src="/logo.svg" 
+                    src="https://trainings.producthubafrica.org/wp-content/uploads/2024/10/PHA-logo-160x54.png" 
                     alt="Product Hub Africa" 
                     className="h-10 w-auto object-contain"
                   />

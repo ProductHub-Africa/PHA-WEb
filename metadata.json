@@ -1,5 +1,6 @@
 {
   "name": "Product Hub Africa",
   "description": "Leading African tech-education organization offering world-class product and innovation bootcamps for the next generation of digital leaders.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }
