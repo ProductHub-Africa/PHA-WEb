@@ -97,10 +97,10 @@ export const BootcampsPage: React.FC = () => {
                  <p className="text-gray-500 text-sm leading-relaxed mb-6">{course.desc}</p>
                  
                  <div className="flex flex-wrap gap-2 mb-6">
-                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-xl border border-gray-100">
                      <Calendar size={12} className="mr-1.5" /> {course.details.split('•')[0].trim()}
                    </div>
-                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                   <div className="flex items-center text-[11px] font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-xl border border-gray-100">
                      <Clock size={12} className="mr-1.5" /> Weekends
                    </div>
                  </div>
@@ -130,7 +130,7 @@ export const BootcampsPage: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-12">
             {mentors.map((mentor, i) => (
               <div key={i} className="text-center group">
-                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors relative bg-gray-50">
+                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-xl overflow-hidden border border-gray-100 mb-6 group-hover:border-[#135291] transition-colors relative bg-gray-50">
                   <img src={mentor.image} alt={mentor.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all absolute inset-0" />
                 </div>
                 <h4 className="font-bold text-base md:text-lg text-[#08223d] truncate px-2">{mentor.name}</h4>

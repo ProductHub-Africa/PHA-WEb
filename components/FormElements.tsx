@@ -16,8 +16,8 @@ export const Label: React.FC<LabelProps> = ({ children, required, className = ''
   </label>
 );
 
-const baseInputClasses = "w-full h-[46px] bg-transparent border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#daa728]/50 focus:border-[#daa728] transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed";
-const lightInputClasses = "w-full h-[46px] bg-transparent border border-white/20 rounded-xl px-4 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all text-sm disabled:opacity-30";
+const baseInputClasses = "w-full h-[44px] md:h-[46px] bg-transparent border border-gray-200 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#daa728]/50 focus:border-[#daa728] transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed";
+const lightInputClasses = "w-full h-[44px] md:h-[46px] bg-transparent border border-white/20 rounded-xl px-4 text-white placeholder-blue-300/50 focus:outline-none focus:ring-2 focus:ring-[#daa728] transition-all text-sm disabled:opacity-30";
 
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { light?: boolean }>(
   ({ className = '', light = false, ...props }, ref) => (

@@ -328,12 +328,12 @@ export const HomePage: React.FC = () => {
                   <div className="text-[#daa728] mb-6 group-hover:scale-110 transition-transform origin-left"><Quote size={32} /></div>
                   <p className="text-gray-600 mb-8 italic leading-relaxed flex-grow">"{t.content}"</p>
                   <div className="flex items-center gap-4 pt-6 border-t border-gray-200">
-                    <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                    <img src={t.image} alt={t.name} className="w-12 h-12 rounded-xl object-cover grayscale group-hover:grayscale-0 transition-all" />
                     <div className="overflow-hidden">
                       <h4 className="font-bold text-[#08223d] text-sm truncate">{t.name}</h4>
                       <div className="flex items-center gap-2">
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tight">{t.role}</p>
-                        <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                        <span className="w-1 h-1 bg-gray-300 rounded-xl"></span>
                         {countryFlags[t.country] && (
                           <img 
                             src={countryFlags[t.country]} 

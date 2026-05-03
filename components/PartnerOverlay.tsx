@@ -150,7 +150,7 @@ export const PartnerOverlay: React.FC<PartnerOverlayProps> = ({ isOpen, onClose,
               <p className="text-gray-500 text-xs">Step {currentPage + 1} of 3</p>
             )}
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <X size={24} className="text-gray-400" />
           </button>
         </div>

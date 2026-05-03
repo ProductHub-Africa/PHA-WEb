@@ -113,7 +113,7 @@ export const CommunityOverlay: React.FC<CommunityOverlayProps> = ({ isOpen, onCl
               </p>
             )}
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
             <X size={24} className="text-gray-400" />
           </button>
         </div>

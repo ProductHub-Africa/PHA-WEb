@@ -43,8 +43,8 @@ export const ContactPage: React.FC = () => {
           
           {/* Contact Info Sidebar */}
           <div className="lg:w-5/12 bg-[#08223d] p-5 lg:p-14 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#135291] rounded-full blur-[60px] opacity-40 translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#daa728] rounded-full blur-[80px] opacity-20 -translate-x-1/2 translate-y-1/2"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#135291] rounded-xl blur-[60px] opacity-40 translate-x-1/2 -translate-y-1/2"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#daa728] rounded-xl blur-[80px] opacity-20 -translate-x-1/2 translate-y-1/2"></div>
             
             <div className="relative z-10 flex flex-col h-full">
               <h3 className="text-2xl font-bold mb-8">Contact Information</h3>
@@ -88,10 +88,10 @@ export const ContactPage: React.FC = () => {
               <div className="mt-12">
                 <p className="text-sm text-gray-400 mb-4">Follow us on social media</p>
                 <div className="flex space-x-4">
-                  <a href="https://x.com/ProductHubAfri" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
-                  <a href="https://www.linkedin.com/company/product-hub-africa/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
-                  <a href="https://www.instagram.com/producthubafrica/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
-                  <a href="https://web.facebook.com/people/Product-Hub-Africa/61555965181457/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
+                  <a href="https://x.com/ProductHubAfri" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Twitter size={18} /></a>
+                  <a href="https://www.linkedin.com/company/product-hub-africa/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Linkedin size={18} /></a>
+                  <a href="https://www.instagram.com/producthubafrica/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Instagram size={18} /></a>
+                  <a href="https://web.facebook.com/people/Product-Hub-Africa/61555965181457/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#daa728] hover:text-[#08223d] transition-all"><Facebook size={18} /></a>
                 </div>
               </div>
             </div>

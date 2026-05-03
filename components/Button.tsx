@@ -19,8 +19,8 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Strictly enforced 46px height for all buttons
-  const baseStyles = "inline-flex items-center justify-center rounded-xl transition-all duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed h-[46px] text-sm md:text-base";
+  // Strictly enforced responsive height for all buttons
+  const baseStyles = "inline-flex items-center justify-center rounded-xl transition-all duration-300 font-bold focus:outline-none focus:ring-4 focus:ring-opacity-20 disabled:opacity-30 disabled:grayscale disabled:cursor-not-allowed h-[44px] md:h-[46px] text-sm md:text-base";
   
   const sizeStyles = {
     sm: "px-5",

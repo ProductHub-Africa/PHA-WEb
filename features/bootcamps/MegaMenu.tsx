@@ -19,7 +19,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
   ];
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto bg-white z-50 rounded-2xl border border-gray-200 p-8 overflow-hidden shadow-2xl animate-fade-in">
+    <div className="w-full max-w-[1000px] mx-auto bg-white z-50 rounded-xl border border-gray-200 p-8 overflow-hidden animate-fade-in">
       <div className="grid grid-cols-12 gap-10">
         
         {/* Intro Section */}
@@ -53,7 +53,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ onItemClick }) => {
               onClick={onItemClick}
             >
               <div 
-                className="p-3 rounded-full shrink-0 mt-1 transition-all group-hover:scale-110"
+                className="p-3 rounded-xl shrink-0 mt-1 transition-all group-hover:scale-110"
                 style={{ backgroundColor: COLORS.primary[50], color: COLORS.primary[600] }}
               >
                 {course.icon}
