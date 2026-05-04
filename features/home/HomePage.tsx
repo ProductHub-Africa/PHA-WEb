@@ -236,12 +236,12 @@ export const HomePage: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white/5 border border-white/10 p-4 rounded-xl">
                     <GraduationCap size={24} className="text-[#daa728] mb-2" />
-                    <h4 className="text-2xl font-bold">200+</h4>
-                    <p className="text-gray-400 text-xs">Students Trained</p>
+                    <h4 className="text-2xl font-bold">8000</h4>
+                    <p className="text-gray-400 text-xs">Talent reached</p>
                   </div>
                   <div className="bg-white/5 border border-white/10 p-4 rounded-xl">
                     <Globe size={24} className="text-[#daa728] mb-2" />
-                    <h4 className="text-2xl font-bold">12+</h4>
+                    <h4 className="text-2xl font-bold">15+</h4>
                     <p className="text-gray-400 text-xs">Countries</p>
                   </div>
                 </div>

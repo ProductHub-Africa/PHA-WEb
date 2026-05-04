@@ -25,7 +25,7 @@ export const CommunityPage: React.FC = () => {
           <div className="text-center p-5 md:p-10 bg-gray-50 rounded-xl transition-all">
             <Users className="mx-auto text-[#135291] mb-6" size={48} />
             <h3 className="font-bold text-2xl mb-4">Networking</h3>
-            <p className="text-gray-500 text-lg">Connect with peers from 20+ African countries.</p>
+            <p className="text-gray-500 text-lg">Connect with peers from 15+ African countries.</p>
           </div>
           <div className="text-center p-5 md:p-10 bg-gray-50 rounded-xl transition-all">
             <MessageCircle className="mx-auto text-[#daa728] mb-6" size={48} />
